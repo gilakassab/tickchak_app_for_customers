@@ -4,7 +4,6 @@ function Events() {
     
   return (
     <>
-    <div>kweh</div>
     {/* {viewEvents == "allevents"}?<div>
         
     </div>

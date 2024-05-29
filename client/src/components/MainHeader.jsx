@@ -1,39 +1,45 @@
-import React from 'react'
+import React from 'react';
+import { Link, NavLink } from "react-router-dom";
+import AboutUs from './AboutUs';
+
 
 function MainHeader() {
     const activeStyles = {
         fontWeight: "bold",
         textDecoration: "underline",
         color: "#161616",
-        textDecorationColor: "rgb(127, 205, 179)",
+        textDecorationColor: "rgb(127, 205, 179)"
     };
 
     return (
-        <div>efwew</div>
-        // <header className="main-header">
-        //     <Link className="site-logo" to="/">Tickchak📸</Link>
-        //     <nav className="nav-header">
-        //         <NavLink
-        //             to="/home"
-        //             style={({ isActive }) => isActive ? activeStyles : null}
-        //         >
-        //            Home
-        //         </NavLink>
-        //         <NavLink
-        //             to="/aboutus#about"
-        //             style={({ isActive }) => isActive ? activeStyles : null}
-        //         >
-        //             About Us
-        //         </NavLink>
-        //         <NavLink
-        //             to="/contact#contact"
-        //             style={({ isActive }) => isActive ? activeStyles : null}
-        //         >
-        //             Contact Us
-        //         </NavLink>
-        //     </nav>
-        // </header>
-    )
+        <header className="main-header">
+            <Link className="site-logo" to="/">Tickchak</Link>
+            <nav className="nav-header1">
+                <NavLink
+                    className="nav-link1"
+                    to="/home"
+                    activeStyle={activeStyles} // השתמשנו בפרופרטי activeStyle
+                >
+                   Home
+                </NavLink>
+                <NavLink
+                    className="nav-link1"
+                    to="/tickchak/aboutus#about"
+                    activeStyle={activeStyles}
+                >
+                    About Us
+                   {/* <a href="/tickchak/aboutus" className="nav-link1"> About Us</a> */}
+                </NavLink>
+                <NavLink
+                    className="nav-link1"
+                    to="/contact#contact"
+                    activeStyle={activeStyles}
+                >
+                    Contact Us
+                </NavLink>
+            </nav>
+        </header>
+    );
 }
 
-export default MainHeader
+export default MainHeader;

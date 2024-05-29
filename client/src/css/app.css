@@ -1,0 +1,31 @@
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd; /* פס לכל האורך */
+}
+
+.nav-link {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.nav-link button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.nav-link button:hover {
+    color: #161616;
+}
+
+.nav-link button.active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #161616;
+    text-decoration-color: rgb(127, 205, 179);
+}

@@ -1,17 +1,20 @@
-import React, { useContext } from 'react'
-import { userContext } from '/components/App';
-import '../css/Home.css'
+import React from 'react'
+
+import { NavLink } from "react-router-dom";
 import MainHeader from '../components/MainHeader';
 import SecondHeader from '../components/SecondHeader';
+import Events from '../components/Events';
+import AboutUs from '../components/AboutUs';
+import Contact from '../components/Contact';
 function Home() {
-  const { user, setUser } = useContext(userContext);
+ 
   return (
     <div>
       <MainHeader /> 
        <SecondHeader />
-      {/* <Events/>
-      <AboutUs />
-      <Contact /> */}
+      <Events/>
+      <AboutUs  />
+      <Contact />
     </div>
   )
 }

@@ -1,42 +1,71 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd; /* פס לכל האורך */
+}
+
+.nav-link {
+  flex-grow: 1;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.nav-link button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-link button:hover {
+  color: #161616;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.nav-link button.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #161616;
+  text-decoration-color: rgb(127, 205, 179);
 }
 
-.card {
-  padding: 2em;
+.main-header {
+  
+  justify-content: space-between; 
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
-.read-the-docs {
-  color: #888;
+.site-logo {
+  font-size: 24px;
+  color: #333;
+  text-decoration: none;
 }
+
+ .nav-header1 {
+ 
+  justify-content: center; 
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link1 {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+} 
+
+.nav-link1:hover {
+  text-decoration: underline;
+  color: #161616;
+}
+
+.nav-link1.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #161616;
+  text-decoration-color: rgb(127, 205, 179);
+} 
+
