@@ -31,7 +31,7 @@
 }
 
 .main-header {
-  
+
   justify-content: space-between; 
   align-items: center;
   padding: 20px;
@@ -76,6 +76,7 @@
   align-items: center;
   font-family: Arial, sans-serif;
   padding: 20px;
+  margin-top: 1000px;
 }
 
 .contact-title {
@@ -140,5 +141,8 @@
 .contact-info span {
   margin-right: 10px;
   font-size: 24px;
+}
+.about-us{
+  margin-top: 1000px;
 }
 

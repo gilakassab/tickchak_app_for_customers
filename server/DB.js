@@ -9,3 +9,4 @@ const pool = mysql.createPool({
   port:'3306',
   password:'mysql24',
 }).promise();
+module.exports = pool;

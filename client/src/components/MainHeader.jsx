@@ -24,15 +24,14 @@ function MainHeader() {
                 </NavLink>
                 <NavLink
                     className="nav-link1"
-                    to="/tickchak/aboutus#about"
+                    to="/tickchak/aboutus"
                     activeStyle={activeStyles}
                 >
                     About Us
-                   {/* <a href="/tickchak/aboutus" className="nav-link1"> About Us</a> */}
                 </NavLink>
                 <NavLink
                     className="nav-link1"
-                    to="/contact#contact"
+                    to="/tickchak/contact"
                     activeStyle={activeStyles}
                 >
                     Contact Us
