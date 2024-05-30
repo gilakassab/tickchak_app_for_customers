@@ -69,3 +69,76 @@
   text-decoration-color: rgb(127, 205, 179);
 } 
 
+/* contact */
+.contact-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.contact-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.contact-form label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: calc(100% - 80px);
+  padding: 8px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+}
+
+.contact-form textarea {
+  resize: none;
+}
+
+.contact-form button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: flex-end;
+}
+
+.contact-form button:hover {
+  background-color: #45a049;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 18px;
+}
+
+.contact-info div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.contact-info span {
+  margin-right: 10px;
+  font-size: 24px;
+}
+

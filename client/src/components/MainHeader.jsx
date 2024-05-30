@@ -18,7 +18,7 @@ function MainHeader() {
                 <NavLink
                     className="nav-link1"
                     to="/home"
-                    activeStyle={activeStyles} // השתמשנו בפרופרטי activeStyle
+                    activeStyle={activeStyles}
                 >
                    Home
                 </NavLink>

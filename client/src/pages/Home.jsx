@@ -11,7 +11,7 @@ function Home() {
   return (
     <div>
       <MainHeader /> 
-       <SecondHeader />
+      <SecondHeader />
       <Events/>
       <AboutUs  />
       <Contact />
