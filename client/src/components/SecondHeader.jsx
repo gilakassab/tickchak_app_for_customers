@@ -4,12 +4,12 @@ import Events from './Events';
 
 function SecondHeader() {
     const [viewEvents, setViewEvents] = useState("allEvents");
-    const activeStyles = {
-        fontWeight: "bold",
-        textDecoration: "underline",
-        color: "#161616",
-        textDecorationColor: "rgb(127, 205, 179)"
-    };
+    // const activeStyles = {
+    //     fontWeight: "bold",
+    //     textDecoration: "underline",
+    //     color: "#161616",
+    //     textDecorationColor: "rgb(127, 205, 179)"
+    // };
 
     const handleButtonClick = (view) => {
         setViewEvents(view);
@@ -43,7 +43,7 @@ function SecondHeader() {
                     </button>
                 </div>
             </nav>
-            <Events />
+            <Events viewEvents={viewEvents}/>
         </header>
     );
 }

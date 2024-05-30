@@ -15,7 +15,7 @@ async function getEventById(id) {
 async function getAllEvents() {
   try {
     
-    const sql = 'SELECT * FROM events';
+    const sql = 'SELECT * FROM events NATURAL JOIN auditoriums';
     const result = await pool.query(sql);
     return result[0];
   } catch (err) {

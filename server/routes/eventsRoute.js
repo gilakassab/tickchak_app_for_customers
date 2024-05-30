@@ -11,6 +11,7 @@ router.get("/:id", async(req, res) => {
     res.send(event)
 });
 router.get("/", async(req, res) => {
+    // const {query}= req.query;
     const events = await controller.getAllEvents();
     res.send(events)
     //we need to do the status
