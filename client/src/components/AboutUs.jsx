@@ -3,9 +3,9 @@ import React from 'react'
 function AboutUs() {
   return (
     <div className="about-us" id="about">
-      <h2>אודותינו</h2>
-      <p>אנו מציעים מגוון רחב של כרטיסים לאירועים שונים במחירים אטרקטיביים. עם צוות מקצועי ושירות אישי, אנו מבטיחים לך חווית רכישה נוחה ומהנה.</p>
-      <p>בין אם אתה מחפש כרטיסים להופעה מוזיקלית, אירוע ספורט או הופעה אחרת, אתה מוזמן לחקור את אוצר הכרטיסים שלנו ולמצוא את האירוע שמתאים לך.</p>
+      <h2>About Us</h2>
+      <p>We offer a wide range of tickets for various events at attractive prices. With a professional team and personal service, we promise you a comfortable and enjoyable shopping experience.</p>
+      <p>Whether you are looking for tickets for a musical performance, sports event, or any other show, you are welcome to explore our ticket treasure and find the event that suits you.</p>
     </div>
   );
 }
