@@ -12,11 +12,10 @@ async function getEventById(id) {
     }
 }
 
-async function getAllEvents() {
+async function getAllEvents( _start, _limit) {
   try {
-    
-    const sql = 'SELECT * FROM events NATURAL JOIN auditoriums';
-    const result = await pool.query(sql);
+      const sql = `SELECT * FROM events NATURAL JOIN auditoriums LIMIT ${_start}, ${_limit}`;
+     const  result = await pool.query(sql,[_start,_limit]);
     return result[0];
   } catch (err) {
     console.log(err);

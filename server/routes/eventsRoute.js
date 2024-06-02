@@ -11,10 +11,10 @@ router.get("/:id", async(req, res) => {
     res.send(event)
 });
 router.get("/", async(req, res) => {
-    // const {query}= req.query;
-    const events = await controller.getAllEvents();
+    const { _start, _limit } = req.query;
+    const events = await controller.getAllEvents(_start, _limit);
     res.send(events)
-    //we need to do the status
+    
 });
 router.delete("/:id", async(req, res) => {
     const id = req.params.id;

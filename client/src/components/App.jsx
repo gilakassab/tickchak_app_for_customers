@@ -20,7 +20,9 @@ function App() {
     <Routes>
     <Route path="/" element={<Home />} />
   <Route path="/tickchak/" element={<Home />} >
-    <Route path="home" element={<Home />} />
+    <Route path="home" element={<Home />} >
+    <Route path=":category" element={<Home />} />
+    </Route>
     <Route path="aboutus" element={<AboutUs />} />
     <Route path="contact" element={<Contact />} />
        <Route path="event/:id" element={<Event />} >

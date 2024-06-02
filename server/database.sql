@@ -20,11 +20,14 @@ CREATE TABLE events(
   eventId INT auto_increment PRIMARY KEY,
   eventName varchar(255) ,
   eventDate DATE NOT NULL,
+  eventOpenGates TIME NOT NULL,
   eventBeginAt TIME NOT NULL,
   eventEndAt TIME NOT NULL,
   eventProducer varchar(255) ,
   eventRemarks varchar(255),
   auditoriumId int,
+  eventPicUrl varchar(255),
+  eventCategory varchar(255),
   FOREIGN KEY (auditoriumId) REFERENCES auditoriums (auditoriumId)
 );
 CREATE TABLE users(
@@ -73,61 +76,54 @@ numOfSeatsInARow INT,
 FOREIGN KEY (blockId) REFERENCES blocks (blockId)
 );
 
+INSERT INTO auditoriums (auditoriumName) VALUES 
+('Auditorium A'),
+('Auditorium B'),
+('Auditorium C');
 
--- הוספת נתוני דוגמה לטבלה auditoriums
-INSERT INTO auditoriums (auditoriumName) VALUES ('Main Auditorium');
-INSERT INTO auditoriums (auditoriumName) VALUES ('Secondary Hall');
+INSERT INTO events (eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory)
+VALUES 
+('Concert A', '2024-06-15', '18:00:00', '19:00:00', '22:00:00', 'Producer A', 'Remarks A', 1, 'http://example.com/picA.jpg', 'show'),
+('Play B', '2024-06-16', '19:00:00', '20:00:00', '22:30:00', 'Producer B', 'Remarks B', 2, 'http://example.com/picB.jpg', 'conference'),
+('Conference C', '2024-06-17', '08:00:00', '09:00:00', '17:00:00', 'Producer C', 'Remarks C', 3, 'http://example.com/picC.jpg', 'Conference');
 
--- הוספת נתוני דוגמה לטבלה auditoriumsParts
-INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES (1, 'Front Part');
-INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES (1, 'Back Part');
-INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES (2, 'Left Wing');
-INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES (2, 'Right Wing');
+INSERT INTO users (userName, userPhone, userEmail) VALUES 
+('John Doe', '123-456-7890', 'john.doe@example.com'),
+('Jane Smith', '234-567-8901', 'jane.smith@example.com'),
+('Alice Johnson', '345-678-9012', 'alice.johnson@example.com');
 
--- הוספת נתוני דוגמה לטבלה events
-INSERT INTO events (eventName, eventDate, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId)
-VALUES ('Concert', '2024-06-01', '19:00:00', '21:00:00', 'Music Productions Inc.', 'Classical music concert', 1);
-INSERT INTO events (eventName, eventDate, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId)
-VALUES ('Tech Conference', '2024-06-15', '09:00:00', '17:00:00', 'Tech Innovators Ltd.', 'Annual technology conference', 2);
+INSERT INTO orders (userId, orderDate) VALUES 
+(1, '2024-05-01'),
+(2, '2024-05-02'),
+(3, '2024-05-03');
 
--- הוספת נתוני דוגמה לטבלה users
-INSERT INTO users (userName, userPhone, userEmail) VALUES ('John Doe', '555-1234', 'john.doe@example.com');
-INSERT INTO users (userName, userPhone, userEmail) VALUES ('Jane Smith', '555-5678', 'jane.smith@example.com');
+INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES 
+(1, 'Part A1'),
+(2, 'Part B1'),
+(3, 'Part C1');
 
--- הוספת נתוני דוגמה לטבלה orders
-INSERT INTO orders (userId, orderDate) VALUES (1, '2024-05-20');
-INSERT INTO orders (userId, orderDate) VALUES (2, '2024-05-21');
+INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES 
+(1, 1, 1, FALSE),
+(1, 2, 1, TRUE),
+(2, 1, 1, FALSE),
+(1, 1, 2, TRUE),
+(1, 2, 2, FALSE),
+(2, 1, 2, FALSE),
+(1, 1, 3, FALSE),
+(1, 2, 3, TRUE),
+(2, 1, 3, FALSE);
 
--- הוספת נתוני דוגמה לטבלה seats
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 1, 1, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 2, 1, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 1, 2, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 2, 2, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 1, 3, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 2, 3, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 1, 4, FALSE);
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES (1, 2, 4, FALSE);
+INSERT INTO partsView (partId, numOfBlocks) VALUES 
+(1, 2),
+(2, 3),
+(3, 1);
 
--- הוספת נתוני דוגמה לטבלה partsView
-INSERT INTO partsView (partId, numOfBlocks) VALUES (1, 3);
-INSERT INTO partsView (partId, numOfBlocks) VALUES (2, 2);
-INSERT INTO partsView (partId, numOfBlocks) VALUES (3, 4);
-INSERT INTO partsView (partId, numOfBlocks) VALUES (4, 3);
+INSERT INTO blocks (partId, blockName, numOfRows) VALUES 
+(1, 'Block A1', 10),
+(2, 'Block B1', 15),
+(3, 'Block C1', 5);
 
--- הוספת נתוני דוגמה לטבלה blocks
-INSERT INTO blocks (partId, blockName, numOfRows) VALUES (1, 'Block A', 10);
-INSERT INTO blocks (partId, blockName, numOfRows) VALUES (1, 'Block B', 15);
-INSERT INTO blocks (partId, blockName, numOfRows) VALUES (2, 'Block C', 12);
-INSERT INTO blocks (partId, blockName, numOfRows) VALUES (3, 'Block D', 8);
-INSERT INTO blocks (partId, blockName, numOfRows) VALUES (4, 'Block E', 20);
-
--- הוספת נתוני דוגמה לטבלה blocksView
-INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES (1, 1, 30);
-INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES (2, 2, 25);
-INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES (3, 3, 40);
-INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES (4, 4, 35);
-INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES (5, 5, 50);
-
-
-
-
+INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES 
+(1, 1, 20),
+(2, 2, 25),
+(3, 3, 30);

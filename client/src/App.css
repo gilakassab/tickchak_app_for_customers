@@ -155,4 +155,49 @@
   height: auto; /* שמירת פרופורציות התמונה */
   padding: 20px 0; /* רווח מעל ומתחת לתמונה */
 }
+/*events*/
+.event-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Space between the event tiles */
+}
+
+.event-tile {
+  border: 1px solid #ccc; /* Border for the event tiles */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px; /* Padding inside the event tile */
+  width: calc(25% - 32px); /* Adjust width for four columns layout */
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  background-color: #f9f9f9; /* Background color for the event tile */
+}
+
+.event-tile img {
+  width: 100%; /* Make the image take the full width of the container */
+  height: auto; /* Maintain the aspect ratio */
+  border-radius: 8px; /* Rounded corners for the image */
+  margin-bottom: 8px; /* Space below the image */
+}
+
+.event-info p {
+  margin: 8px 0; /* Space between paragraphs */
+  font-size: 14px; /* Font size for the paragraphs */
+  color: #333; /* Text color */
+}
+
+.see-more-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.see-more-button:hover {
+  background-color: #0056b3;
+}
+
 
