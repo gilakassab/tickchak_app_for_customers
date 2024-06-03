@@ -1,22 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const controller = require('../controllers/eventsController')
-router.use (express.json());
+router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 // const photosRouter = require('./photosRoutes');
 // router.use('/:albumId/photos', photosRouter);
 
-router.get("/:id", async(req, res) => {
+router.get("/:id", async (req, res) => {
     const event = await controller.getEventById(id);
     res.send(event)
 });
-router.get("/", async(req, res) => {
-    const { _start, _limit } = req.query;
-    const events = await controller.getAllEvents(_start, _limit);
+router.get("/", async (req, res) => {
+    const { category, _start, _limit } = req.query;
+    console.log("req.query")
+    console.log(req.query)
+    const events = await controller.getAllEvents(category,_start, _limit);
     res.send(events)
-    
+
 });
-router.delete("/:id", async(req, res) => {
+router.delete("/:id", async (req, res) => {
     const id = req.params.id;
     const event = await controller.deleteEventById(id);
     res.send(event)

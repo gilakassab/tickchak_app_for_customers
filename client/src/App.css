@@ -1,3 +1,6 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
 .nav-header {
   display: flex;
   justify-content: space-between;
@@ -71,19 +74,18 @@
 
 /* contact */
 .contact-container {
-  margin-top: 700px;
-  display: flex;
+  margin-left: 35%;
+  margin-right: 35%;
   justify-content: space-between;
   align-items: center;
-  font-family: Arial, sans-serif;
   padding: 20px;
-  margin-top: 1000px;
-}
-
-.contact-title {
-  margin-bottom: 20px;
   text-align: center;
 }
+
+/* .contact-title {
+  margin-bottom: 20px;
+  text-align: center;
+} */
 
 .contact-form {
   display: flex;
@@ -143,8 +145,15 @@
   margin-right: 10px;
   font-size: 24px;
 }
+.about-us-container{
+  background-color: rgb(165, 184, 235);
+
+}
 .about-us{
-  margin-top: 1000px;
+  text-align: center;
+  margin-left: 30%;
+  margin-right: 30%;
+  font-size: 20px;
 }
 
 .site-logo-image {

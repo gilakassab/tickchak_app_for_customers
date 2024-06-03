@@ -12,15 +12,37 @@ async function getEventById(id) {
     }
 }
 
-async function getAllEvents( _start, _limit) {
+async function getAllEvents(category, _start, _limit) {
   try {
+    let result;
+
+    if (category === 'allEvents') {
       const sql = `SELECT * FROM events NATURAL JOIN auditoriums LIMIT ${_start}, ${_limit}`;
-     const  result = await pool.query(sql,[_start,_limit]);
+      result = await pool.query(sql);
+    } else {
+      console.log("category")
+      console.log(category)
+      const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
+      result = await pool.query(sql);
+    }
+    // Log the result for debugging
+    console.log("Query result:", result[0]);
     return result[0];
   } catch (err) {
     console.log(err);
+    throw err;
   }
 }
+
+// async function getAllEvents(category, _start, _limit) {
+//   try {
+//       const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE eventCategory=${category} LIMIT ${_start}, ${_limit}`;
+//      const  result = await pool.query(sql);
+//     return result[0];
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
 async function deleteEventById(id) {
   try {

@@ -28,16 +28,16 @@ function SecondHeader() {
                 </div>
                 <div className="nav-link">
                     <button
-                        className={viewEvents === "shows" ? "active" : ""}
-                        onClick={() => handleButtonClick("shows")}
+                        className={viewEvents === "show" ? "active" : ""}
+                        onClick={() => handleButtonClick("show")}
                     >
                         Shows
                     </button>
                 </div>
                 <div className="nav-link">
                     <button
-                        className={viewEvents === "conferences" ? "active" : ""}
-                        onClick={() => handleButtonClick("conferences")}
+                        className={viewEvents === "conference" ? "active" : ""}
+                        onClick={() => handleButtonClick("conference")}
                     >
                         Conference
                     </button>

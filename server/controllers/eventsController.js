@@ -10,10 +10,10 @@ async function getEventById(id) {
     }
 
 }
-async function getAllEvents(_start, _limit) {
+async function getAllEvents(category,_start, _limit) {
     try {
        
-        return model.getAllEvents(_start, _limit);
+        return model.getAllEvents(category,_start, _limit);
     } catch (err) {
         throw err;
     }
