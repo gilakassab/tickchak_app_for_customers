@@ -4,13 +4,6 @@ import Events from './Events';
 
 function SecondHeader() {
     const [viewEvents, setViewEvents] = useState("allEvents");
-    // const activeStyles = {
-    //     fontWeight: "bold",
-    //     textDecoration: "underline",
-    //     color: "#161616",
-    //     textDecorationColor: "rgb(127, 205, 179)"
-    // };
-
     const handleButtonClick = (view) => {
         setViewEvents(view);
     };
@@ -39,11 +32,11 @@ function SecondHeader() {
                         className={viewEvents === "conference" ? "active" : ""}
                         onClick={() => handleButtonClick("conference")}
                     >
-                        Conference
+                        Conferences
                     </button>
                 </div>
             </nav>
-            <Events viewEvents={viewEvents}/>
+            <Events viewEvents={viewEvents} />
         </header>
     );
 }

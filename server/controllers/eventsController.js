@@ -10,10 +10,10 @@ async function getEventById(id) {
     }
 
 }
-async function getAllEvents(category,_start, _limit) {
+async function getAllEvents(category, _start, _limit) {
     try {
-       
-        return model.getAllEvents(category,_start, _limit);
+
+        return model.getAllEvents(category, _start, _limit);
     } catch (err) {
         throw err;
     }
@@ -38,7 +38,7 @@ async function deleteEventById(id) {
 
 // try {
 //     const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-   
+
 //     return model.postUser(name, username, email, street, city, phone, hashedPassword);
 // } catch (err) {
 //     throw err;
@@ -47,4 +47,4 @@ async function deleteEventById(id) {
 // }
 
 
-module.exports = { getAllEvents,getEventById,deleteEventById}
+module.exports = { getAllEvents, getEventById, deleteEventById }

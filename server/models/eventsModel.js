@@ -2,14 +2,14 @@ const { json } = require('express');
 const pool = require('../DB');
 
 async function getEventById(id) {
-    try {
+  try {
 
-      const sql = 'SELECT * FROM events where id=?';
-      const result = await pool.query(sql, [id]);
-      return result;
-    } catch (err) {
-      console.log(err);
-    }
+    const sql = 'SELECT * FROM events where id=?';
+    const result = await pool.query(sql, [id]);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function getAllEvents(category, _start, _limit) {
@@ -54,7 +54,7 @@ async function deleteEventById(id) {
     await pool.query(sql1, [id]);
   } catch (err) {
     console.log(err);
-    throw err; 
+    throw err;
   }
 }
 
@@ -90,4 +90,4 @@ async function deleteEventById(id) {
 // }
 
 
-module.exports = { getAllEvents,getEventById,deleteEventById}
+module.exports = { getAllEvents, getEventById, deleteEventById }

@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
-// import { useParams} from "react-router-dom";
 
 function Events({ viewEvents }) {
   const max_limit = 16;
   const [events, setEvents] = useState([]);
   const [loadMoreVisible, setLoadMoreVisible] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
-  //   const { category } = useParams();
 
   useEffect(() => {
     if (viewEvents)
       fetchEvents(0, max_limit);
   }, [viewEvents]);
 
-  // Empty dependency array ensures this runs only once
   const fetchEvents = (start, limit) => {
     console.log("viewEvents");
     console.log(viewEvents);
@@ -23,7 +20,7 @@ function Events({ viewEvents }) {
         if (moreEvents.length === 0) {
           setLoadMoreVisible(false);
         }
-        setEvents([ ...moreEvents]);
+        setEvents([...moreEvents]);
         setStartIndex(start + limit);
       })
       .catch((error) => console.error("Error fetching events:", error));
@@ -46,7 +43,7 @@ function Events({ viewEvents }) {
     </div>
   ));
 
-  
+
 
 
   return (

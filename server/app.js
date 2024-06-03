@@ -17,11 +17,11 @@ const eventRouter = require('./routes/eventsRoute');
 
 
 
-const logger = (req, res, next)=>{
+const logger = (req, res, next) => {
     const url = req.url;
     const date = new Date();
     const msg = `Date: ${date}, Url:${url} \n`;
-    fs.appendFile(path.join(__dirname, 'log.txt'), msg, ()=>{
+    fs.appendFile(path.join(__dirname, 'log.txt'), msg, () => {
         console.log('success!!');
         next();
     });
@@ -37,6 +37,6 @@ app.use('/events', eventRouter);
 //     res.sendStatus(404);
 // })
 
-app.listen(3300, ()=>{
+app.listen(3300, () => {
     console.log(`app is listening on port ${3300}`)
 })

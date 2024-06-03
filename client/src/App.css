@@ -1,10 +1,12 @@
-body{
+body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .nav-header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd; /* פס לכל האורך */
+  border-bottom: 1px solid #ddd;
+  /* פס לכל האורך */
 }
 
 .nav-link {
@@ -35,7 +37,7 @@ body{
 
 .main-header {
 
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   padding: 20px;
   border-bottom: 1px solid #ddd;
@@ -47,9 +49,9 @@ body{
   text-decoration: none;
 }
 
- .nav-header1 {
- 
-  justify-content: center; 
+.nav-header1 {
+
+  justify-content: center;
   display: flex;
   gap: 20px;
 }
@@ -58,7 +60,7 @@ body{
   text-decoration: none;
   color: #333;
   font-size: 16px;
-} 
+}
 
 .nav-link1:hover {
   text-decoration: underline;
@@ -70,7 +72,7 @@ body{
   text-decoration: underline;
   color: #161616;
   text-decoration-color: rgb(127, 205, 179);
-} 
+}
 
 /* contact */
 .contact-container {
@@ -145,11 +147,13 @@ body{
   margin-right: 10px;
   font-size: 24px;
 }
-.about-us-container{
+
+.about-us-container {
   background-color: rgb(165, 184, 235);
 
 }
-.about-us{
+
+.about-us {
   text-align: center;
   margin-left: 30%;
   margin-right: 30%;
@@ -159,38 +163,57 @@ body{
 .site-logo-image {
   display: block;
   margin: 0 auto;
-  width: 100%; /* אפשר להתאים לפי גודל התמונה */
-  max-width: 600px; /* הגבלה על רוחב התמונה */
-  height: auto; /* שמירת פרופורציות התמונה */
-  padding: 20px 0; /* רווח מעל ומתחת לתמונה */
+  width: 100%;
+  /* אפשר להתאים לפי גודל התמונה */
+  max-width: 600px;
+  /* הגבלה על רוחב התמונה */
+  height: auto;
+  /* שמירת פרופורציות התמונה */
+  padding: 20px 0;
+  /* רווח מעל ומתחת לתמונה */
 }
+
 /*events*/
 .event-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px; /* Space between the event tiles */
+  gap: 16px;
+  /* Space between the event tiles */
 }
 
 .event-tile {
-  border: 1px solid #ccc; /* Border for the event tiles */
-  border-radius: 8px; /* Rounded corners */
-  padding: 16px; /* Padding inside the event tile */
-  width: calc(25% - 32px); /* Adjust width for four columns layout */
-  box-sizing: border-box; /* Ensure padding and border are included in the width */
-  background-color: #f9f9f9; /* Background color for the event tile */
+  border: 1px solid #ccc;
+  /* Border for the event tiles */
+  border-radius: 8px;
+  /* Rounded corners */
+  padding: 16px;
+  /* Padding inside the event tile */
+  width: calc(25% - 32px);
+  /* Adjust width for four columns layout */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the width */
+  background-color: #f9f9f9;
+  /* Background color for the event tile */
 }
 
 .event-tile img {
-  width: 100%; /* Make the image take the full width of the container */
-  height: auto; /* Maintain the aspect ratio */
-  border-radius: 8px; /* Rounded corners for the image */
-  margin-bottom: 8px; /* Space below the image */
+  width: 100%;
+  /* Make the image take the full width of the container */
+  height: auto;
+  /* Maintain the aspect ratio */
+  border-radius: 8px;
+  /* Rounded corners for the image */
+  margin-bottom: 8px;
+  /* Space below the image */
 }
 
 .event-info p {
-  margin: 8px 0; /* Space between paragraphs */
-  font-size: 14px; /* Font size for the paragraphs */
-  color: #333; /* Text color */
+  margin: 8px 0;
+  /* Space between paragraphs */
+  font-size: 14px;
+  /* Font size for the paragraphs */
+  color: #333;
+  /* Text color */
 }
 
 .see-more-button {
@@ -208,5 +231,3 @@ body{
 .see-more-button:hover {
   background-color: #0056b3;
 }
-
-
