@@ -1,46 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 function Events({ viewEvents }) {
   const max_limit = 16;
   const [events, setEvents] = useState([]);
-  const [loadMoreVisible, setLoadMoreVisible] = useState(true);
+  const [loadMoreVisible, setLoadMoreVisible] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
-  const [prevAllEvent, setPrevAllEvent] = useState([]);
-  const [prevShows, setPrevShows] = useState([]);
-  const [prevConferences, setPrevConferences] = useState([]);
-
+  const [cache, setCache] = useState({}); // Cache to store events data for different categories
 
   useEffect(() => {
     if (viewEvents) {
-      setStartIndex(0);
-      fetchEvents(0, max_limit);
+      if (cache[viewEvents]) {
+        // Use cached data if available
+        const { data, hasMore } = cache[viewEvents];
+        setEvents(data);
+        setLoadMoreVisible(hasMore);
+        setStartIndex(data.length);
+      } else {
+        // Fetch data if not in cache
+        setStartIndex(0);
+        fetchEvents(0, max_limit, viewEvents);
+      }
     }
-    console.log("events");
-    console.log(events);
-  }, [viewEvents]);
+  }, [viewEvents, cache]);
 
-  const fetchEvents = (start, limit) => {
-    console.log("countRequests");
-    fetch(`http://localhost:3300/events?category=${viewEvents}&_start=${start}&_limit=${limit}`)
+  const fetchEvents = useCallback((start, limit, category) => {
+    fetch(`http://localhost:3300/events?category=${category}&_start=${start}&_limit=${limit}`)
       .then((res) => res.json())
       .then((moreEvents) => {
-        if (moreEvents.length === 0) {
-          setLoadMoreVisible(false);
-        }
-
-        if (start === 0) {
-          setEvents(moreEvents);
-        } else {
-          setEvents((prevEvents) => [...prevEvents, ...moreEvents]);
-        }
-
+        const hasMore = moreEvents.length === limit;
+        const newEvents = start === 0 ? moreEvents : [...events, ...moreEvents];
+        setEvents(newEvents);
+        setLoadMoreVisible(hasMore);
         setStartIndex(start + limit);
+
+        // Update cache
+        setCache((prevCache) => ({
+          ...prevCache,
+          [category]: {
+            data: newEvents,
+            hasMore: hasMore,
+          },
+        }));
       })
       .catch((error) => console.error("Error fetching events:", error));
-  };
+  }, [events]);
 
   const handleSeeMore = () => {
-    fetchEvents(startIndex, max_limit);
+    fetchEvents(startIndex, max_limit, viewEvents);
   };
 
   const eventsElements = events.map((ev, index) => (
@@ -59,7 +65,7 @@ function Events({ viewEvents }) {
   return (
     <div>
       <div className="event-list">{eventsElements}</div>
-      {loadMoreVisible && viewEvents && (
+      {loadMoreVisible && (
         <button onClick={handleSeeMore} className="see-more-button">
           See More 👉
         </button>
