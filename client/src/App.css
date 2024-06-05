@@ -2,16 +2,83 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
 .nav-header {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
+  
   /* פס לכל האורך */
+}
+
+
+.home {
+  background-color: rgb(165, 184, 235);
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.moving-text {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 70px;
+  font-weight: bold;
+  color:white;
+
+  animation: moveSideToSide 90s linear infinite;
+}
+
+@keyframes moveSideToSide {
+  0% { left: 0; }
+  50% { left: calc(100% - 100px); }
+  100% { left: 0; }
+}
+
+.circle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: moveCircle 20s linear infinite;
+}
+
+.circle-1 {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  left: 10%;
+  animation-duration: 25s;
+}
+
+.circle-2 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 50%;
+  animation-duration: 30s;
+}
+
+.circle-3 {
+  width: 80px;
+  height: 80px;
+  top: 80%;
+  left: 70%;
+  animation-duration: 20s;
+}
+
+@keyframes moveCircle {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(100px) translateX(100px); }
+  100% { transform: translateY(0) translateX(0); }
 }
 
 .nav-link {
   flex-grow: 1;
   text-align: center;
+  background-color: rgb(165, 184, 235)  ;
 }
 
 .nav-link button {
@@ -31,8 +98,8 @@ body {
 .nav-link button.active {
   font-weight: bold;
   text-decoration: underline;
-  color: #161616;
-  text-decoration-color: rgb(127, 205, 179);
+  color: black;
+  text-decoration-color:black;
 }
 
 .main-header {
@@ -41,6 +108,7 @@ body {
   align-items: center;
   padding: 20px;
   border-bottom: 1px solid #ddd;
+  /* background-color:  rgb(165, 184, 235); */
 }
 
 .site-logo {
@@ -71,7 +139,7 @@ body {
   font-weight: bold;
   text-decoration: underline;
   color: #161616;
-  text-decoration-color: rgb(127, 205, 179);
+  text-decoration-color:rgba(233, 13, 115, 0.838);
 }
 
 /* contact */
@@ -116,8 +184,9 @@ body {
 }
 
 .contact-form button {
+  
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: black;
   color: white;
   border: none;
   border-radius: 4px;
@@ -127,7 +196,7 @@ body {
 }
 
 .contact-form button:hover {
-  background-color: #45a049;
+  background-color:black;
 }
 
 .contact-info {
@@ -149,8 +218,10 @@ body {
 }
 
 .about-us-container {
-  background-color: rgb(165, 184, 235);
-
+  background-color:black;
+  color: white;
+ padding-top: 16px;
+ padding-bottom: 16px;
 }
 
 .about-us {
@@ -175,25 +246,20 @@ body {
 
 /*events*/
 .event-list {
+  padding-top: 30px;
+  justify-content: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
   /* Space between the event tiles */
 }
 
 .event-tile {
-  border: 1px solid #ccc;
-  /* Border for the event tiles */
-  border-radius: 8px;
-  /* Rounded corners */
+  border:inset 2px black;
   padding: 16px;
-  /* Padding inside the event tile */
-  width: calc(25% - 32px);
-  /* Adjust width for four columns layout */
+  width: calc(25% - 20px);
   box-sizing: border-box;
-  /* Ensure padding and border are included in the width */
-  background-color: #f9f9f9;
-  /* Background color for the event tile */
+  background-color: white;
 }
 
 .event-tile img {
@@ -209,11 +275,8 @@ body {
 
 .event-info p {
   margin: 8px 0;
-  /* Space between paragraphs */
   font-size: 14px;
-  /* Font size for the paragraphs */
   color: #333;
-  /* Text color */
 }
 
 .see-more-button {
@@ -230,4 +293,12 @@ body {
 
 .see-more-button:hover {
   background-color: #0056b3;
+}
+.footer{
+  text-align: center;
+  font-size: 20px;
+  background-color:black;
+  color: white;
+ padding-top: 16px;
+ padding-bottom: 16px;
 }

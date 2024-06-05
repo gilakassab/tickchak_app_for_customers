@@ -9,8 +9,11 @@ function Home() {
   return (
     <div>
       <MainHeader />
-      <div id="home">
-        <img src="../images/logo.jpg" alt="Site Logo" className="site-logo-image" />
+      <div className="home">
+        <div className="moving-text">TICKCHAK</div>
+        <div className="circle circle-1"></div>
+        <div className="circle circle-2"></div>
+        <div className="circle circle-3"></div>
       </div>
       <SecondHeader />
       <Events />
@@ -20,7 +23,11 @@ function Home() {
       <div id="contact">
         <Contact />
       </div>
+      <footer className="footer">
+        כל הזכויות שמורות © {new Date().getFullYear()}
+      </footer>
     </div>
+   
   );
 }
 

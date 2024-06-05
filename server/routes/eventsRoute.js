@@ -23,15 +23,15 @@ router.delete("/:id", async (req, res) => {
     const event = await controller.deleteEventById(id);
     res.send(event)
 });
-// router.post("/", async (req, res) => { 
-//     const title  = req.body; 
-//     const event = await controller.postEventController(); 
-//     res.send(event);
-// });
+router.post("/", async (req, res) => { 
+    // const title  = req.body; 
+    // const event = await controller.postEvent(); 
+    // res.send(event);
+});
 
-// router.put("/:id", async(req, res) => {
-//     const id = req.params.id;
-//     const response=await controller.putAlbumController(req.body.title,id)
-//     res.send(response);
-// });
+router.put("/:id", async(req, res) => {
+    // const id = req.params.id;
+    // const response=await controller.putEvent(req.body.title,id)
+    // res.send(response);
+});
 module.exports = router

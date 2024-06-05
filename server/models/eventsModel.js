@@ -20,13 +20,9 @@ async function getAllEvents(category, _start, _limit) {
       const sql = `SELECT * FROM events NATURAL JOIN auditoriums LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     } else {
-      console.log("category")
-      console.log(category)
       const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     }
-    // Log the result for debugging
-    console.log("Query result:", result[0]);
     return result[0];
   } catch (err) {
     console.log(err);
@@ -34,32 +30,23 @@ async function getAllEvents(category, _start, _limit) {
   }
 }
 
-// async function getAllEvents(category, _start, _limit) {
-//   try {
-//       const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE eventCategory=${category} LIMIT ${_start}, ${_limit}`;
-//      const  result = await pool.query(sql);
-//     return result[0];
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
 
 async function deleteEventById(id) {
-  try {
-    // const sql3 = 'DELETE FROM passwords WHERE user_id=?';
-    // await pool.query(sql3, [id]);
-    // const sql2 = 'DELETE FROM address WHERE id=?';
-    // await pool.query(sql2, [id]);
-    const sql1 = 'DELETE FROM events WHERE id=?';
-    await pool.query(sql1, [id]);
-  } catch (err) {
-    console.log(err);
-    throw err;
-  }
+  // try {
+  //   // const sql3 = 'DELETE FROM passwords WHERE user_id=?';
+  //   // await pool.query(sql3, [id]);
+  //   // const sql2 = 'DELETE FROM address WHERE id=?';
+  //   // await pool.query(sql2, [id]);
+  //   const sql1 = 'DELETE FROM events WHERE id=?';
+  //   await pool.query(sql1, [id]);
+  // } catch (err) {
+  //   console.log(err);
+  //   throw err;
+  // }
 }
 
 
-// async function putUser(id, name, username, email, street, city, phone, password) {
+// async function putEvent(id, name, username, email, street, city, phone, password) {
 //   try {
 //     const sql1 = `UPDATE users SET name = ?, username = ?, email = ?, phone = ? WHERE id = ?`;
 //     await pool.query(sql1, [name, username, email, phone, id]);
@@ -73,7 +60,7 @@ async function deleteEventById(id) {
 //   }
 // }
 
-// async function postUser(name, username, email, phone, street, city,password) {
+// async function postEvent(name, username, email, phone, street, city,password) {
 //   try {
 //     const sql1 = 'INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)';
 //     const userResult = await pool.query(sql1, [name, username, email, phone]);

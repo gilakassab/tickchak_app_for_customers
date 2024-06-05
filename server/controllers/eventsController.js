@@ -18,6 +18,7 @@ async function getAllEvents(category, _start, _limit) {
         throw err;
     }
 }
+
 async function deleteEventById(id) {
     try {
         return model.deleteEvent(id);
@@ -26,20 +27,20 @@ async function deleteEventById(id) {
     }
 
 }
-// async function putUser(id,name,username,email,street, city,phone) {
+// async function putEvent() {
 //     try {
-//         return model.putUser(id,name,username,email,street, city,phone);
+//         return model.postEvent();
 //     } catch (err) {
 //         throw err;
 //     }
 // }
 
-// async function postUserController(name, username,email,street,city,phone,password) {
+// async function postEvent() {
 
 // try {
-//     const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+//     // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-//     return model.postUser(name, username, email, street, city, phone, hashedPassword);
+//     return model.postEvent();
 // } catch (err) {
 //     throw err;
 // }
