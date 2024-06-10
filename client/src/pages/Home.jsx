@@ -22,7 +22,7 @@ function Home() {
         <AboutUs />
       </div>
       <div id="contact">
-        <Contact emailToContact={'info@tickchak.co.il'}/>
+        <Contact phoneToContact={'*6565'} emailToContact={'info@tickchak.co.il'}/>
       </div>
      <Footer />
     </div>

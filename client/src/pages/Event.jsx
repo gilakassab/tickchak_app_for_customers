@@ -5,6 +5,8 @@ import MainHeader from '../components/MainHeader';
 import '../css/Event.css'
 import Footer from '../components/Footer';
 import Contact from '../components/Contact';
+import moment from 'moment';
+import Timer from '../components/Timer';
 
 function Event() {
   const { id } = useParams();
@@ -17,18 +19,20 @@ function Event() {
   if (!selectedEvent) {
     return <div>No event selected</div>;
   }
+  const formattedDate = moment(selectedEvent.eventDate).format('DD/MM/YYYY');
   return (
     <>
       <MainHeader headerPage={'event'} />
      <div>
      <div className="event-container">
-      <img id='showcase' className='eventPic' src={selectedEvent.eventPicUrl} alt={selectedEvent.eventName} />
-      <h1 className='detailsEvents'>{selectedEvent.eventName} | {selectedEvent.eventDate} | {selectedEvent.eventBeginAt} | {selectedEvent.auditoriumName}</h1>
+      <Timer eventDate={selectedEvent.eventDate} eventBeginAt={selectedEvent.eventBeginAt}/>
+      <img id='showcase' className='eventPic' src={selectedEvent.eventPicUrl} alt={selectedEvent.eventName}  />
+      <h1 className='detailsEvents'>{selectedEvent.eventName} | {formattedDate} | {selectedEvent.eventBeginAt} | {selectedEvent.auditoriumName} </h1>
       </div>
-     <Contact emailToContact={'gilakassab@gmail.com'} />
+     <Contact phoneToContact={selectedEvent.phoneToContact} emailToContact={selectedEvent.emailToContact} />
      <Footer />
-    </div></>
-   
+    </div>
+    </>
   );
 }
 

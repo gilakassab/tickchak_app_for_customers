@@ -23,6 +23,7 @@ async function getAllEvents(category, _start, _limit) {
       const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     }
+   
     return result[0];
   } catch (err) {
     console.log(err);

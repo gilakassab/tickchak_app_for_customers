@@ -25,4 +25,16 @@ body {
     padding: 0;
     width:100%
   }
+  .timer{
+      color:rgb(231, 225, 225);
+      border: 4px dotted rgb(231, 225, 225); /* הגדרת מסגרת עם קו מודגש */
+      padding:2px;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); /* הגדרת צל לטקסט */
+      font-size: 70px;
+      position: absolute; /* מקום יחסי או מוחלט באמצעות position */
+      z-index: 1; 
+      margin-top: 530px;
+      margin-left: 1110px;
+
+  }
   
