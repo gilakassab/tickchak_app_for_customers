@@ -255,11 +255,13 @@ body {
 }
 
 .event-tile {
-  border:inset 2px black;
+  border:inset 6px black;
   padding: 16px;
   width: calc(25% - 20px);
   box-sizing: border-box;
   background-color: white;
+  text-decoration: none;
+  color: inherit;
 }
 
 .event-tile img {

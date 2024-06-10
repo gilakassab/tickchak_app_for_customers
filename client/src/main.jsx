@@ -4,6 +4,12 @@ import App from './components/App'
 import './App.css'
 
 
+// const EventContext = createContext();
+
+// export const useEventContext = () => useContext(EventContext);
+
+// export const EventProvider = ({ children }) => {
+//   const [selectedEvent, setSelectedEvent] = useState(null);}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

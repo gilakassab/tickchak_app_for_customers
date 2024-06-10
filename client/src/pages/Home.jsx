@@ -4,11 +4,12 @@ import SecondHeader from '../components/SecondHeader';
 import Events from '../components/Events';
 import AboutUs from '../components/AboutUs';
 import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
 function Home() {
   return (
     <div>
-      <MainHeader />
+      <MainHeader headerPage={'home'} />
       <div className="home">
         <div className="moving-text">TICKCHAK</div>
         <div className="circle circle-1"></div>
@@ -21,11 +22,9 @@ function Home() {
         <AboutUs />
       </div>
       <div id="contact">
-        <Contact />
+        <Contact emailToContact={'info@tickchak.co.il'}/>
       </div>
-      <footer className="footer">
-        כל הזכויות שמורות © {new Date().getFullYear()}
-      </footer>
+     <Footer />
     </div>
    
   );

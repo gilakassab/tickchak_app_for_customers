@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Contact() {
+function Contact({emailToContact}) {
   return (
     <div className="contact-container" id="contact">
       <h2 className="contact-title">Contact Us</h2>
@@ -30,7 +30,7 @@ function Contact() {
         </div>
         <div>
           <span role="img" aria-label="email">📧</span>
-          <p>info@tickchak.co.il</p>
+          <p>{emailToContact}</p>
         </div>
       </div>
     </div>
