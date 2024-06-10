@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import moment from 'moment';
 import { useEventContext } from './App';
 
 function Events({ viewEvents }) {
@@ -57,11 +58,14 @@ function Events({ viewEvents }) {
     
       <div className="event-info" >
         <img src={ev.eventPicUrl} alt={ev.eventName} />
-        <p>{ev.eventName}</p>
-        <p>{ev.eventRemarks}</p>
-        <p>{ev.eventDate}</p>
-        <p>{ev.eventBeginAt}</p>
-        <p>{ev.auditoriumName}</p>
+        <div className="eventDetails">
+        <p className="pEventName">{ev.eventName}</p>
+        {/* <p className="pEvent">{ev.eventRemarks}</p> */}
+        <p className="pEventDate">{moment(ev.eventDate).format('DD/MM')}</p>
+        <p className="pEvent">{ev.eventBeginAt}</p>
+        <p className="pEvent">{ev.auditoriumName}</p>
+        </div>
+        
       </div>
      
       </Link>
