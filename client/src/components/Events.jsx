@@ -62,8 +62,8 @@ function Events({ viewEvents }) {
         <p className="pEventName">{ev.eventName}</p>
         {/* <p className="pEvent">{ev.eventRemarks}</p> */}
         <p className="pEventDate">{moment(ev.eventDate).format('DD/MM')}</p>
-        <p className="pEvent">{ev.eventBeginAt}</p>
-        <p className="pEvent">{ev.auditoriumName}</p>
+        <p className="pEventDetails">{ev.eventBeginAt}</p>
+        <p className="pEventDetails">{ev.auditoriumName}</p>
         </div>
         
       </div>

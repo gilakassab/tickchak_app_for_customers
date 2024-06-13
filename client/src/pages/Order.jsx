@@ -2,7 +2,7 @@ import React from 'react'
 
 function Order() {
   return (
-    <div>Order</div>
+    <div>1131</div>
   )
 }
 

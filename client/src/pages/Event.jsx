@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams, } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { EventContext } from '../components/App';
 import MainHeader from '../components/MainHeader';
 import '../css/Event.css'
@@ -9,8 +9,7 @@ import moment from 'moment';
 import Timer from '../components/Timer';
 
 function Event() {
-  const { id } = useParams();
-  const { selectedEvent } = useContext(EventContext);
+    const { selectedEvent } = useContext(EventContext);
   // const [headerPage, setHeaderPage] = useState('home');
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,6 +27,9 @@ function Event() {
       <Timer eventDate={selectedEvent.eventDate} eventBeginAt={selectedEvent.eventBeginAt}/>
       <img id='showcase' className='eventPic' src={selectedEvent.eventPicUrl} alt={selectedEvent.eventName}  />
       <h1 className='detailsEvents'>{selectedEvent.eventName} | {formattedDate} | {selectedEvent.eventBeginAt} | {selectedEvent.auditoriumName} </h1>
+      <Link to={`/tickchak/event/${selectedEvent.eventId}/order`} key={selectedEvent.eventId}>
+            <button className='buttonTicketHere'>Tickets here!</button>
+          </Link>
       </div>
      <Contact phoneToContact={selectedEvent.phoneToContact} emailToContact={selectedEvent.emailToContact} />
      <Footer />

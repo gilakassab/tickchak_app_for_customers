@@ -45,7 +45,7 @@ import AboutUs from "./AboutUs";
 import Contact from "./Contact";
 import Event from "../pages/Event";
 import Events from "./Events";
-import Order from "./Order";
+import Order from "../pages/Order";
 import ProducerHome from "../pages/ProducerHome";
 import ProducerLogin from "../pages/ProducerLogin";
 import NewEvent from "./NewEvent";
@@ -88,9 +88,9 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/aboutus" element={<AboutUs />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="event/:id" element={<Event />}>
-                  <Route path="order" element={<Order />} />
-                </Route>
+                <Route path="event/:id" element={<Event />} />
+                <Route path="event/:id/order" element={<Order />} />
+                
                 <Route path="producer" element={<ProducerLogin />}>
                   <Route path=":id" element={<ProducerHome />} />
                   <Route path="newevent" element={<NewEvent />} />
