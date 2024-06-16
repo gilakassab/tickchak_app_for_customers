@@ -10,14 +10,14 @@ router.use(express.urlencoded({ extended: true }));
 //     const event = await controller.getEventById(id);
 //     res.send(event)
 // });
-// router.get("/", async (req, res) => {
-//     const { category, _start, _limit } = req.query;
-//     console.log("req.query")
-//     console.log(req.query)
-//     const events = await controller.getAllEvents(category, _start, _limit);
-//     res.send(events)
 
-// });
+router.get("/", async (req, res) => {
+    const { auditoriumId} = req.query;
+    const audtoriumsParts = await controller.getAllAuditoriumParts(auditoriumId);
+    console.log(audtoriumsParts);
+    res.send(audtoriumsParts)
+});
+
 // router.delete("/:id", async (req, res) => {
 //     const id = req.params.id;
 //     const event = await controller.deleteEventById(id);

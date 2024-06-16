@@ -12,8 +12,6 @@ router.get("/:id", async (req, res) => {
 });
 router.get("/", async (req, res) => {
     const { category, _start, _limit } = req.query;
-    console.log("req.query")
-    console.log(req.query)
     const events = await controller.getAllEvents(category, _start, _limit);
     res.send(events)
 
