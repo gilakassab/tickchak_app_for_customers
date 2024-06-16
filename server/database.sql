@@ -103,40 +103,33 @@ CREATE TABLE blocksView (
 -- Create the producer table
 
 
--- Create the passwords table
-CREATE TABLE passwords (
-  passwordId INT auto_increment PRIMARY KEY,
-  producerId INT,
-  producerPassword VARCHAR(255) NOT NULL,
-  FOREIGN KEY (producerId) REFERENCES producer (producerId)
-);
 
 -- Insert data into the auditoriums table
-INSERT INTO auditoriums (auditoriumName) VALUES 
+INSERT INTO auditoriums (auditoriumName) VALUES
 ('Auditorium 1'),
 ('Auditorium 2'),
 ('Auditorium 3');
 
 -- Insert data into the users table
-INSERT INTO users (userName, userPhone, userEmail) VALUES 
+INSERT INTO users (userName, userPhone, userEmail) VALUES
 ('User 1', '123-456-7890', 'user1@example.com'),
 ('User 2', '234-567-8901', 'user2@example.com'),
 ('User 3', '345-678-9012', 'user3@example.com');
 
 -- Insert data into the orders table
-INSERT INTO orders (userId, orderDate) VALUES 
+INSERT INTO orders (userId, orderDate) VALUES
 (1, '2024-06-10'),
 (2, '2024-06-11'),
 (3, '2024-06-12');
 
 -- Insert data into the auditoriumsParts table
-INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES 
+INSERT INTO auditoriumsParts (auditoriumId, partName) VALUES
 (1, 'Part A'),
 (2, 'Part B'),
 (3, 'Part C');
 
 -- Insert data into the seats table
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES 
+INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES
 (1, 1, 1, FALSE),
 (1, 2, 1, TRUE),
 (2, 1, 2, FALSE),
@@ -145,19 +138,19 @@ INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES
 (3, 2, 3, TRUE);
 
 -- Insert data into the partsView table
-INSERT INTO partsView (partId, numOfBlocks) VALUES 
+INSERT INTO partsView (partId, numOfBlocks) VALUES
 (1, 2),
 (2, 3),
 (3, 1);
 
 -- Insert data into the blocks table
-INSERT INTO blocks (partId, blockName, numOfRows) VALUES 
+INSERT INTO blocks (partId, blockName, numOfRows) VALUES
 (1, 'Block A', 10),
 (2, 'Block B', 20),
 (3, 'Block C', 15);
 
 -- Insert data into the blocksView table
-INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES 
+INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 (1, 1, 10),
 (2, 2, 15),
 (3, 3, 20);
@@ -166,7 +159,7 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 -- Insert data into the events table
 INSERT INTO events (
   eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory
-) VALUES 
+) VALUES
 ('Concert A', '2024-06-15', '18:00:00', '19:00:00', '22:00:00', '1', 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'show'),
 ('Play B', '2024-06-16', '19:00:00', '20:00:00', '22:30:00', '1', 'Remarks B', 2, 'https://www.picshare.co.il/s_pictures/img63008.jpg', 'conference'),
 ('Conference C', '2024-06-17', '08:00:00', '09:00:00', '17:00:00', '2', 'Remarks C', 3, 'https://www.picshare.co.il/s_pictures/img66886.jpg', 'Conference'),
