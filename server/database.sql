@@ -297,7 +297,7 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 
 (13, 1, 4),
 (13, 2, 4),
-(13, 3, 4),--גזוזטרה ימין --
+(13, 3, 4),  --גזוזטרה ימין --
 
 (14, 1, 2),
 (14, 2, 3),
@@ -342,10 +342,13 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 (17, 5, 6),
 (17, 6, 6),
 (17, 7, 5),
+
 (17, 8, 6),
 (17, 9, 6),
 (17, 10, 7),
 (17, 11, 7),--יציע ימין--
+
+
 
 
 
