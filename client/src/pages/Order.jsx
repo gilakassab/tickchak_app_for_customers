@@ -1,8 +1,13 @@
 import React from 'react'
+import MainHeader from '../components/MainHeader';
 
 function Order() {
   return (
-    <div>1131</div>
+    <div>
+<MainHeader headerPage={'order'} />
+
+
+    </div>
   )
 }
 
