@@ -1,41 +1,71 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { EventContext } from './App';
-import '../css/AuditoriumMap.css'; // קשר לקובץ ה־CSS
+import '../css/AuditoriumMap.css'; // Ensure this CSS file exists
+import Seats from './Seats';
 
 function AuditoriumMap() {
     const { selectedEvent } = useContext(EventContext);
     const [map, setMap] = useState([]);
+    const [seatsVisible, setSeatsVisible] = useState(false);
+    const [partId, setPartId] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${selectedEvent.auditoriumId}`)
-            .then((res) => res.json())
-            .then((newMap) => {
-                setMap(newMap);
-            });
+        if (selectedEvent) {
+            fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${selectedEvent.auditoriumId}`)
+                .then((res) => res.json())
+                .then((newMap) => {
+                    setMap(newMap);
+                });
+        }
     }, [selectedEvent]);
 
-    const handleClick = (coords) => {
-        // Handle click based on coordinates
-        console.log('Clicked coordinates:', coords);
-        // You can add more functionality here based on what you want to do with the coordinates
+    const handleClick = (part) => {
+        console.log(part.partName, part.coords);
+        setPartId(part.partId);
+        setSeatsVisible(true);
+    };
+
+    const getPolygonCenter = (coords) => {
+        const points = coords.split(" ").map(point => point.split(",").map(Number));
+        const x = points.reduce((sum, point) => sum + point[0], 0) / points.length;
+        const y = points.reduce((sum, point) => sum + point[1], 0) / points.length;
+        return { x, y };
     };
 
     return (
-        <div className="auditorium-map-container"> {/* הוספתי את המחלקה שהמקום עליך להיתקן ב CSS */}
-            <h2>Auditorium Map</h2>
-            <svg width="400" height="200">
-                {map.map(part => (
-                    <polygon
-                        key={part.id}
-                        points={part.coords}
-                        fill="#ccc"
-                        stroke="#000"
-                        strokeWidth="1"
-                        onClick={() => handleClick(part.coords)}
-                        className="auditorium-part"
-                    />
-                ))}
-            </svg>
+        <div className="auditorium-map-container">
+            {!seatsVisible && (
+                <>
+                    <h2>Auditorium Map</h2>
+                    <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
+                        {map.map(part => (
+                            <g key={part.id} onClick={() => handleClick(part)}>
+                                <polygon
+                                    points={part.coords}
+                                    fill="black"
+                                    // stroke="#000"
+                                    // strokeWidth="1"
+                                    className="auditorium-part"
+                                />
+                                <text
+                                    x={getPolygonCenter(part.coords).x}
+                                    y={getPolygonCenter(part.coords).y}
+                                    textAnchor="middle"
+                                    fill="white"
+                                    fontSize="12"
+                                    className='textMap'
+                                  
+                                >
+                                    {part.partName}
+                                </text>
+                            </g>
+                        ))}
+                    </svg>
+                </>
+            )}
+            {seatsVisible && (
+                <Seats partId={partId} />
+            )}
         </div>
     );
 }

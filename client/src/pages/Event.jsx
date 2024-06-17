@@ -14,7 +14,8 @@ function Event() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
+
   if (!selectedEvent) {
     return <div>No event selected</div>;
   }

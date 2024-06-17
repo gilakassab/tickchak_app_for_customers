@@ -68,13 +68,22 @@ CREATE TABLE auditoriumsParts (
 );
 
 -- Create the seats table
-CREATE TABLE seats (
+CREATE TABLE seatsView (
   seatId INT auto_increment PRIMARY KEY,
   rowNumber INT,
   seatNumber INT,
   partId INT,
+  blockId INT,
+  seatIsVisible BOOLEAN,
+  FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId),
+   FOREIGN KEY (blockId) REFERENCES blocks (partId)
+);
+
+CREATE TABLE saveSeatsSoled (
+  seatId INT,
   seatIsTaken BOOLEAN,
-  FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId)
+  eventId INT,
+  FOREIGN KEY (seatId) REFERENCES seatsView (seatId)
 );
 
 -- Create the partsView table
@@ -121,19 +130,18 @@ INSERT INTO orders (userId, orderDate) VALUES
 
 -- Insert data into the auditoriumsParts table
 INSERT INTO auditoriumsParts (auditoriumId, partName, coords) VALUES
-(1, 'אולם','1,20 30,60 2,40 22,70'),
-(1, 'גזוזטרה שמאל','200,10 100,70 150,70'),
-(1, 'גזוזטרה ימין','300,10 50,70 150,70'),
-(1, 'יציע ימין','400,10 50,80 150,70'),
-(1, 'יציע מרכז','500,10 50,70 150,70'),
-(1, 'יציע שמאל','0,10 30,70 150,70'),
-(1, 'במה','50,10 50,70 150,40'),
-(2, 'Part B','80,10 50,70 150,70'),
-(3, 'Part C','100,120 50,70 150,70');
+(1, 'אולם', '200,50 400,50 500,400 100,400'),
+(1, 'גזוזטרה שמאל', '50,150 135,200 85,400 50,350'),
+(1, 'גזוזטרה ימין', '500,150 550,200 550,300 500,250'),
+(1, 'יציע ימין', '550,300 600,350 550,400 500,350'),
+(1, 'יציע מרכז', '250,800 350,800 350,850 250,850'), 
+(1, 'יציע שמאל', '50,300 100,350 50,400 0,350'),
+(1, 'במה', '250,700 350,700 300,750 250,750');
+
 
 
 -- Insert data into the seats table
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken) VALUES
+INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken,seatIsVisible) VALUES
 (1, 1, 1, FALSE),
 (1, 2, 1, FALSE),
 (2, 1, 2, FALSE),

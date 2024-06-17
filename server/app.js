@@ -10,7 +10,7 @@ app.use(cors());
 
 
 const eventRouter = require('./routes/eventsRoute');
-const orderRouter = require('./routes/orderRoute');
+const seatsViewRouter = require('./routes/seatsViewRoute');
 const auditoriumsPartsRouter = require('./routes/auditoriumsPartsRoute');
 
 // const passswordsRouter = require('./Routes/passwordsRoutes');
@@ -32,7 +32,7 @@ const logger = (req, res, next) => {
 }
 app.use(logger);
 app.use('/events', eventRouter);
-app.use('/order',orderRouter);
+app.use('/seatsView',seatsViewRouter);
 app.use('/auditoriumsParts',auditoriumsPartsRouter)
 // app.use('/passwords', passswordsRouter);
 // app.use('/logIn',loginRouter);
