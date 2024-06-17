@@ -1,0 +1,13 @@
+.auditorium-map-container {
+    text-align: center; /* מרכז את האלמנטים באופן אופטימלי */
+}
+
+.auditorium-part {
+    cursor: pointer; /* שינוי סגנון העכבר כשהוא נמצא מעל הרכיבים */
+    transition: fill 0.3s ease; /* אנימציה קלה עבור מילוי הרכיב */
+}
+
+.auditorium-part:hover {
+    fill: #66bb6a; /* שינוי מילוי כאשר העכבר נמצא מעל הרכיב */
+    stroke-width: 2px; /* גודל קו גבול הרכיב */
+}
