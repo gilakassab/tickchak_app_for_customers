@@ -4,30 +4,31 @@ CREATE DATABASE IF NOT EXISTS TICKCHAK_DB;
 -- Use the created database
 USE TICKCHAK_DB;
 
--- Drop tables if they already exist
+ALTER TABLE auditoriumsparts DROP FOREIGN KEY auditoriumsparts_ibfk_1;
 
-DROP TABLE IF EXISTS events;
-DROP TABLE IF EXISTS orders;
+-- Drop tables if they exist
+DROP TABLE IF EXISTS saveSeatsSoled;
 DROP TABLE IF EXISTS seats;
+DROP TABLE IF EXISTS seatsView;
 DROP TABLE IF EXISTS partsView;
 DROP TABLE IF EXISTS blocksView;
+DROP TABLE IF EXISTS events;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS blocks;
 DROP TABLE IF EXISTS auditoriumsParts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS auditoriums;
-
 DROP TABLE IF EXISTS passwords;
 
 -- Create the auditoriums table
 CREATE TABLE auditoriums (
-  auditoriumId INT auto_increment PRIMARY KEY,
+  auditoriumId INT AUTO_INCREMENT PRIMARY KEY,
   auditoriumName VARCHAR(255)
 );
 
-
 -- Create the events table
 CREATE TABLE events (
-  eventId INT auto_increment PRIMARY KEY,
+  eventId INT AUTO_INCREMENT PRIMARY KEY,
   eventName VARCHAR(255),
   eventDate DATE NOT NULL,
   eventOpenGates TIME NOT NULL,
@@ -39,12 +40,11 @@ CREATE TABLE events (
   eventPicUrl VARCHAR(255),
   eventCategory VARCHAR(255),
   FOREIGN KEY (auditoriumId) REFERENCES auditoriums (auditoriumId)
- 
 );
 
 -- Create the users table
 CREATE TABLE users (
-  userId INT auto_increment PRIMARY KEY,
+  userId INT AUTO_INCREMENT PRIMARY KEY,
   userName VARCHAR(255) NOT NULL,
   userPhone VARCHAR(255),
   userEmail VARCHAR(255) NOT NULL
@@ -52,7 +52,7 @@ CREATE TABLE users (
 
 -- Create the orders table
 CREATE TABLE orders (
-  orderId INT auto_increment PRIMARY KEY,
+  orderId INT AUTO_INCREMENT PRIMARY KEY,
   userId INT,
   orderDate DATE,
   FOREIGN KEY (userId) REFERENCES users (userId)
@@ -60,7 +60,7 @@ CREATE TABLE orders (
 
 -- Create the auditoriumsParts table
 CREATE TABLE auditoriumsParts (
-  partId INT auto_increment PRIMARY KEY,
+  partId INT AUTO_INCREMENT PRIMARY KEY,
   auditoriumId INT,
   partName VARCHAR(255),
   coords VARCHAR(255),
@@ -68,23 +68,36 @@ CREATE TABLE auditoriumsParts (
 );
 
 -- Create the seats table
+-- CREATE TABLE seats (
+--   seatId INT AUTO_INCREMENT PRIMARY KEY,
+--   rowNumber INT,
+--   seatNumber INT,
+--   partId INT,
+--   seatIsTaken BOOLEAN,
+--   seatIsVisible BOOLEAN,
+--   FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId)
+-- );
+
+-- Create the seatsView table
 CREATE TABLE seatsView (
-  seatId INT auto_increment PRIMARY KEY,
+  seatId INT AUTO_INCREMENT PRIMARY KEY,
   rowNumber INT,
   seatNumber INT,
   partId INT,
   blockId INT,
   seatIsVisible BOOLEAN,
-  FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId),
-   FOREIGN KEY (blockId) REFERENCES blocks (partId)
+  FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId)
+  
 );
 
+-- Create the saveSeatsSoled table
 CREATE TABLE saveSeatsSoled (
   seatId INT,
   seatIsTaken BOOLEAN,
   eventId INT,
   FOREIGN KEY (seatId) REFERENCES seatsView (seatId)
 );
+
 
 -- Create the partsView table
 CREATE TABLE partsView (
@@ -95,7 +108,7 @@ CREATE TABLE partsView (
 
 -- Create the blocks table
 CREATE TABLE blocks (
-  blockId INT auto_increment PRIMARY KEY,
+  blockId INT AUTO_INCREMENT PRIMARY KEY,
   partId INT,
   blockName VARCHAR(255),
   numOfRows INT,
@@ -130,39 +143,35 @@ INSERT INTO orders (userId, orderDate) VALUES
 
 -- Insert data into the auditoriumsParts table
 INSERT INTO auditoriumsParts (auditoriumId, partName, coords) VALUES
-(1, 'אולם', '200,50 400,50 500,400 100,400'),
-(1, 'גזוזטרה שמאל', '50,150 135,200 85,400 50,350'),
-(1, 'גזוזטרה ימין', '500,150 550,200 550,300 500,250'),
-(1, 'יציע ימין', '550,300 600,350 550,400 500,350'),
-(1, 'יציע מרכז', '250,800 350,800 350,850 250,850'), 
-(1, 'יציע שמאל', '50,300 100,350 50,400 0,350'),
-(1, 'במה', '250,700 350,700 300,750 250,750');
-
-
+(1, 'אולם', '212,160 277,168 342,160 348,99 322,32 277,35 232,32 209,99'),
+(1, 'גזוזטרה שמאל', '188,90 203,97 227,32 212,22'),
+(1, 'גזוזטרה ימין', '351,97 366,90 342,22 327,32' ),
+(1, 'יציע ימין','357,225 417,208 366,95 351,102 344,160'),
+(1, 'יציע מרכז', '203,228 277,240 351,228 340,165 277,173 214,165'),
+(1, 'יציע שמאל', '139,208 197,225 210,160 203,102 188,95'),
+(1, 'במה', '232,25 277,32 322,25 314,2 240,2');
 
 -- Insert data into the seats table
-INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken,seatIsVisible) VALUES
-(1, 1, 1, FALSE),
-(1, 2, 1, FALSE),
-(2, 1, 2, FALSE),
-(2, 2, 2, FALSE),
-(3, 1, 3, FALSE),
-(3, 2, 3, FALSE);
+-- INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken, seatIsVisible) VALUES
+-- (1, 1, 1, FALSE, TRUE),
+-- (1, 2, 1, FALSE, TRUE),
+-- (2, 1, 2, FALSE, TRUE),
+-- (2, 2, 2, FALSE, TRUE),
+-- (3, 1, 3, FALSE, TRUE),
+-- (3, 2, 3, FALSE, TRUE);
 
 -- Insert data into the partsView table
 INSERT INTO partsView (partId, numOfBlocks) VALUES
-(2, 2),  -- גזוזטרה שמאל --
-(3, 2), -- גזוזטרה ימין --
-(1, 9), -- אולם --
-(4, 4),  -- יציע ימין --
-(5, 2), -- יציע מרכז --
+(2, 2),  -- גזוזטרה שמאל
+(3, 2), -- גזוזטרה ימין
+(1, 9), -- אולם
+(4, 4),  -- יציע ימין
+(5, 2), -- יציע מרכז
 (6, 4), -- יציע שמאל
-(7, 0); -- במה --
-
+(7, 0); -- במה
 
 -- Insert data into the blocks table
 INSERT INTO blocks (partId, blockName, numOfRows) VALUES
--- אולם -- 
 (1, '1-right', 13),
 (1, '1-left', 13),
 (1, '1-center', 13),
@@ -172,25 +181,20 @@ INSERT INTO blocks (partId, blockName, numOfRows) VALUES
 (1, '3-right', 4),
 (1, '3-left', 2),
 (1, '3-center', 4),
---  גזוזטרה שמאל --
 (2, '1-right', 3),
 (2, '1-left', 3),
--- גזוזטרה ימין --
 (3, '1-right', 3),
 (3, '1-left', 3),
--- יציע ימין --
-(4, '1-right',18),
-(4, '1-left',4),
-(4, '2-right',11),
-(4, '2-left',11),
- -- יציע מרכז --
-(5, '1-center',4),
-(5, '2-center',11),
--- יציע שמאל --
-(6, '1-right',4),
-(6, '1-left',18),
-(6, '2-right',11),
-(6, '2-left',11);
+(4, '1-right', 18),
+(4, '1-left', 4),
+(4, '2-right', 11),
+(4, '2-left', 11),
+(5, '1-center', 4),
+(5, '2-center', 11),
+(6, '1-right', 4),
+(6, '1-left', 18),
+(6, '2-right', 11),
+(6, '2-left', 11);
 
 -- Insert data into the blocksView table
 INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
@@ -207,7 +211,6 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 (1, 11, 16),
 (1, 12, 17),
 (1, 13, 17),
-
 (2, 1, 6),
 (2, 2, 10),
 (2, 3, 11),
@@ -221,7 +224,6 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 (2, 11, 15),
 (2, 12, 16),
 (2, 13, 17),
-
 (3, 1, 14),
 (3, 2, 16),
 (3, 3, 15),

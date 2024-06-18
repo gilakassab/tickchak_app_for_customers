@@ -34,7 +34,7 @@ function AuditoriumMap() {
 
     return (
         <div className="auditorium-map-container">
-            {!seatsVisible && (
+            {!seatsVisible && ( 
                 <>
                     <h2>Auditorium Map</h2>
                     <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
