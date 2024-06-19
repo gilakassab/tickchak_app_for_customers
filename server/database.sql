@@ -86,11 +86,12 @@ CREATE TABLE seatsView (
   partId INT,
   seatIsVisible BOOLEAN,
   FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId)
-  
+ 
 );
 
 -- Create the saveSeatsSoled table
 CREATE TABLE saveSeatsSoled (
+  eventId INT,
   eventId INT,
   seatId INT,
   seatIsTaken BOOLEAN,
@@ -1068,7 +1069,7 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 
 (10, 1, 16),
 (10, 2, 16),
-(10, 3, 16), 
+(10, 3, 16),
 
 (11, 1, 4),
 (11, 2, 4),
@@ -1076,7 +1077,7 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 
 (12, 1, 16),
 (12, 2, 16),
-(12, 3, 16), 
+(12, 3, 16),
 
 (13, 1, 4),
 (13, 2, 4),

@@ -1,28 +1,62 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { EventContext } from './App';
 import '../css/AuditoriumMap.css'; // Ensure this CSS file exists
 import Seats from './Seats';
 
 function AuditoriumMap() {
-    const { selectedEvent } = useContext(EventContext);
+    const { selectedEvent, setSelectedEvent } = useContext(EventContext);
+    const { id } = useParams(); // Get event ID from URL
     const [map, setMap] = useState([]);
     const [seatsVisible, setSeatsVisible] = useState(false);
     const [partId, setPartId] = useState(0);
+   
+    const [partName, setPartName] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (selectedEvent) {
-            fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${selectedEvent.auditoriumId}`)
-                .then((res) => res.json())
-                .then((newMap) => {
-                    setMap(newMap);
-                });
+        if (!selectedEvent) {
+            fetchEventFromServer(id);
+        } else {
+            fetchAuditoriumParts(selectedEvent.auditoriumId);
         }
-    }, [selectedEvent]);
+    }, [selectedEvent, id]);
+
+    const fetchEventFromServer = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3300/events/${id}`);
+            const event = await response.json();
+            setSelectedEvent(event);
+            fetchAuditoriumParts(event.auditoriumId);
+        } catch (error) {
+            console.error("Error fetching event:", error);
+            setLoading(false);
+        }
+    };
+
+    const fetchAuditoriumParts = async (auditoriumId) => {
+        try {
+            const response = await fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${auditoriumId}`);
+            const newMap = await response.json();
+            setMap(newMap);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching auditorium parts:", error);
+            setLoading(false);
+        }
+    };
 
     const handleClick = (part) => {
         console.log(part.partName, part.coords);
         setPartId(part.partId);
+        setPartName(part.partName);
         setSeatsVisible(true);
+    };
+
+    const handleBackToMap = () => {
+        setSeatsVisible(false);
+        setPartId(null);
+        setPartName(null);
     };
 
     const getPolygonCenter = (coords) => {
@@ -32,19 +66,25 @@ function AuditoriumMap() {
         return { x, y };
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!selectedEvent) {
+        return <div>No event selected</div>;
+    }
+
     return (
         <div className="auditorium-map-container">
             {!seatsVisible && ( 
                 <>
-                    <h2>Auditorium Map</h2>
+                    <h2>Take a seat in {selectedEvent.auditoriumName}</h2>
                     <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
                         {map.map(part => (
                             <g key={part.id} onClick={() => handleClick(part)}>
                                 <polygon
                                     points={part.coords}
                                     fill="black"
-                                    // stroke="#000"
-                                    // strokeWidth="1"
                                     className="auditorium-part"
                                 />
                                 <text
@@ -54,7 +94,6 @@ function AuditoriumMap() {
                                     fill="white"
                                     fontSize="12"
                                     className='textMap'
-                                  
                                 >
                                     {part.partName}
                                 </text>
@@ -64,7 +103,7 @@ function AuditoriumMap() {
                 </>
             )}
             {seatsVisible && (
-                <Seats partId={partId} />
+                <Seats partId={partId} partName={partName} onBackToMap={handleBackToMap} />
             )}
         </div>
     );
