@@ -20,8 +20,9 @@ const pool = require('../DB.js');
 async function getAllSeats(id, partId) {
   try {
    
-   const sql = `SELECT * FROM seatView NATURAL JOIN saveSeatsSoled where eventId=? and partId=?`;   
+   const sql = `SELECT * FROM seatsView NATURAL JOIN saveSeatsSoled where eventId=? and partId=?`;   
     const result = await pool.query(sql, [id,partId]);
+    console.log(result[0])
     return result[0];
   } catch (err) {
     console.log(err);
