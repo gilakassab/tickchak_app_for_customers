@@ -1,3 +1,42 @@
-.seats{
+.seats-container {
     display: flex;
+    flex-direction: column;
+    margin-left: 45%;
+    margin-top: 30px;
+}
+
+.seat-row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px; /* Space between rows */
+}
+
+.seat-item {
+    margin-right: 5px; /* Space between seats */
+    width: 15px; /* Adjust the width as needed to match button width */
+    height: 13px; /* Adjust the height as needed to match button height */
+}
+
+.invisible-seat {
+    visibility: hidden; /* Hide the seat but keep the space */
+}
+
+.btnSeats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 16px;
+    border-radius: 3px;
+    border: 2px solid #000;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
