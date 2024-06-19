@@ -9,7 +9,8 @@ function AuditoriumMap() {
     const { id } = useParams(); // Get event ID from URL
     const [map, setMap] = useState([]);
     const [seatsVisible, setSeatsVisible] = useState(false);
-    const [partId, setPartId] = useState(null);
+    const [partId, setPartId] = useState(0);
+   
     const [partName, setPartName] = useState(null);
     const [loading, setLoading] = useState(true);
 

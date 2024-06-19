@@ -14,7 +14,6 @@ router.use(express.urlencoded({ extended: true }));
 router.get("/", async (req, res) => {
     const { auditoriumId} = req.query;
     const audtoriumsParts = await controller.getAllAuditoriumParts(auditoriumId);
-    console.log(audtoriumsParts);
     res.send(audtoriumsParts)
 });
 

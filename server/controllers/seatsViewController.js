@@ -10,10 +10,10 @@ const { get } = require('../routes/seatsViewRoute');
 //     }
 
 // }
-async function getAllSeats(id, partId) {
+async function getAllSeats( id,partId) {
     try {
-
-        return model.getAllSeats(id, partId);
+        console.log("CONTOLLER : eventid" + id + "partId"+ partId);
+        return model.getAllSeats( id,partId);
     } catch (err) {
         throw err;
     }

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require('../controllers/eventsController')
+const controllerSeats = require('../controllers/seatsViewController')
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 // const photosRouter = require('./photosRoutes');
@@ -10,6 +11,20 @@ router.get("/:id", async (req, res) => {
     const id = req.params.id;
     const event = await controller.getEventById(id);
     res.send(event);
+});
+
+router.get("/:id/seatsView", async (req, res) => {
+    try{
+        
+        const id = req.params.id;
+        const partId = req.query.partId;
+        console.log(req.query);
+        const seats = await controllerSeats.getAllSeats(id,partId);
+        res.status(200).send(seats);
+    }
+      catch (err) {
+        res.status(500).send({ message: err.message });
+  }
 });
 
 router.get("/", async (req, res) => {

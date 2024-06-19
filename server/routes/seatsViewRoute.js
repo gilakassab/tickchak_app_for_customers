@@ -12,14 +12,16 @@ router.use(express.urlencoded({ extended: true }));
 // });
 
 router.get("/", async (req, res) => {
-    try{
-        const { id , partId} = req.query;
-        const seats = await controller.getAllSeats(id,partId);
-        res.status(200).send(seats)
-    }
-    catch(err){
-        res.status(500).send({ message: err.message });
-    }
+    // try{
+    
+    //     const partId = req.query.partId;
+    //     console.log("ROUTE "+ req.query.eventId);
+    //     const seats = await controller.getAllSeats(partId);
+    //     res.status(200).send(seats)
+    // }
+    // catch(err){
+    //     res.status(500).send({ message: err.message });
+    // }
    
 });
 
