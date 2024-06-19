@@ -1,0 +1,76 @@
+/* Add this CSS to your AuditoriumMap.css or a relevant CSS file */
+.back-button-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 400px;
+    margin-right:1200px;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #00bcd4; /* Adjust the color as needed */
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 50px;
+}
+
+
+
+.back-button-tooltip {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00bcd4; /* Adjust the color as needed */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.back-button-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #00bcd4; /* Adjust the color as needed */
+}
+
+
+
+/* Seats.css */
+
+.continue-button {
+    background-color: #007bff; /* צבע רקע כחול */
+    color: white; /* צבע טקסט לבן */
+    border: none; /* ללא גבול */
+    padding: 10px 20px; /* ריפוד פנים */
+    font-size: 16px; /* גודל גופן */
+    cursor: pointer; /* סמן עכבר */
+    margin-top: 20px; /* מרווח עליון */
+}
+
+.continue-button:hover {
+    background-color: #0056b3; /* צבע רקע כחול כהה בהעברת העכבר */
+}
+
+.continue-button:focus {
+    outline: none; /* הסר קו תחתון בעת התמקדות */
+}
+
+.continue-button:active {
+    background-color: #004380; /* צבע רקע כחול כהה בלחיצה */
+}
+

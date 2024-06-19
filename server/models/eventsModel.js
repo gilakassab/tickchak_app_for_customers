@@ -3,7 +3,12 @@ const pool = require('../DB');
 
 async function getEventById(id) {
   try {
-    const sql = 'SELECT * FROM events WHERE eventId=?';
+    const sql = `
+      SELECT events.*, auditoriums.auditoriumName 
+      FROM events 
+      JOIN auditoriums ON events.auditoriumId = auditoriums.auditoriumId 
+      WHERE events.eventId = ?;
+    `;
     const [result] = await pool.query(sql, [id]);
     return result[0];  // Assuming result is an array and we need the first element
   } catch (err) {
@@ -11,6 +16,7 @@ async function getEventById(id) {
     throw err;
   }
 }
+
 
 
 async function getAllEvents(category, _start, _limit) {

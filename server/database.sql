@@ -84,17 +84,16 @@ CREATE TABLE seatsView (
   rowNumber INT,
   seatNumber INT,
   partId INT,
-  blockId INT,
   seatIsVisible BOOLEAN,
   FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId)
-  
+ 
 );
 
 -- Create the saveSeatsSoled table
 CREATE TABLE saveSeatsSoled (
+  eventId INT,
   seatId INT,
   seatIsTaken BOOLEAN,
-  eventId INT,
   FOREIGN KEY (seatId) REFERENCES seatsView (seatId)
 );
 
@@ -151,14 +150,33 @@ INSERT INTO auditoriumsParts (auditoriumId, partName, coords) VALUES
 (1, 'יציע שמאל', '139,208 197,225 210,160 203,102 188,95'),
 (1, 'במה', '232,25 277,32 322,25 314,2 240,2');
 
--- Insert data into the seats table
--- INSERT INTO seats (rowNumber, seatNumber, partId, seatIsTaken, seatIsVisible) VALUES
--- (1, 1, 1, FALSE, TRUE),
--- (1, 2, 1, FALSE, TRUE),
--- (2, 1, 2, FALSE, TRUE),
--- (2, 2, 2, FALSE, TRUE),
--- (3, 1, 3, FALSE, TRUE),
--- (3, 2, 3, FALSE, TRUE);
+INSERT INTO seatsView (rowNumber, seatNumber, partId, seatIsVisible) VALUES
+(1,1,1,TRUE),
+(1,2,1,TRUE),
+(1,3,2,TRUE),
+(1,4,1,TRUE),
+(1,5,1,TRUE),
+(1,6,2,TRUE),
+(2,1,1,TRUE),
+(2,2,1,TRUE),
+(2,3,2,TRUE),
+(2,1,1,TRUE),
+(2,2,2,TRUE),
+(2,3,1,TRUE);
+
+INSERT INTO saveseatssoled (eventId, seatId, seatIsTaken ) VALUES
+(1,1,FALSE),
+(1,2,FALSE),
+(2,3,FALSE),
+(2,4,FALSE),
+(2,5,FALSE),
+(2,6,FALSE),
+(2,7,FALSE),
+(1,8,FALSE),
+(1,9,FALSE),
+(1,10,FALSE),
+(1,11,FALSE),
+(1,12,FALSE);
 
 -- Insert data into the partsView table
 INSERT INTO partsView (partId, numOfBlocks) VALUES
@@ -295,7 +313,7 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 
 (10, 1, 16),
 (10, 2, 16),
-(10, 3, 16), 
+(10, 3, 16),
 
 (11, 1, 4),
 (11, 2, 4),
@@ -303,7 +321,7 @@ INSERT INTO blocksView (blockId, rowsId, numOfSeatsInARow) VALUES
 
 (12, 1, 16),
 (12, 2, 16),
-(12, 3, 16), 
+(12, 3, 16),
 
 (13, 1, 4),
 (13, 2, 4),
