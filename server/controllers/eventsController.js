@@ -4,12 +4,12 @@ const { get } = require('../routes/eventsRoute');
 
 async function getEventById(id) {
     try {
-        return model.getEventById(id);
+        return await model.getEventById(id);
     } catch (err) {
         throw err;
     }
-
 }
+
 async function getAllEvents(category, _start, _limit) {
     try {
 

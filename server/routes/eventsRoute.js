@@ -7,9 +7,11 @@ router.use(express.urlencoded({ extended: true }));
 // router.use('/:albumId/photos', photosRouter);
 
 router.get("/:id", async (req, res) => {
+    const id = req.params.id;
     const event = await controller.getEventById(id);
-    res.send(event)
+    res.send(event);
 });
+
 router.get("/", async (req, res) => {
     const { category, _start, _limit } = req.query;
     const events = await controller.getAllEvents(category, _start, _limit);
