@@ -7,7 +7,7 @@ function AuditoriumMap() {
     const { selectedEvent } = useContext(EventContext);
     const [map, setMap] = useState([]);
     const [seatsVisible, setSeatsVisible] = useState(false);
-    const [partId, setPartId] = useState(null);
+    const [partId, setPartId] = useState(0);
 
     useEffect(() => {
         if (selectedEvent) {
