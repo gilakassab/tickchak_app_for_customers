@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../css/PersonalInformaition.css';
 import Payment from './Payment';
 
-const PersonalInformation = () => {
+const PersonalInformation = ({mySeats}) => {
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
 

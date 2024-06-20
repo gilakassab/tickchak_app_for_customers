@@ -79,7 +79,7 @@ function AuditoriumMap() {
             {!seatsVisible && ( 
                 <>
                     <h2>Take a seat in {selectedEvent.auditoriumName}</h2>
-                    <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
+                    <svg key={selectedEvent.auditoriumId} viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
                         {map.map(part => (
                             <g key={part.id} onClick={() => handleClick(part)}>
                                 <polygon
