@@ -38,7 +38,7 @@ function AuditoriumMap() {
         try {
             const response = await fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${auditoriumId}`);
             const newMap = await response.json();
-            console.log(newMap);
+            
             setMap(newMap);
             setLoading(false);
         } catch (error) {
@@ -48,7 +48,6 @@ function AuditoriumMap() {
     };
 
     const handleClick = (part) => {
-        console.log(part.partName, part.coords);
         setPartId(part.partId);
         setBlocksOfPart(map[partId].numOfRowsAndSeats)
         setPartName(part.partName);

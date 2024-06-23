@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/PersonalInformation.css';
+// import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
 const PersonalInformation = ({ mySeats }) => {

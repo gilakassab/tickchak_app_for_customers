@@ -3,19 +3,19 @@ import { useParams } from "react-router-dom";
 import "../css/Seats.css";
 import PersonalInformation from "./PersonalInformation";
 import { EventContext } from "../components/App";
+import html2canvas from 'html2canvas'; // ייבוא הספרייה html2canvas
 
-function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
+function Seats({ partId, partName, onBackToMap }) {
   const { id } = useParams();
 
-  const { selectedEvent } = useContext(EventContext);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showPersonalInformation, setShowPersonalInformation] = useState(false);
+  const { selectedEvent } = useContext(EventContext);
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [purchaseMade, setPurchaseMade] = useState(false);
   const [timeouts, setTimeouts] = useState({}); // State to keep track of timeouts
   const [mySeats, setMySeats] = useState([]);
-  const [blocks, setBlocks] = useState([]); // State for seat blocks
 
   useEffect(() => {
     if (id && partId) {
@@ -24,15 +24,10 @@ function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
         .then((newSeats) => {
           setSeats(newSeats);
           setSelectedSeats(newSeats);
-         
-          // Parse blocks data (replace 'numOfRowsAndSeats' with the actual field name from the data)
-          console.log(blocksOfPart)
-          const blocksData = parseBlocks(blocksOfPart);
-          
-          setBlocks(blocksData);
         });
     }
   }, [id, partId]);
+  console.log("myseats", mySeats);
 
   // Group seats by rowNumber
   const groupedSeats = selectedSeats.reduce((acc, seat) => {
@@ -42,30 +37,40 @@ function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
     acc[seat.rowNumber].push(seat);
     return acc;
   }, {});
-  console.log('groupedSeats', groupedSeats);
+
+  // הגדרת הפונקציה לצילום המסך
+  const captureScreenshot = () => {
+    html2canvas(document.body).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'screenshot.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  };
 
   const handleSeatChosen = (seatId) => {
-    setSelectedSeats((prevSelectedSeats) =>
-      prevSelectedSeats.map((selectedSeat) => {
+    setSelectedSeats((prevSelectedSeats) => {
+      return prevSelectedSeats.map((selectedSeat) => {
         if (selectedSeat.seatId === seatId) {
           if (selectedSeat.seatIsTaken) {
             clearTimeout(timeouts[seatId]);
             const newTimeouts = { ...timeouts };
             delete newTimeouts[seatId];
             setTimeouts(newTimeouts);
-            setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
             return { ...selectedSeat, seatIsTaken: false };
           } else {
             const timeout = setTimeout(() => {
-              setSelectedSeats((prevSelectedSeats) =>
-                prevSelectedSeats.map((s) => {
+              setSelectedSeats((prevSelectedSeats) => {
+                return prevSelectedSeats.map((s) => {
                   if (s.seatId === seatId) {
                     return { ...s, seatIsTaken: false };
                   }
                   return s;
-                })
+                });
+              });
+              setMySeats((prevMySeats) =>
+                prevMySeats.filter((s) => s.seatId !== seatId)
               );
-              setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
               const newTimeouts = { ...timeouts };
               delete newTimeouts[seatId];
               setTimeouts(newTimeouts);
@@ -76,13 +81,13 @@ function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
               [seatId]: timeout,
             }));
 
-            setMySeats((prevMySeats) => [...prevMySeats, selectedSeat]);
+            setMySeats((prevMySeats) => [...prevMySeats,selectedSeat]);
             return { ...selectedSeat, seatIsTaken: true };
           }
         }
         return selectedSeat;
-      })
-    );
+      });
+    });
   };
 
   const handleMouseOver = () => {
@@ -95,6 +100,7 @@ function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
 
   const handleContinue = () => {
     setShowPersonalInformation(true);
+    captureScreenshot(); // קריאה לפונקציה לצילום המסך
   };
 
   const handlePayment = () => {
@@ -104,17 +110,6 @@ function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
     setTimeouts({});
   };
 
-  // Function to parse blocks data
-  const parseBlocks = (blockString) => {
-    return blockString.split('-').map(block => {
-      const [rows, seatsPerRow] = block.split(',').map(Number);
-      return { rows, seatsPerRow };
-    });
-  };
-
-const handleGroupedBlocks = (rowIndex,seatIndex,blockIndex) =>{
-
-}
   return (
     <div>
       {!showPersonalInformation && (
@@ -137,36 +132,35 @@ const handleGroupedBlocks = (rowIndex,seatIndex,blockIndex) =>{
           </div>
           <div className="seats-container">
             {Array.isArray(selectedSeats) &&
-              blocks.map((block, blockIndex) => (
-                <div key={blockIndex} className="seat-block">
-                  {Array.from({ length: block.rows }, (_, rowIndex) => (
-                    <div key={rowIndex} className="seat-row">
-                      {Array.from({ length: block.seatsPerRow }, (_, seatIndex) => {
-                        const groupedBlocks = handleGroupedBlocks[rowIndex,seatIndex,blockIndex];
-                        const seat = groupedSeats[rowIndex] && groupedSeats[rowIndex][seatIndex];
-                        return (
-                          <div
-                            key={seat ? seat.seatId : `empty-${seatIndex}`}
-                            className={`seat-item ${seat && !seat.seatIsVisible ? "invisible-seat" : ""}`}
-                          >
-                            {seat && seat.seatIsVisible && (
-                              <button
-                                onClick={() => {
-                                  handleSeatChosen(seat.seatId);
-                                }}
-                                className="btnSeats"
-                                style={{
-                                  backgroundColor: seat.seatIsTaken ? "grey" : "initial",
-                                  color: seat.seatIsTaken ? "white" : "initial",
-                                  cursor: seat.seatIsTaken ? "not-allowed" : "pointer",
-                                }}
-                              >
-                                {seat.seatIsTaken ? "X" : seat.seatNumber}
-                              </button>
-                            )}
-                          </div>
-                        );
-                      })}
+              Object.keys(groupedSeats).map((rowNumber) => (
+                <div key={rowNumber} className="seat-row">
+                  {groupedSeats[rowNumber].map((seat) => (
+                    <div
+                      key={seat.seatId}
+                      className={`seat-item ${
+                        !seat.seatIsVisible ? "invisible-seat" : ""
+                      }`}
+                    >
+                      {seat.seatIsVisible && (
+                        <button
+                          onClick={() => {
+                            handleSeatChosen(seat.seatId);
+                          }}
+                          key={seat.seatId}
+                          className="btnSeats"
+                          style={{
+                            backgroundColor: seat.seatIsTaken
+                              ? "grey"
+                              : "initial",
+                            color: seat.seatIsTaken ? "white" : "initial",
+                            cursor: seat.seatIsTaken
+                              ? "not-allowed"
+                              : "pointer",
+                          }}
+                        >
+                          {seat.seatIsTaken ? "X" : seat.seatNumber}
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
