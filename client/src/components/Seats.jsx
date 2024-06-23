@@ -17,6 +17,7 @@ function Seats({ partId, partName, onBackToMap }) {
   const [mySeats, setMySeats] = useState([]);
 
   useEffect(() => {
+    console.log(partId);
     if (id && partId) {
       fetch(`http://localhost:3300/events/${id}/seatsView?partId=${partId}`)
         .then((res) => res.json())
@@ -25,7 +26,7 @@ function Seats({ partId, partName, onBackToMap }) {
           setSelectedSeats(newSeats);
         });
     }
-  }, [id, partId]);
+  }, [ partId]);
 
   // Group seats by rowNumber
   const groupedSeats = selectedSeats.reduce((acc, seat) => {
@@ -156,9 +157,7 @@ function Seats({ partId, partName, onBackToMap }) {
           <button className="continue-button" onClick={handleContinue}>
             CONTINUE
           </button>
-          <button className="continue-button" onClick={handlePayment}>
-            PAYED
-          </button>
+    
         </div>
       )}
       {showPersonalInformation && <PersonalInformation mySeats={mySeats} />}

@@ -49,6 +49,7 @@ function AuditoriumMap() {
     const handleClick = (part) => {
         console.log(part.partName, part.coords);
         setPartId(part.partId);
+        console.log(part.partId);
         setPartName(part.partName);
         setSeatsVisible(true);
     };
@@ -81,7 +82,7 @@ function AuditoriumMap() {
                     <h2>Take a seat in {selectedEvent.auditoriumName}</h2>
                     <svg key={selectedEvent.auditoriumId} viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
                         {map.map(part => (
-                            <g key={part.id} onClick={() => handleClick(part)}>
+                            <g key={part.partId} onClick={() => handleClick(part)}>
                                 <polygon
                                     points={part.coords}
                                     fill="black"
