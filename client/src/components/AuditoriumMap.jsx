@@ -10,7 +10,7 @@ function AuditoriumMap() {
     const [map, setMap] = useState([]);
     const [seatsVisible, setSeatsVisible] = useState(false);
     const [partId, setPartId] = useState(0);
-   
+    const [blocksOfPart, setBlocksOfPart] = useState("");
     const [partName, setPartName] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -38,6 +38,7 @@ function AuditoriumMap() {
         try {
             const response = await fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${auditoriumId}`);
             const newMap = await response.json();
+            console.log(newMap);
             setMap(newMap);
             setLoading(false);
         } catch (error) {
@@ -49,7 +50,7 @@ function AuditoriumMap() {
     const handleClick = (part) => {
         console.log(part.partName, part.coords);
         setPartId(part.partId);
-        console.log(part.partId);
+        setBlocksOfPart(map[partId].numOfRowsAndSeats)
         setPartName(part.partName);
         setSeatsVisible(true);
     };
@@ -104,7 +105,7 @@ function AuditoriumMap() {
                 </>
             )}
             {seatsVisible && (
-                <Seats partId={partId} partName={partName} onBackToMap={handleBackToMap} />
+                <Seats partId={partId} partName={partName} blocksOfPart={blocksOfPart}onBackToMap={handleBackToMap} />
             )}
         </div>
     );

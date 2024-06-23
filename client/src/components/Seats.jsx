@@ -4,29 +4,35 @@ import "../css/Seats.css";
 import PersonalInformation from "./PersonalInformation";
 import { EventContext } from "../components/App";
 
-function Seats({ partId, partName, onBackToMap }) {
+function Seats({ partId, partName, onBackToMap, blocksOfPart }) {
   const { id } = useParams();
 
+  const { selectedEvent } = useContext(EventContext);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showPersonalInformation, setShowPersonalInformation] = useState(false);
-  const { selectedEvent } = useContext(EventContext);
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [purchaseMade, setPurchaseMade] = useState(false);
   const [timeouts, setTimeouts] = useState({}); // State to keep track of timeouts
   const [mySeats, setMySeats] = useState([]);
+  const [blocks, setBlocks] = useState([]); // State for seat blocks
 
   useEffect(() => {
-    console.log(partId);
     if (id && partId) {
       fetch(`http://localhost:3300/events/${id}/seatsView?partId=${partId}`)
         .then((res) => res.json())
         .then((newSeats) => {
           setSeats(newSeats);
           setSelectedSeats(newSeats);
+         
+          // Parse blocks data (replace 'numOfRowsAndSeats' with the actual field name from the data)
+          console.log(blocksOfPart)
+          const blocksData = parseBlocks(blocksOfPart);
+          
+          setBlocks(blocksData);
         });
     }
-  }, [ partId]);
+  }, [id, partId]);
 
   // Group seats by rowNumber
   const groupedSeats = selectedSeats.reduce((acc, seat) => {
@@ -36,10 +42,11 @@ function Seats({ partId, partName, onBackToMap }) {
     acc[seat.rowNumber].push(seat);
     return acc;
   }, {});
+  console.log('groupedSeats', groupedSeats);
 
   const handleSeatChosen = (seatId) => {
-    setSelectedSeats((prevSelectedSeats) => {
-      return prevSelectedSeats.map((selectedSeat) => {
+    setSelectedSeats((prevSelectedSeats) =>
+      prevSelectedSeats.map((selectedSeat) => {
         if (selectedSeat.seatId === seatId) {
           if (selectedSeat.seatIsTaken) {
             clearTimeout(timeouts[seatId]);
@@ -50,14 +57,14 @@ function Seats({ partId, partName, onBackToMap }) {
             return { ...selectedSeat, seatIsTaken: false };
           } else {
             const timeout = setTimeout(() => {
-              setSelectedSeats((prevSelectedSeats) => {
-                return prevSelectedSeats.map((s) => {
+              setSelectedSeats((prevSelectedSeats) =>
+                prevSelectedSeats.map((s) => {
                   if (s.seatId === seatId) {
                     return { ...s, seatIsTaken: false };
                   }
                   return s;
-                });
-              });
+                })
+              );
               setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
               const newTimeouts = { ...timeouts };
               delete newTimeouts[seatId];
@@ -74,8 +81,8 @@ function Seats({ partId, partName, onBackToMap }) {
           }
         }
         return selectedSeat;
-      });
-    });
+      })
+    );
   };
 
   const handleMouseOver = () => {
@@ -97,6 +104,17 @@ function Seats({ partId, partName, onBackToMap }) {
     setTimeouts({});
   };
 
+  // Function to parse blocks data
+  const parseBlocks = (blockString) => {
+    return blockString.split('-').map(block => {
+      const [rows, seatsPerRow] = block.split(',').map(Number);
+      return { rows, seatsPerRow };
+    });
+  };
+
+const handleGroupedBlocks = (rowIndex,seatIndex,blockIndex) =>{
+
+}
   return (
     <div>
       {!showPersonalInformation && (
@@ -119,35 +137,36 @@ function Seats({ partId, partName, onBackToMap }) {
           </div>
           <div className="seats-container">
             {Array.isArray(selectedSeats) &&
-              Object.keys(groupedSeats).map((rowNumber) => (
-                <div key={rowNumber} className="seat-row">
-                  {groupedSeats[rowNumber].map((seat) => (
-                    <div
-                      key={seat.seatId}
-                      className={`seat-item ${
-                        !seat.seatIsVisible ? "invisible-seat" : ""
-                      }`}
-                    >
-                      {seat.seatIsVisible && (
-                        <button
-                          onClick={() => {
-                            handleSeatChosen(seat.seatId);
-                          }}
-                          key={seat.seatId}
-                          className="btnSeats"
-                          style={{
-                            backgroundColor: seat.seatIsTaken
-                              ? "grey"
-                              : "initial",
-                            color: seat.seatIsTaken ? "white" : "initial",
-                            cursor: seat.seatIsTaken
-                              ? "not-allowed"
-                              : "pointer",
-                          }}
-                        >
-                          {seat.seatIsTaken ? "X" : seat.seatNumber}
-                        </button>
-                      )}
+              blocks.map((block, blockIndex) => (
+                <div key={blockIndex} className="seat-block">
+                  {Array.from({ length: block.rows }, (_, rowIndex) => (
+                    <div key={rowIndex} className="seat-row">
+                      {Array.from({ length: block.seatsPerRow }, (_, seatIndex) => {
+                        const groupedBlocks = handleGroupedBlocks[rowIndex,seatIndex,blockIndex];
+                        const seat = groupedSeats[rowIndex] && groupedSeats[rowIndex][seatIndex];
+                        return (
+                          <div
+                            key={seat ? seat.seatId : `empty-${seatIndex}`}
+                            className={`seat-item ${seat && !seat.seatIsVisible ? "invisible-seat" : ""}`}
+                          >
+                            {seat && seat.seatIsVisible && (
+                              <button
+                                onClick={() => {
+                                  handleSeatChosen(seat.seatId);
+                                }}
+                                className="btnSeats"
+                                style={{
+                                  backgroundColor: seat.seatIsTaken ? "grey" : "initial",
+                                  color: seat.seatIsTaken ? "white" : "initial",
+                                  cursor: seat.seatIsTaken ? "not-allowed" : "pointer",
+                                }}
+                              >
+                                {seat.seatIsTaken ? "X" : seat.seatNumber}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   ))}
                 </div>
@@ -157,7 +176,6 @@ function Seats({ partId, partName, onBackToMap }) {
           <button className="continue-button" onClick={handleContinue}>
             CONTINUE
           </button>
-    
         </div>
       )}
       {showPersonalInformation && <PersonalInformation mySeats={mySeats} />}
