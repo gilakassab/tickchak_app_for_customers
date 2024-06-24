@@ -59,7 +59,7 @@ async function postUser(userName,userPhone,userEmail) {
   try {
     const sql = 'INSERT INTO users (userName,userPhone,userEmail) VALUES (?, ?, ?)';
     const result = await pool.query(sql, [userName,userPhone,userEmail])
-    return { result }; 
+    return result[0].insertId; 
   } catch (err) {
     console.log(err);
     throw err; 
@@ -67,4 +67,4 @@ async function postUser(userName,userPhone,userEmail) {
 }
 
 
-// module.exports = {postUser}
+module.exports = {postUser}

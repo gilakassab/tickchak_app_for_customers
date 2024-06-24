@@ -6,6 +6,24 @@
     background-color: transparent; /* רקע שקוף */
   }
 
+  .producer-button {
+    background-color: #7fcbd3; /* רקע ירוק */
+    color: white; /* צבע טקסט לבן */
+    border: none; /* אין גבול */
+    padding: 10px 20px; /* מרווחים פנימיים */
+    text-align: center; /* יישור טקסט למרכז */
+    text-decoration: none; /* אין קישור דיגיטלי */
+    display: inline-block; /* הצגה ככפתור */
+    font-size: 16px; /* גודל פונט */
+    margin-right: 10px; /* מרווח מימין */
+    cursor: pointer; /* מחוון יד */
+  }
+  
+  .producer-button:hover {
+    background-color: #55dfef; /* רקע ירוק כהה בעת העכבות */
+  }
+  
+
   .site-logo {
     background: none;
     border: none;

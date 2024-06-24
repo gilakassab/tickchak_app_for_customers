@@ -14,6 +14,10 @@ function MainHeader({ headerPage }) {
     navigate(`/tickchak`);
   };
 
+  const producerClicked = () => {
+    navigate("/login"); // הפניה לקומפוננטת ההתחברות (LogIn)
+  };
+
   return (
     <header className="main-header">
       <button className="site-logo" onClick={logoClicked}>
@@ -30,6 +34,9 @@ function MainHeader({ headerPage }) {
           <a className="nav-link1" href="#contact">
             Contact Us
           </a>
+          <button className="producer-button" onClick={producerClicked}>
+            Producer
+          </button>
         </nav>
       )}
       {headerPage === "event" && (
