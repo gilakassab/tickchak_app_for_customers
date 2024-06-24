@@ -1,0 +1,72 @@
+.main-header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: transparent; /* רקע שקוף */
+  }
+
+  .site-logo {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .nav-header1 {
+    justify-content: center;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-button {
+    background-color: transparent; /* רקע שקוף */
+    color: #333;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 1px solid #7fcbd3;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .nav-button:hover {
+    background-color:  #7fcbd3;
+    border-color: #7fcbd3; /* צבע מסגרת תכלת בעת העברה */
+    color: #161616;
+  }
+  
+  .nav-button.active {
+    background-color: #7fcbd3; /* צבע תכלת גם לכפתור פעיל */
+    border-color: #7fcbd3; /* צבע מסגרת תכלת גם לכפתור פעיל */
+    color: #161616;
+  }
+  
+  .nav-button:focus {
+    outline: none; /* הסרת ההדגשה בפוקוס */
+  }
+  
+  .nav-link1 {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  .nav-link1:hover {
+    text-decoration: underline;
+    color: #161616;
+  }
+  
+  .nav-link1.active {
+    font-weight: bold;
+    color: #161616;
+  }
+
+  .p-header{
+    font-size: 12px;
+  }
+  

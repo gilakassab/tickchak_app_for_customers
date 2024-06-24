@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import Finish from './Finish';
 import "../css/Payment.css";
 
-const Payment = ({mySeats,personalInfo}) => {
+const Payment = ({mySeats,personalInfo,timer}) => {
   const [paymentMade, setPaymentMade] = useState(false);
 
   const handleClickSubmit = (event) => {
     event.preventDefault();
     setPaymentMade(true);
   }
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "../css/Seats.css";
 import PersonalInformation from "./PersonalInformation";
@@ -15,7 +15,10 @@ function Seats({ partId, partName, onBackToMap }) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [purchaseMade, setPurchaseMade] = useState(false);
   const [timeouts, setTimeouts] = useState({});
+ 
   const [mySeats, setMySeats] = useState([]);
+  const [timer, setTimer] = useState(600); // 10 minutes timer in seconds
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     if (id && partId) {
@@ -49,6 +52,22 @@ function Seats({ partId, partName, onBackToMap }) {
     localStorage.setItem("screenshot", finalImage);
     return finalImage;
   };
+  useEffect(() => {
+    if (timer === 0) {
+      clearInterval(intervalRef.current);
+      setSelectedSeats(prevSelectedSeats =>
+        prevSelectedSeats.map(seat => ({
+          ...seat,
+          seatIsTaken: false
+        }))
+      );
+      setMySeats([]);
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   const handleSeatChosen = (seatId) => {
     setSelectedSeats((prevSelectedSeats) => {
@@ -60,6 +79,7 @@ function Seats({ partId, partName, onBackToMap }) {
             delete newTimeouts[seatId];
             setTimeouts(newTimeouts);
             setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
+            
             return { ...selectedSeat, seatIsTaken: false };
           } else {
             const timeout = setTimeout(() => {
@@ -72,10 +92,12 @@ function Seats({ partId, partName, onBackToMap }) {
                 });
               });
               setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
+              setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
               const newTimeouts = { ...timeouts };
               delete newTimeouts[seatId];
               setTimeouts(newTimeouts);
             }, 10 * 60 * 1000); // 10 minutes timeout
+  
   
             setTimeouts((prevTimeouts) => ({
               ...prevTimeouts,
@@ -108,13 +130,14 @@ function Seats({ partId, partName, onBackToMap }) {
 
   const handleContinue = async () => {
     setShowPersonalInformation(true);
-    const screenshot = await captureScreenshot();
+    captureScreenshot();
   };
 
   const handlePayment = () => {
     setPurchaseMade(true);
     setSeats(selectedSeats);
     Object.values(timeouts).forEach(clearTimeout);
+  
     setTimeouts({});
   };
 
@@ -138,19 +161,13 @@ function Seats({ partId, partName, onBackToMap }) {
           <h2>
             Take a seat in {selectedEvent.auditoriumName} | {partName}
           </h2>
-          <div className="back-button-container">
-            <button
-              className="back-button"
-              onClick={onBackToMap}
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              ⇦
-            </button>
-            {showTooltip && (
-              <div className="back-button-tooltip">blocks map</div>
-            )}
-          </div>
+          {/* Conditional rendering of the timer */}
+          {mySeats.length > 0 && (
+            <div className="timer-circle">
+              {formatTime(timer)}
+            </div>
+          )}
+
           <div className="seats-container">
             {Array.isArray(selectedSeats) &&
               Object.keys(groupedSeats).map((rowNumber) => (
@@ -187,13 +204,26 @@ function Seats({ partId, partName, onBackToMap }) {
                 </div>
               ))}
           </div>
+          <div className="back-button-container">
+            <button
+              className="back-button"
+              onClick={onBackToMap}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              ⇦
+            </button>
+            {showTooltip && (
+              <div className="back-button-tooltip">blocks map</div>
+            )}
+          </div>
 
           <button className="continue-button" onClick={handleContinue}>
             CONTINUE
           </button>
         </div>
       )}
-      {showPersonalInformation && <PersonalInformation mySeats={mySeats} />}
+      {showPersonalInformation && <PersonalInformation mySeats={mySeats} timer={timer} />}
     </div>
   );
 }

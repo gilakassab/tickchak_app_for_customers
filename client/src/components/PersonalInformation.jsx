@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
-const PersonalInformation = ({ mySeats }) => {
+const PersonalInformation = ({ mySeats, timer, onContinue }) => {
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
@@ -20,6 +21,7 @@ const PersonalInformation = ({ mySeats }) => {
     event.preventDefault();
     setShowPersonalInformation(false);
     setShowPayment(true);
+    onContinue('payment');
   };
 
   const calculateTotal = () => {
@@ -27,10 +29,21 @@ const PersonalInformation = ({ mySeats }) => {
     return mySeats.length * pricePerSeat;
   };
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
   return (
     <div className="personal-information-container">
       {showPersonalInformation && (
         <>
+         {mySeats.length > 0 && (
+            <div className="timer-circle">
+              {formatTime(timer)}
+            </div>
+          )}
           <div className="personal-information">
             <h2>Personal Information</h2>
             <form>

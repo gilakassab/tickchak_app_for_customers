@@ -20,16 +20,15 @@ function Timer({ eventDate, eventBeginAt }) {
       const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-      // יצירת המחרוזת של הטקסט המוצג
-      const formattedTimeRemaining = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-
-      // עדכון הזמן הנותר בסטייט
-      setTimeRemaining(formattedTimeRemaining);
-
-      // בדיקה האם הזמן נגמר, ואם כן - נסיון לנקות את הטיימר
+      // בדיקה האם הזמן נגמר, ואם כן - עצירה ועדכון הזמן ל-00:00:00:00
       if (timeDiff <= 0) {
         clearInterval(interval);
+        setTimeRemaining('00:00:00:00');
+      } else {
+        // יצירת המחרוזת של הטקסט המוצג
+        const formattedTimeRemaining = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        // עדכון הזמן הנותר בסטייט
+        setTimeRemaining(formattedTimeRemaining);
       }
     }, 1000);
 

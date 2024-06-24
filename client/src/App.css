@@ -117,30 +117,7 @@ body {
   text-decoration: none;
 }
 
-.nav-header1 {
 
-  justify-content: center;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-link1 {
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-}
-
-.nav-link1:hover {
-  text-decoration: underline;
-  color: #161616;
-}
-
-.nav-link1.active {
-  font-weight: bold;
-  text-decoration: underline;
-  color: #161616;
-  text-decoration-color:rgba(233, 13, 115, 0.838);
-}
 
 /* contact */
 .contact-container {
