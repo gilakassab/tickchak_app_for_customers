@@ -57,6 +57,9 @@ function Seats({ partId, partName, onBackToMap }) {
             const newTimeouts = { ...timeouts };
             delete newTimeouts[seatId];
             setTimeouts(newTimeouts);
+            setMySeats((prevMySeats) =>
+              prevMySeats.filter((s) => s.seatId !== seatId)
+            );
             return { ...selectedSeat, seatIsTaken: false };
           } else {
             const timeout = setTimeout(() => {
