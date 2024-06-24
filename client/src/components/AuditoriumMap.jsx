@@ -4,7 +4,7 @@ import { EventContext } from './App';
 import '../css/AuditoriumMap.css'; // Ensure this CSS file exists
 import Seats from './Seats';
 
-function AuditoriumMap() {
+function AuditoriumMap({ onContinue }) {
     const { selectedEvent, setSelectedEvent } = useContext(EventContext);
     const { id } = useParams(); // Get event ID from URL
     const [map, setMap] = useState([]);
@@ -104,7 +104,7 @@ function AuditoriumMap() {
                 </>
             )}
             {seatsVisible && (
-                <Seats partId={partId} partName={partName} blocksOfPart={blocksOfPart}onBackToMap={handleBackToMap} />
+                <Seats partId={partId} partName={partName} blocksOfPart={blocksOfPart} onBackToMap={handleBackToMap} onContinue={onContinue} />
             )}
         </div>
     );

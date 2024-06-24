@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-// import '../css/PersonalInformation.css';
+import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
-const PersonalInformation = ({ mySeats }) => {
+const PersonalInformation = ({ mySeats, timer, onContinue }) => {
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
-console.log(mySeats);
+
   const handleContinue = (event) => {
     event.preventDefault();
     setShowPersonalInformation(false);
     setShowPayment(true);
+    onContinue('payment');
   };
 
   const calculateTotal = () => {
@@ -17,10 +18,21 @@ console.log(mySeats);
     return mySeats.length * pricePerSeat;
   };
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
   return (
     <div className="personal-information-container">
       {showPersonalInformation && (
         <>
+         {mySeats.length > 0 && (
+            <div className="timer-circle">
+              {formatTime(timer)}
+            </div>
+          )}
           <div className="personal-information">
             <h2>Personal Information</h2>
             <form>
@@ -61,7 +73,7 @@ console.log(mySeats);
         </>
       )}
 
-      {showPayment && <Payment />}
+      {showPayment && <Payment mySeats={mySeats} timer={timer} />}
     </div>
   );
 };

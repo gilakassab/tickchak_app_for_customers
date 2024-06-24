@@ -37,4 +37,26 @@ body {
       margin-left: 1110px;
 
   }
+  /*
+  .timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.timer > div {
+  display: inline-block;
+  margin: 0 5px;
+  width: 40px;
+  height: 40px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 5px;
+}
+
+  */
   

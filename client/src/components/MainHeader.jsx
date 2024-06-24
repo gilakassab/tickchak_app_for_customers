@@ -1,86 +1,70 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "../css/MainHeader.css";
 
 function MainHeader({ headerPage }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const activeStyles = {
-    fontWeight: "bold",
-    textDecoration: "underline",
-    color: "#161616",
-    textDecorationColor: "rgb(127, 205, 179)",
-  };
-
   const tickectHereClicked = () => {
     navigate(`/tickchak/event/${id}/order`);
   };
 
+  const logoClicked = () => {
+    navigate(`/tickchak`);
+  };
+
   return (
-    <>
+    <header className="main-header">
+      <button className="site-logo" onClick={logoClicked}>
+        Tickchak
+      </button>
       {headerPage === "home" && (
-        <header className="main-header">
-          <a className="site-logo" href="#home">
-            Tickchak
+        <nav className="nav-header1">
+          <a className="nav-link1" href="#home">
+            Home
           </a>
-          <nav className="nav-header1">
-            <a className="nav-link1" href="#home" style={activeStyles}>
-              Home
-            </a>
-            <a className="nav-link1" href="#about" style={activeStyles}>
-              About Us
-            </a>
-            <a className="nav-link1" href="#contact" style={activeStyles}>
-              Contact Us
-            </a>
-          </nav>
-        </header>
+          <a className="nav-link1" href="#about">
+            About Us
+          </a>
+          <a className="nav-link1" href="#contact">
+            Contact Us
+          </a>
+        </nav>
       )}
       {headerPage === "event" && (
-        <header className="main-header">
-          <a className="site-logo" href="#home">
-            Tickchak
+        <nav className="nav-header1">
+          <a className="nav-link1" href="#showcase">
+            Showcase
+          </a>
+          <a className="nav-link1" href="#contact">
+            Contact Us
           </a>
           <button className="buttonTicketHere" onClick={tickectHereClicked}>
             Tickets here!
           </button>
-          <nav className="nav-header1">
-            <a className="nav-link1" href="#showcase" style={activeStyles}>
-              Showcase
-            </a>
-            <a className="nav-link1" href="#contact" style={activeStyles}>
-              Contact Us
-            </a>
-          </nav>
-        </header>
+        </nav>
       )}
       {headerPage === "order" && (
-        <header className="main-header">
-          {/* <a className="site-logo" href="#home">Tickchak</a> */}
-          {/* <button className='buttonTicketHere' onClick={tickectHereClicked}>Tickets here!</button> */}
-          <nav className="nav-header1">
-            <button className="buttonTicketHere" style={activeStyles}>
-              {" "}
-              order
-            </button>
-            <p>➟</p>
-            <button className="buttonTicketHere" style={activeStyles}>
-              Personal Information
-            </button>
-            <p>➟</p>
-            <button className="buttonTicketHere" style={activeStyles}>
-              Payment
-            </button>
-            <p>➟</p>
-            <button className="buttonTicketHere" style={activeStyles}>
-              Finish
-            </button>
-            {/* <a className="nav-link1" href="#showcase" style={activeStyles}>Showcase</a>
-                        <a className="nav-link1" href="#contact" style={activeStyles}>Contact Us</a> */}
-          </nav>
-        </header>
+        <nav className="nav-header1">
+          <button className={`nav-button ${headerPage === 'order' ? 'active' : ''}`}>
+            Order
+          </button>
+          <p className="p-header">➟</p>
+          <button className={`nav-button ${headerPage === 'personalInformation' ? 'active' : ''}`}>
+            Personal Information
+          </button>
+          <p className="p-header">➟</p>
+          <button className={`nav-button ${headerPage === 'payment' ? 'active' : ''}`}>
+            Payment
+          </button>
+          <p className="p-header">➟</p>
+          <button className="nav-button">
+            Finish
+          </button>
+        </nav>
       )}
-    </>
+    </header>
   );
 }
 

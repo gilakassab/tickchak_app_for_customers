@@ -1,10 +1,21 @@
 import React from 'react';
 import "../css/Payment.css";
 
-const Payment = () => {
+const Payment = ({mySeats, timer}) => {
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  };
   return (
     <div>
       <h2>Payment</h2>
+      {mySeats.length > 0 && (
+        <div className="timer-circle">
+          {formatTime(timer)}
+        </div>
+      )}
       <form>
         <div className="form-group">
           <label htmlFor="cardNumber">Card Number</label>

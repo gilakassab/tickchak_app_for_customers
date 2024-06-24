@@ -117,3 +117,30 @@ button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+
+
+
+/* Other styles... */
+
+
+
+
+
+.timer-circle {
+    position: fixed; /* מיקום קבוע על הדף */
+    top: 30px; /* מרווח מלמעלה של העמוד */
+    right: 40px; /* מרווח משמאל של העמוד */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    z-index: 1000; /* שכבה גבוהה יותר מכל האלמנטים האחרים */
+  }
+  

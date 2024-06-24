@@ -1,21 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "../css/Seats.css";
 import PersonalInformation from "./PersonalInformation";
 import { EventContext } from "../components/App";
-import html2canvas from 'html2canvas'; // ייבוא הספרייה html2canvas
+import html2canvas from 'html2canvas';
 
 function Seats({ partId, partName, onBackToMap }) {
   const { id } = useParams();
-
   const [showTooltip, setShowTooltip] = useState(false);
   const [showPersonalInformation, setShowPersonalInformation] = useState(false);
   const { selectedEvent } = useContext(EventContext);
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [purchaseMade, setPurchaseMade] = useState(false);
-  const [timeouts, setTimeouts] = useState({}); // State to keep track of timeouts
+  const [timeouts, setTimeouts] = useState({});
   const [mySeats, setMySeats] = useState([]);
+  const [timer, setTimer] = useState(600); // 10 minutes timer in seconds
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     if (id && partId) {
@@ -27,9 +28,24 @@ function Seats({ partId, partName, onBackToMap }) {
         });
     }
   }, [id, partId]);
-  console.log("myseats", mySeats);
 
-  // Group seats by rowNumber
+  useEffect(() => {
+    if (timer === 0) {
+      clearInterval(intervalRef.current);
+      setSelectedSeats(prevSelectedSeats =>
+        prevSelectedSeats.map(seat => ({
+          ...seat,
+          seatIsTaken: false
+        }))
+      );
+      setMySeats([]);
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
   const groupedSeats = selectedSeats.reduce((acc, seat) => {
     if (!acc[seat.rowNumber]) {
       acc[seat.rowNumber] = [];
@@ -38,7 +54,6 @@ function Seats({ partId, partName, onBackToMap }) {
     return acc;
   }, {});
 
-  // הגדרת הפונקציה לצילום המסך
   const captureScreenshot = () => {
     html2canvas(document.body).then(canvas => {
       const link = document.createElement('a');
@@ -57,9 +72,7 @@ function Seats({ partId, partName, onBackToMap }) {
             const newTimeouts = { ...timeouts };
             delete newTimeouts[seatId];
             setTimeouts(newTimeouts);
-            setMySeats((prevMySeats) =>
-              prevMySeats.filter((s) => s.seatId !== seatId)
-            );
+            setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
             return { ...selectedSeat, seatIsTaken: false };
           } else {
             const timeout = setTimeout(() => {
@@ -71,20 +84,31 @@ function Seats({ partId, partName, onBackToMap }) {
                   return s;
                 });
               });
-              setMySeats((prevMySeats) =>
-                prevMySeats.filter((s) => s.seatId !== seatId)
-              );
+              setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
               const newTimeouts = { ...timeouts };
               delete newTimeouts[seatId];
               setTimeouts(newTimeouts);
             }, 10 * 60 * 1000); // 10 minutes timeout
-
+  
             setTimeouts((prevTimeouts) => ({
               ...prevTimeouts,
               [seatId]: timeout,
             }));
-
-            setMySeats((prevMySeats) => [...prevMySeats,selectedSeat]);
+  
+            setMySeats((prevMySeats) => {
+              if (prevMySeats.some((s) => s.seatId === seatId)) {
+                return prevMySeats;
+              } else {
+                return [...prevMySeats, selectedSeat];
+              }
+            });
+  
+            if (mySeats.length === 0) {
+              intervalRef.current = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+              }, 1000);
+            }
+  
             return { ...selectedSeat, seatIsTaken: true };
           }
         }
@@ -103,14 +127,21 @@ function Seats({ partId, partName, onBackToMap }) {
 
   const handleContinue = () => {
     setShowPersonalInformation(true);
-    captureScreenshot(); // קריאה לפונקציה לצילום המסך
+    captureScreenshot();
   };
 
   const handlePayment = () => {
     setPurchaseMade(true);
     setSeats(selectedSeats);
-    Object.values(timeouts).forEach(clearTimeout); // Clear all timeouts
+    Object.values(timeouts).forEach(clearTimeout);
     setTimeouts({});
+    clearInterval(intervalRef.current);
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
   return (
@@ -120,19 +151,13 @@ function Seats({ partId, partName, onBackToMap }) {
           <h2>
             Take a seat in {selectedEvent.auditoriumName} | {partName}
           </h2>
-          <div className="back-button-container">
-            <button
-              className="back-button"
-              onClick={onBackToMap}
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              ⇦
-            </button>
-            {showTooltip && (
-              <div className="back-button-tooltip">blocks map</div>
-            )}
-          </div>
+          {/* Conditional rendering of the timer */}
+          {mySeats.length > 0 && (
+            <div className="timer-circle">
+              {formatTime(timer)}
+            </div>
+          )}
+
           <div className="seats-container">
             {Array.isArray(selectedSeats) &&
               Object.keys(groupedSeats).map((rowNumber) => (
@@ -169,13 +194,26 @@ function Seats({ partId, partName, onBackToMap }) {
                 </div>
               ))}
           </div>
+          <div className="back-button-container">
+            <button
+              className="back-button"
+              onClick={onBackToMap}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              ⇦
+            </button>
+            {showTooltip && (
+              <div className="back-button-tooltip">blocks map</div>
+            )}
+          </div>
 
           <button className="continue-button" onClick={handleContinue}>
             CONTINUE
           </button>
         </div>
       )}
-      {showPersonalInformation && <PersonalInformation mySeats={mySeats} />}
+      {showPersonalInformation && <PersonalInformation mySeats={mySeats} timer={timer} />}
     </div>
   );
 }
