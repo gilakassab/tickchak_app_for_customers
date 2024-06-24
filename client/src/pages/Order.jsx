@@ -6,8 +6,8 @@ function Order() {
   return (
     <div>
 <MainHeader headerPage={'order'} />
-
 <AuditoriumMap />
+
     </div>
   )
 }

@@ -1,68 +1,47 @@
-const model = require('../model/usersModel');
-// const bcrypt = require('bcrypt');
-// const crypto = require('crypto');
+const model = require('../models/UsersModel');
+const { get } = require('../routes/usersRoute');
 
 
-// async function getUserById(id) {
+// async function getEventById(id) {
 //     try {
-//         return model.getUser(id);
-//     } catch (err) {
-//         throw err;
-//     }
-
-// }
-// async function getUserByIdWithPassword(userName,password) {
-//     try {
-//         const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-//         const userPassword =  model.getUserWithPassword(userName);
-      
-//         if (user && userPassword === hashedPassword) {
-//             return user; // סיסמה תואמת
-//         } else {
-//             return null; // סיסמה לא תואמת או משתמש לא קיים
-//         }
-//     } catch (err) {
-//         throw err;
-//     }
-
-// }
-// async function checkIfUserExistsByUsername(userName) {
-//     try {
-//         return model.checkByUsername(userName);
-//     } catch (err) {
-//         throw err;
-//     }
-
-// }
-// async function getAllUsers() {
-//     try {
-//         return model.getAllUsers();
-//     } catch (err) {
-//         throw err;
-//     }
-// }
-// async function deleteUserById(id) {
-//     try {
-//         return model.deleteUser(id);
-//     } catch (err) {
-//         throw err;
-//     }
-
-// }
-// async function putUserController(id,name,username,email,street, city,phone) {
-//     try {
-//         return model.putUser(id,name,username,email,street, city,phone);
+//         return await model.getEventById(id);
 //     } catch (err) {
 //         throw err;
 //     }
 // }
 
-// async function postUserController(name, username,email,street,city,phone,password) {
+// async function getAllEvents(category, _start, _limit) {
+//     try {
+
+//         return model.getAllEvents(category, _start, _limit);
+//     } catch (err) {
+//         throw err;
+//     }
+// }
+
+// async function deleteEventById(id) {
+//     try {
+//         return model.deleteEvent(id);
+//     } catch (err) {
+//         throw err;
+//     }
+
+// }
+async function postUser(userName,userPhone,userEmail) {
+    try {
+        ;
+        return model.postUser(userName,userPhone,userEmail);
+    } catch (err) {
+        throw err;
+    }
+}
+
+// async function postEvent() {
 
 // try {
-//     const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-   
-//     return model.postUser(name, username, email, street, city, phone, hashedPassword);
+//     // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+
+//     return model.postEvent();
 // } catch (err) {
 //     throw err;
 // }
@@ -70,4 +49,4 @@ const model = require('../model/usersModel');
 // }
 
 
-// module.exports = { getUserById,getAllUsers,getUserByIdWithPassword,checkIfUserExistsByUsername ,deleteUserById,putUserController,postUserController}
+module.exports = { postUser }

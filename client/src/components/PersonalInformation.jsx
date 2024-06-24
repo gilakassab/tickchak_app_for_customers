@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-// import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
 const PersonalInformation = ({ mySeats }) => {
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
-console.log(mySeats);
+  const [personalInfo, setPersonalInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPersonalInfo({ ...personalInfo, [name]: value });
+  };
+
   const handleContinue = (event) => {
     event.preventDefault();
     setShowPersonalInformation(false);
@@ -26,19 +36,43 @@ console.log(mySeats);
             <form>
               <div className="form-group">
                 <label htmlFor="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" />
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={personalInfo.firstName}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" />
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={personalInfo.lastName}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
-                <input type="email" id="email" name="email" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={personalInfo.email}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" />
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={personalInfo.phone}
+                  onChange={handleInputChange}
+                />
               </div>
               <button className="continue-button" onClick={handleContinue}>
                 Continue
@@ -61,7 +95,7 @@ console.log(mySeats);
         </>
       )}
 
-      {showPayment && <Payment />}
+      {showPayment && <Payment mySeats={mySeats} personalInfo={personalInfo} />}
     </div>
   );
 };

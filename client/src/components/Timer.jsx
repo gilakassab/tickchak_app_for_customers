@@ -8,7 +8,7 @@ function Timer({ eventDate, eventBeginAt }) {
       const now = new Date();
       const eventTime = new Date(eventDate);
       const [eventHour, eventMinute] = eventBeginAt.split(':');
-      eventTime.setHours(eventHour); // הגדרת שעת ההופעה
+      eventTime.setHours(eventHour); 
       eventTime.setMinutes(eventMinute);
     
       // חישוב הזמן הנותר עד להופעה הבאה
@@ -45,49 +45,4 @@ function Timer({ eventDate, eventBeginAt }) {
 }
 
 export default Timer;
-
-// const signIn = async (userName, password) => {
-//   try {
-//     const response = await fetch(`http://localhost:3000/signIn`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       credentials: "include",
-//       body: JSON.stringify({ userName, password }),
-//     });
-//     const userFromDB = await response.json();
-//     // console.log(userFromDB)
-//     if (response.ok) {
-//       // console.log("userFromDB")
-//       // console.log(userFromDB)
-//       setUser(userFromDB);
-//       navigate("./");
-//     } else {
-//       throw new Error(
-//         userFromDB.message || "An error occurred. Please try again."
-//       );
-//     }
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
-// router.post("/", async (req, res) => {
-// try {
-//   // console.log("sign in")
-//   const userName = req.body.userName;
-//   const password = req.body.password;
-//   const user = await getByPasswordAndUserName(password, userName);
-//   req.session.user = {
-//     id: user.id,
-//     username: user.userName,
-//     role: user.role,
-//   };
-//   res.status(200).send(user);
-// } catch (err) {
-//   if (err.message == "User does not exist in the system. Want to create an account? Contact Us 02-6237600 or yael.b@c-b-cpa.co.il")
-//     res.status(400).send({ message: err.message });
-//   else if (err.message == "the password or userName is incorrect")
-//     res.status(400).send({ message: err.message });
-//   else res.status(500).send({ message: err.message });
-// }
-// });
 

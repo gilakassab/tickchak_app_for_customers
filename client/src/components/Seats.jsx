@@ -3,18 +3,18 @@ import { useParams } from "react-router-dom";
 import "../css/Seats.css";
 import PersonalInformation from "./PersonalInformation";
 import { EventContext } from "../components/App";
-import html2canvas from 'html2canvas'; // ייבוא הספרייה html2canvas
+import html2canvas from 'html2canvas';
+import JsBarcode from 'jsbarcode';
 
 function Seats({ partId, partName, onBackToMap }) {
   const { id } = useParams();
-
   const [showTooltip, setShowTooltip] = useState(false);
   const [showPersonalInformation, setShowPersonalInformation] = useState(false);
   const { selectedEvent } = useContext(EventContext);
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [purchaseMade, setPurchaseMade] = useState(false);
-  const [timeouts, setTimeouts] = useState({}); // State to keep track of timeouts
+  const [timeouts, setTimeouts] = useState({});
   const [mySeats, setMySeats] = useState([]);
 
   useEffect(() => {
@@ -27,25 +27,27 @@ function Seats({ partId, partName, onBackToMap }) {
         });
     }
   }, [id, partId]);
-  console.log("myseats", mySeats);
 
-  // Group seats by rowNumber
-  const groupedSeats = selectedSeats.reduce((acc, seat) => {
-    if (!acc[seat.rowNumber]) {
-      acc[seat.rowNumber] = [];
-    }
-    acc[seat.rowNumber].push(seat);
-    return acc;
-  }, {});
+  const captureScreenshot = async () => {
+    const canvas = await html2canvas(document.body);
+    const screenshot = canvas.toDataURL("image/png");
 
-  // הגדרת הפונקציה לצילום המסך
-  const captureScreenshot = () => {
-    html2canvas(document.body).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'screenshot.png';
-      link.href = canvas.toDataURL();
-      link.click();
-    });
+    // יצירת הברקוד
+    const barcodeCanvas = document.createElement("canvas");
+    JsBarcode(barcodeCanvas, `Event: ${id}`, { format: "CODE128" });
+    const barcodeDataUrl = barcodeCanvas.toDataURL("image/png");
+
+    // הוספת הברקוד לתמונה
+    const finalCanvas = document.createElement("canvas");
+    finalCanvas.width = canvas.width;
+    finalCanvas.height = canvas.height + barcodeCanvas.height;
+    const ctx = finalCanvas.getContext("2d");
+    ctx.drawImage(canvas, 0, 0);
+    ctx.drawImage(barcodeCanvas, 0, canvas.height);
+
+    const finalImage = finalCanvas.toDataURL("image/png");
+    localStorage.setItem("screenshot", finalImage);
+    return finalImage;
   };
 
   const handleSeatChosen = (seatId) => {
@@ -57,9 +59,7 @@ function Seats({ partId, partName, onBackToMap }) {
             const newTimeouts = { ...timeouts };
             delete newTimeouts[seatId];
             setTimeouts(newTimeouts);
-            setMySeats((prevMySeats) =>
-              prevMySeats.filter((s) => s.seatId !== seatId)
-            );
+            setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
             return { ...selectedSeat, seatIsTaken: false };
           } else {
             const timeout = setTimeout(() => {
@@ -71,20 +71,25 @@ function Seats({ partId, partName, onBackToMap }) {
                   return s;
                 });
               });
-              setMySeats((prevMySeats) =>
-                prevMySeats.filter((s) => s.seatId !== seatId)
-              );
+              setMySeats((prevMySeats) => prevMySeats.filter((s) => s.seatId !== seatId));
               const newTimeouts = { ...timeouts };
               delete newTimeouts[seatId];
               setTimeouts(newTimeouts);
             }, 10 * 60 * 1000); // 10 minutes timeout
-
+  
             setTimeouts((prevTimeouts) => ({
               ...prevTimeouts,
               [seatId]: timeout,
             }));
-
-            setMySeats((prevMySeats) => [...prevMySeats,selectedSeat]);
+  
+            setMySeats((prevMySeats) => {
+              if (prevMySeats.some((s) => s.seatId === seatId)) {
+                return prevMySeats;
+              } else {
+                return [...prevMySeats, selectedSeat];
+              }
+            });
+  
             return { ...selectedSeat, seatIsTaken: true };
           }
         }
@@ -101,17 +106,30 @@ function Seats({ partId, partName, onBackToMap }) {
     setShowTooltip(false);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     setShowPersonalInformation(true);
-    captureScreenshot(); // קריאה לפונקציה לצילום המסך
+    const screenshot = await captureScreenshot();
   };
 
   const handlePayment = () => {
     setPurchaseMade(true);
     setSeats(selectedSeats);
-    Object.values(timeouts).forEach(clearTimeout); // Clear all timeouts
+    Object.values(timeouts).forEach(clearTimeout);
     setTimeouts({});
   };
+
+  // פונקציה לסידור המושבים לפי שורות
+  const groupSeatsByRows = (seats) => {
+    return seats.reduce((acc, seat) => {
+      if (!acc[seat.rowNumber]) {
+        acc[seat.rowNumber] = [];
+      }
+      acc[seat.rowNumber].push(seat);
+      return acc;
+    }, {});
+  };
+
+  const groupedSeats = groupSeatsByRows(selectedSeats);
 
   return (
     <div>

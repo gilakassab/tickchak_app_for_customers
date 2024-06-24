@@ -55,21 +55,16 @@ const pool = require('../DB.js');
 //   }
 // }
 
-// async function postUser(name, username, email, phone, street, city,password) {
-//   try {
-//     const sql1 = 'INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)';
-//     const userResult = await pool.query(sql1, [name, username, email, phone]);
-//     const userId = userResult[0].insertId;
-//     const sql2 = 'INSERT INTO address (id, street, city) VALUES (?, ?, ?)';
-//     await pool.query(sql2, [userId, street, city]);
-//     const sql3 = 'INSERT INTO passwords (user_id,password) VALUES (?, ?)';
-//     await pool.query(sql3, [userId,password]);
-//     return { userId }; 
-//   } catch (err) {
-//     console.log(err);
-//     throw err; 
-//   }
-// }
+async function postUser(userName,userPhone,userEmail) {
+  try {
+    const sql = 'INSERT INTO users (userName,userPhone,userEmail) VALUES (?, ?, ?)';
+    const result = await pool.query(sql, [userName,userPhone,userEmail])
+    return { result }; 
+  } catch (err) {
+    console.log(err);
+    throw err; 
+  }
+}
 
 
-// module.exports = {getUser,getAllUsers,getUserWithPassword,deleteUser,putUser,postUser,checkByUsername}
+// module.exports = {postUser}

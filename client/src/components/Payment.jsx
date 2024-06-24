@@ -1,29 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Finish from './Finish';
 import "../css/Payment.css";
 
-const Payment = () => {
+const Payment = ({mySeats,personalInfo}) => {
+  const [paymentMade, setPaymentMade] = useState(false);
+
+  const handleClickSubmit = (event) => {
+    event.preventDefault();
+    setPaymentMade(true);
+  }
+
   return (
     <div>
-      <h2>Payment</h2>
-      <form>
-        <div className="form-group">
-          <label htmlFor="cardNumber">Card Number</label>
-          <input type="text" id="cardNumber" name="cardNumber" required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cardHolderName">Card Holder Name</label>
-          <input type="text" id="cardHolderName" name="cardHolderName" required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="expirationDate">Expiration Date</label>
-          <input type="text" id="expirationDate" name="expirationDate" required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cvv">CVV</label>
-          <input type="text" id="cvv" name="cvv" required />
-        </div>
-        <button type="submit">Pay Now</button>
-      </form>
+      { !paymentMade ? (
+        <>
+          <h2>Payment</h2>
+          <form onSubmit={handleClickSubmit}>
+            <div className="form-group">
+              <label htmlFor="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" name="cardNumber" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="cardHolderName">Card Holder Name</label>
+              <input type="text" id="cardHolderName" name="cardHolderName" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="expirationDate">Expiration Date</label>
+              <input type="text" id="expirationDate" name="expirationDate" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="cvv">CVV</label>
+              <input type="text" id="cvv" name="cvv" required />
+            </div>
+            <button type="submit">Pay Now</button>
+          </form>
+        </>
+      ) : (
+        <Finish mySeats={mySeats} personalInfo={personalInfo}/>
+      )}
     </div>
   );
 };
