@@ -65,8 +65,9 @@ const pool = require('../DB.js');
 async function putSeatsTaken(id, seatIds) {
     try {
       const sql = `UPDATE seatsTaken SET seatIsTaken = true WHERE eventId = ? AND seatId IN (?)`;
-      await pool.query(sql, [1,id, seatIds]);
-      console.log(`Updated seatIsTaken to true for eventId ${id} and seatId ${seatIds}`);
+      const result = await pool.query(sql, [id, seatIds]);
+      console.log(`Updated seatIsTaken to true for eventId ${id} and seatId (${(seatIds)}) `);
+      return result[0];
     } catch (err) {
       console.error("Error updating user:", err);
       throw err; 

@@ -7,6 +7,7 @@ require('dotenv').config();
 app.use(express.json());
 const cors = require('cors');
 app.use(cors());
+const jwt = require('jsonwebtoken');
 
 const corsOptions = {
     origin: 'http://localhost:5173',
@@ -14,6 +15,7 @@ const corsOptions = {
   };
   app.use(cors(corsOptions));
 const userRouter = require('./routes/usersRoute');
+const loginRouter = require('./routes/loginRoute');
 const eventRouter = require('./routes/eventsRoute');
 const seatsViewRouter = require('./routes/seatsViewRoute');
 const seatsTakenRouter = require('./routes/seatsTakenRoute');
@@ -23,9 +25,6 @@ const auditoriumsPartsRouter = require('./routes/auditoriumsPartsRoute');
 // const loginRouter = require('./Routes/loginRoutes');
 // const registerRouter=require('./Routes/registerRoutes')
 
-
-
-
 const logger = (req, res, next) => {
     const url = req.url;
     const date = new Date();
@@ -34,14 +33,16 @@ const logger = (req, res, next) => {
         console.log('success!!');
         next();
     });
-
 }
+
 app.use(logger);
 app.use('/users', userRouter);
 app.use('/events', eventRouter);
 app.use('/seatsView',seatsViewRouter);
 app.use('/seatsTaken',seatsTakenRouter)
 app.use('/auditoriumsParts',auditoriumsPartsRouter)
+app.use('/login', loginRouter);
+
 // app.use('/passwords', passswordsRouter);
 // app.use('/logIn',loginRouter);
 // app.use('/register',registerRouter);
