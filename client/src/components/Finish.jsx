@@ -35,7 +35,7 @@ function Finish({ mySeats, personalInfo }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            userName: personalInfo.firstName + " " + personalInfo.lastName,
+            userName: `${personalInfo.firstName} ${personalInfo.lastName}`,
             userPhone: personalInfo.phone,
             userEmail: personalInfo.email,
           }),
@@ -52,7 +52,7 @@ function Finish({ mySeats, personalInfo }) {
 
     const sendEmail = () => {
       const emailParams = {
-        user_name: personalInfo.firstName + " " + personalInfo.lastName,
+        user_name: `${personalInfo.firstName} ${personalInfo.lastName}`,
         user_email: personalInfo.email,
         message: 'Thank you for your purchase. Attached is your ticket.',
         attachment: screenshot,
@@ -65,14 +65,21 @@ function Finish({ mySeats, personalInfo }) {
         });
     };
 
-    updateSeats();
-    addUser();
-    sendEmail();
-  }, [mySeats, personalInfo, id, screenshot]);
+    if (storedScreenshot) {
+      updateSeats();
+      addUser();
+      sendEmail();
+    } else {
+      console.error('No screenshot found in local storage');
+    }
+  }, [mySeats, personalInfo, id, screenshot, navigate]);
 
   return (
     <div>
-      <h1>הנתונים נשמרו בהצלחה. נשלח מייל לכתובת המייל שציינת. תודה שביקרת בטיקצא'ק. מחכים לכם</h1>
+      {screenshot && <img src={screenshot} alt="Screenshot" />}
+      <h1>הנתונים נשמרו בהצלחה. 
+        נשלח מייל לכתובת המייל שציינת. 
+        תודה שביקרת בטיקצא'ק. מחכים לכם</h1>
     </div>
   );
 }

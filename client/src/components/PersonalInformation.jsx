@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
-const PersonalInformation = ({ mySeats, timer, onContinue }) => {
+const PersonalInformation = ({ mySeats, timer }) => {
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
@@ -21,7 +21,7 @@ const PersonalInformation = ({ mySeats, timer, onContinue }) => {
     event.preventDefault();
     setShowPersonalInformation(false);
     setShowPayment(true);
-    onContinue('payment');
+    // onContinue('payment');
   };
 
   const calculateTotal = () => {

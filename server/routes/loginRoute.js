@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/loginController')
+const controller = require('../controllers/authController')
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
@@ -22,9 +22,9 @@ router.use(express.urlencoded({ extended: true }));
 //     res.send(event)
 // });
 router.post("/", async (req, res) => { 
-    // const title  = req.body; 
-    // const event = await controller.postEvent(); 
-    // res.send(event);
+    //const title  = req.body; 
+    const result = await controller.handleLogin(); 
+    res.send(result);
 });
 
 // router.put("/:id", async(req, res) => {
