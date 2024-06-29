@@ -7,7 +7,7 @@ USE TICKCHAK_DB;
 -- ALTER TABLE auditoriumsparts DROP FOREIGN KEY auditoriumsparts_ibfk_1;
 
 -- Drop tables if they exist
-DROP TABLE IF EXISTS seatsOfEvent;
+DROP TABLE IF EXISTS seatsTaken;
 DROP TABLE IF EXISTS seats;
 DROP TABLE IF EXISTS seatsView;
 DROP TABLE IF EXISTS partsView;
@@ -92,7 +92,7 @@ CREATE TABLE seatsView (
 );
 
 -- Create the saveSeatsSoled table
-CREATE TABLE seatsOfEvent (
+CREATE TABLE seatsTaken (
   eventId INT,
   seatId INT,
   seatIsTaken BOOLEAN,
@@ -1634,7 +1634,7 @@ INSERT INTO seatsView (rowNumber, seatNumber, partId, seatIsVisible) VALUES
 (1,0,1,FALSE);
 
 
-INSERT INTO seatsOfEvent (eventId, seatId, seatIsTaken ) VALUES
+INSERT INTO seatsTaken (eventId, seatId, seatIsTaken ) VALUES
 (1,1,FALSE),
 (1,2,FALSE),
 (1,3,FALSE),

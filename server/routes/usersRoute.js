@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/usersController');
-const { use } = require('./seatsViewRoute');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+// router.route('/')
+//     .get(verifyJWT, employeesController.getAllEmployees)
+//     .post(employeesController.createNewEmployee)
+//     .put(employeesController.updateEmployee)
+//     .delete(employeesController.deleteEmployee);
+
+// router.route('/:id')
+//     .get(employeesController.getEmployee);
 
 
 router.get("/:id", async (req, res) => {
