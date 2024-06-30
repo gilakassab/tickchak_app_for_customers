@@ -51,6 +51,7 @@ function MainHeader({ headerPage }) {
           </button>
         </nav>
       )}
+    
       {headerPage === "event" && (
         <nav className="nav-header1">
           <a className="nav-link1" href="#showcase">
@@ -64,6 +65,7 @@ function MainHeader({ headerPage }) {
           </button>
         </nav>
       )}
+     
       {headerPage === "order" && (
         <nav className="nav-header1">
           <button className={`nav-button ${headerPage === 'order' ? 'active' : ''}`}>

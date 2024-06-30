@@ -17,6 +17,17 @@ async function getEventById(id) {
   }
 }
 
+async function getNotAllowedEvents() {
+  try {
+    let result;
+      const sql = 'SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = FALSE';
+      result = await pool.query(sql);
+    return result[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 
 
 async function getAllEvents(category, _start, _limit) {
@@ -85,4 +96,4 @@ async function deleteEventById(id) {
 // }
 
 
-module.exports = { getAllEvents, getEventById, deleteEventById }
+module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById }

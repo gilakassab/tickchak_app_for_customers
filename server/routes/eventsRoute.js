@@ -34,10 +34,25 @@ router.get("/:id/seatsView", async (req, res) => {
 
 router.get("/", async (req, res) => {
     const { category, _start, _limit } = req.query;
-    const events = await controller.getAllEvents(category, _start, _limit);
-    res.send(events)
 
+    if (category && _start && _limit) {
+        // אם כל המשתנים קיימים, עבור לפונקציה הראשונה
+        try {
+            const events = await controller.getAllEvents(category, _start, _limit);
+            res.send(events);
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
+    } else {
+        try {
+            const notAllowedEvents = await controller.getNotAllowedEvents();
+            res.send(notAllowedEvents);
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
+    }
 });
+
 router.delete("/:id", async (req, res) => {
     const id = req.params.id;
     const event = await controller.deleteEventById(id);

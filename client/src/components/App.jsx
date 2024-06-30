@@ -9,7 +9,7 @@ import Order from "../pages/Order";
 import ProducerHome from "../pages/ProducerHome";
 import ProducerLogin from "../pages/ProducerLogin";
 import NewEvent from "./NewEvent";
-import NewAuditorium from "./NewAuditorium";
+import NewAuditorium from "../pages/NewAuditorium.jsx";
 import SignUp from "../pages/SignUp";
 import AdminHome from "../pages/AdminHome.jsx";
 

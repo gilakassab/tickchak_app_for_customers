@@ -1,4 +1,4 @@
-const model = require('../model/usersModel');
+const model = require('../models/auditoriumsModel');
 // const bcrypt = require('bcrypt');
 // const crypto = require('crypto');
 
@@ -33,14 +33,14 @@ const model = require('../model/usersModel');
 //         throw err;
 //     }
 
-// }
-// async function getAllUsers() {
-//     try {
-//         return model.getAllUsers();
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+
+async function getAllAuditoriums() {
+    try {
+        return model.getAllAuditoriums();
+    } catch (err) {
+        throw err;
+    }
+}
 // async function deleteUserById(id) {
 //     try {
 //         return model.deleteUser(id);
@@ -69,5 +69,4 @@ const model = require('../model/usersModel');
 
 // }
 
-
-// module.exports = { getUserById,getAllUsers,getUserByIdWithPassword,checkIfUserExistsByUsername ,deleteUserById,putUserController,postUserController}
+module.exports = {getAllAuditoriums}

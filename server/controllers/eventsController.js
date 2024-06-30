@@ -18,6 +18,14 @@ async function getAllEvents(category, _start, _limit) {
         throw err;
     }
 }
+async function getNotAllowedEvents() {
+    try {
+
+        return model.getNotAllowedEvents();
+    } catch (err) {
+        throw err;
+    }
+}
 
 async function deleteEventById(id) {
     try {
@@ -48,4 +56,4 @@ async function deleteEventById(id) {
 // }
 
 
-module.exports = { getAllEvents, getEventById, deleteEventById }
+module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById }

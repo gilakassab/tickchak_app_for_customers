@@ -36,6 +36,7 @@ const eventRouter = require('./routes/eventsRoute');
 const seatsViewRouter = require('./routes/seatsViewRoute');
 const seatsTakenRouter = require('./routes/seatsTakenRoute');
 const auditoriumsPartsRouter = require('./routes/auditoriumsPartsRoute');
+const auditoriumsRouter = require('./routes/auditoriumsRoute');
 
 // const passswordsRouter = require('./Routes/passwordsRoutes');
 // const loginRouter = require('./Routes/loginRoutes');
@@ -56,7 +57,8 @@ app.use('/users', userRouter);
 app.use('/events', eventRouter);
 app.use('/seatsView',seatsViewRouter);
 app.use('/seatsTaken',seatsTakenRouter)
-app.use('/auditoriumsParts',auditoriumsPartsRouter)
+app.use('/auditoriumsParts',auditoriumsPartsRouter);
+app.use('/auditoriums',auditoriumsRouter)
 app.use('/login', loginRouter);
  app.use('/signup',signUpRouter);
 // app.use(cookieParser());
