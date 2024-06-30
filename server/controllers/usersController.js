@@ -1,52 +1,23 @@
-const model = require('../models/UsersModel');
-const { get } = require('../routes/usersRoute');
+const model = require('../models/usersModel');
+const crypto = require('crypto');
 
-
-// async function getEventById(id) {
-//     try {
-//         return await model.getEventById(id);
-//     } catch (err) {
-//         throw err;
-//     }
-// }
-
-// async function getAllEvents(category, _start, _limit) {
-//     try {
-
-//         return model.getAllEvents(category, _start, _limit);
-//     } catch (err) {
-//         throw err;
-//     }
-// }
-
-// async function deleteEventById(id) {
-//     try {
-//         return model.deleteEvent(id);
-//     } catch (err) {
-//         throw err;
-//     }
-
-// }
 async function postUser(userName,userPhone,userEmail) {
     try {
         ;
         return model.postUser(userName,userPhone,userEmail);
     } catch (err) {
-        throw err;
+        throw err;ג
     }
 }
-
-// async function postEvent() {
-
-// try {
-//     // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-
-//     return model.postEvent();
-// } catch (err) {
-//     throw err;
+// async function postUserWithPwd(userName,password, userPhone,userEmail) {
+//     try {
+//         console.log("im here")
+//         const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+       
+//         return model.postUserWithPwd(userName,hashedPassword ,userPhone,userEmail,2001);
+//     } catch (err) {
+//         throw err;
+//     }
 // }
-
-// }
-
 
 module.exports = { postUser }

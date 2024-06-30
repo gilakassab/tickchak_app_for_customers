@@ -54,6 +54,45 @@ const pool = require('../DB.js');
 //     throw err; 
 //   }
 // }
+// async function postUserLogin(userName,passwords) {
+//   try {
+//     console.log("im here");
+//     const sql = 'SELECT users.*, passwords.password FROM users NATURAL JOIN passwords  WHERE users.username = ?';
+//     const result = await pool.query(sql, [userName,passwords])
+//     console.log(result[0]);
+//     return result[0]; 
+//   } catch (err) {
+//     console.log(err);
+//     throw err; 
+//   }
+// }
+// async function postUserWithPwd(userName,passwords,userPhone,userEmail,roleId) {
+//   try {
+//     const sql1 = 'INSERT INTO users (userName,userPhone,userEmail,roleId) VALUES (?, ?, ?,?)';
+//     const userResult = await pool.query(sql1, [userName,userPhone,userEmail,roleId])
+//     const sql2 = 'INSERT INTO passwords (userId,password) VALUES (?,?)';
+//     const result = await pool.query(sql2, [userResult[0].insertId,passwords])
+//     return userResult[0].insertId; 
+//   } catch (err) {
+//     console.log(err);
+//     throw err; 
+//   }
+// }
+
+// async function deleteUser(id) {
+//   try {
+//     const sql3 = 'DELETE FROM passwords WHERE user_id=?';
+//     await pool.query(sql3, [id]);
+//     const sql2 = 'DELETE FROM address WHERE id=?';
+//     await pool.query(sql2, [id]);
+//     const sql1 = 'DELETE FROM users WHERE id=?';
+//     await pool.query(sql1, [id]);
+//   } catch (err) {
+//     console.log(err);
+//     throw err; 
+//   }
+// }
+
 
 async function postUser(userName,userPhone,userEmail) {
   try {

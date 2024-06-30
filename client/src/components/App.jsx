@@ -10,6 +10,7 @@ import ProducerHome from "../pages/ProducerHome";
 import ProducerLogin from "../pages/ProducerLogin";
 import NewEvent from "./NewEvent";
 import NewAuditorium from "./NewAuditorium";
+import SignUp from "../pages/SignUp";
 
 export const EventContext = createContext();
 export const useEventContext = () => useContext(EventContext);
@@ -50,7 +51,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="event/:id" element={<Event />} />
                 <Route path="event/:id/order" element={<Order />} />
-                
+                <Route path="signup" element={<SignUp />} />
                 <Route path="producer" element={<ProducerLogin />}>
                   <Route path=":id" element={<ProducerHome />} />
                   <Route path="newevent" element={<NewEvent />} />

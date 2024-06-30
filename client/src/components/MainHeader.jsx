@@ -15,7 +15,7 @@ function MainHeader({ headerPage }) {
   };
 
   const producerClicked = () => {
-    navigate("/login"); // הפניה לקומפוננטת ההתחברות (LogIn)
+    navigate("/tickchak/producer"); // הפניה לקומפוננטת ההתחברות (LogIn)
   };
 
   return (
@@ -35,7 +35,13 @@ function MainHeader({ headerPage }) {
             Contact Us
           </a>
           <button className="producer-button" onClick={producerClicked}>
+            ProducerLogin
+          </button>
+          <button className="producer-button" onClick={producerClicked}>
             Producer
+          </button>
+          <button className="producer-button" onClick={producerClicked}>
+            Admin
           </button>
         </nav>
       )}

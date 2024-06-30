@@ -1,5 +1,5 @@
 const model = require('../models/eventsModel');
-const { get } = require('../routes/eventsRoute');
+
 
 
 async function getEventById(id) {

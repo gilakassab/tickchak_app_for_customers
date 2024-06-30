@@ -2,24 +2,36 @@ const express = require('express');
 // const config = require('./config/config');
 const fs = require('fs');
 const path = require('path');
+
 const app = express();
 require('dotenv').config();
 app.use(express.json());
-const cors = require('cors');
-app.use(cors());
+
+
+
 const jwt = require('jsonwebtoken');
-const verifyJWT=require('../middleware/verifyJWT');
-const cookieParser = require('cookie-parser');
+
+// const cookieParser = require('cookie-parser');
 
 
 
+app.use(express.urlencoded({ extended: true }));
+
+const cors = require('cors');
 // const corsOptions = {
 //     origin: 'http://localhost:5173',
 //     credentials: true, // <-- Enable credentials
 //   };
-//   app.use(cors(corsOptions));
+  app.use(cors());
+
+// const verifyJWT = require('./middleware/verifyJWT')
+// const verifyRoles = require('./middleware/verifyRoles')
+// app.use(verifyJWT);
+// app.use(verifyRoles);
+
 const userRouter = require('./routes/usersRoute');
 const loginRouter = require('./routes/loginRoute');
+const signUpRouter = require('./routes/signUpRoute');
 const eventRouter = require('./routes/eventsRoute');
 const seatsViewRouter = require('./routes/seatsViewRoute');
 const seatsTakenRouter = require('./routes/seatsTakenRoute');
@@ -46,14 +58,18 @@ app.use('/seatsView',seatsViewRouter);
 app.use('/seatsTaken',seatsTakenRouter)
 app.use('/auditoriumsParts',auditoriumsPartsRouter)
 app.use('/login', loginRouter);
-app.use(cookieParser());
-app.use('/refresh', require('./routes/refresh'));
-app.use('/logout', require('./routes/logout'));
+ app.use('/signup',signUpRouter);
+// app.use(cookieParser());
+// app.use('/', express.static(path.join(__dirname, '/public')));
+
+// app.use('/', require('./routes/root'));
+
+// app.use('/logout', require('./routes/logout'));
 
 
 // app.use('/passwords', passswordsRouter);
 // app.use('/logIn',loginRouter);
-// app.use('/register',registerRouter);
+
 
 // app.use('*', (req, res)=>{
 //     res.sendStatus(404);
