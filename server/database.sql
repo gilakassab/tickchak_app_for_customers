@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS passwords;
 CREATE TABLE auditoriums (
   auditoriumId INT AUTO_INCREMENT PRIMARY KEY,
   auditoriumName VARCHAR(255)
+  auditoriumExists BOOLEAN,
 );
 
 
@@ -40,6 +41,7 @@ CREATE TABLE events (
   auditoriumId INT,
   eventPicUrl VARCHAR(255),
   eventCategory VARCHAR(255),
+  eventIsAllowed BOOLEAN,
   FOREIGN KEY (auditoriumId) REFERENCES auditoriums (auditoriumId)
 );
 
@@ -125,10 +127,10 @@ CREATE TABLE blocks (
 -- );
 
 -- Insert data into the auditoriums table
-INSERT INTO auditoriums (auditoriumName) VALUES
-('בנייני האומה'),
-('Auditorium 2'),
-('Auditorium 3');
+INSERT INTO auditoriums (auditoriumName,auditoriumExists) VALUES
+('בנייני האומה',TRUE),
+('Auditorium 2',FALSE),
+('Auditorium 3',TRUE);
 
 -- Insert data into the users table
 INSERT INTO users (userName, userPhone, userEmail) VALUES
@@ -4692,10 +4694,10 @@ INSERT INTO partsView (partId, numOfBlocks) VALUES
 
 -- Insert data into the events table
 INSERT INTO events (
-  eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory
+  eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed
 ) VALUES
-('Concert A', '2024-06-15', '18:00:00', '19:00:00', '22:00:00', '1', 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'show'),
-('Play B', '2024-06-16', '19:00:00', '20:00:00', '22:30:00', '1', 'Remarks B', 1, 'https://www.picshare.co.il/s_pictures/img63008.jpg', 'conference'),
-('Conference C', '2024-06-17', '08:00:00', '09:00:00', '17:00:00', '2', 'Remarks C', 1, 'https://www.picshare.co.il/s_pictures/img66886.jpg', 'Conference'),
-('Conference', '2024-06-18', '08:00:00', '09:00:00', '17:00:00', '3', 'Remarks C', 3, 'https://www.picshare.co.il/m_pictures/img43817.jpg', 'Conference'),
-('Conference G', '2024-06-11', '08:00:00', '09:00:00', '17:00:00', '2', 'kjb', 3, 'https://www.picshare.co.il/m_pictures/img157425.jpg', 'Conference');
+('Concert A', '2024-06-15', '18:00:00', '19:00:00', '22:00:00', '1', 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'show',TRUE),
+('Play B', '2024-06-16', '19:00:00', '20:00:00', '22:30:00', '1', 'Remarks B', 1, 'https://www.picshare.co.il/s_pictures/img63008.jpg', 'conference',TRUE),
+('Conference C', '2024-06-17', '08:00:00', '09:00:00', '17:00:00', '2', 'Remarks C', 1, 'https://www.picshare.co.il/s_pictures/img66886.jpg', 'Conference',TRUE),
+('Conference', '2024-06-18', '08:00:00', '09:00:00', '17:00:00', '3', 'Remarks C', 3, 'https://www.picshare.co.il/m_pictures/img43817.jpg', 'Conference',TRUE),
+('Conference G', '2024-06-11', '08:00:00', '09:00:00', '17:00:00', '1', 'kjb', 3, 'https://www.picshare.co.il/m_pictures/img157425.jpg', 'Conference',FALSE);

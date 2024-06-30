@@ -24,10 +24,10 @@ async function getAllEvents(category, _start, _limit) {
     let result;
 
     if (category === 'allEvents') {
-      const sql = `SELECT * FROM events NATURAL JOIN auditoriums LIMIT ${_start}, ${_limit}`;
+      const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = TRUE LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     } else {
-      const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
+      const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = TRUE and events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     }
    
