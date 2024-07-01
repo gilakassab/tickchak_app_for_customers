@@ -29,19 +29,19 @@ async function getNotAllowedEvents() {
 
 async function deleteEventById(id) {
     try {
-        return model.deleteEvent(id);
+        return model.deleteEventById(id);
     } catch (err) {
         throw err;
     }
 
 }
-// async function putEvent() {
-//     try {
-//         return model.postEvent();
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+async function putEvent(id,eventIsAllowed) {
+    try {
+        return model.putEvent(id,eventIsAllowed);
+    } catch (err) {
+        throw err;
+    }
+}
 
 // async function postEvent() {
 
@@ -56,4 +56,4 @@ async function deleteEventById(id) {
 // }
 
 
-module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById }
+module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent }

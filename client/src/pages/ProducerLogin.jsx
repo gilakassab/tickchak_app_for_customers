@@ -5,7 +5,7 @@ import '../css/LogIn.css'
 function ProducerLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  console.log("1");
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -22,6 +22,7 @@ function ProducerLogin() {
         method: 'POST',
         headers: { 'Content-Type': 'authorization' },
         body: JSON.stringify({ userName: username, password: password }),
+        credentials: "include"
       });
       if (!response.ok) {
         throw new Error('Failed to log in');

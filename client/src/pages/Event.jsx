@@ -29,7 +29,9 @@ function Event() {
     const fetchEventFromServer = async (id) => {
         try {
           
-            const response = await fetch(`http://localhost:3300/events/${id}`);
+            const response = await fetch(`http://localhost:3300/events/${id}`,
+                {credentials: "include"}
+            );
             const event = await response.json();
             setSelectedEvent(event);
             setLoading(false);

@@ -18,6 +18,7 @@ function Finish({ mySeats, personalInfo }) {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ eventId: id, seatIds: seatIds }),
+          credentials: "include"
         });
         if (!response.ok) {
           throw new Error('Failed to update seat statuses');
@@ -39,6 +40,7 @@ function Finish({ mySeats, personalInfo }) {
             userPhone: personalInfo.phone,
             userEmail: personalInfo.email,
           }),
+          credentials: "include"
         });
         if (!response.ok) {
           throw new Error('Failed to add user');

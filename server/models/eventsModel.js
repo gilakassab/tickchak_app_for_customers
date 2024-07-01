@@ -20,7 +20,7 @@ async function getEventById(id) {
 async function getNotAllowedEvents() {
   try {
     let result;
-      const sql = 'SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = FALSE';
+      const sql = '  SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE;';
       result = await pool.query(sql);
     return result[0];
   } catch (err) {
@@ -51,33 +51,26 @@ async function getAllEvents(category, _start, _limit) {
 
 
 async function deleteEventById(id) {
-  // try {
-  //   // const sql3 = 'DELETE FROM passwords WHERE user_id=?';
-  //   // await pool.query(sql3, [id]);
-  //   // const sql2 = 'DELETE FROM address WHERE id=?';
-  //   // await pool.query(sql2, [id]);
-  //   const sql1 = 'DELETE FROM events WHERE id=?';
-  //   await pool.query(sql1, [id]);
-  // } catch (err) {
-  //   console.log(err);
-  //   throw err;
-  // }
+  try {
+    const sql1 = 'DELETE FROM events WHERE eventId=?';
+    await pool.query(sql1, [id]);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 }
 
 
-// async function putEvent(id, name, username, email, street, city, phone, password) {
-//   try {
-//     const sql1 = `UPDATE users SET name = ?, username = ?, email = ?, phone = ? WHERE id = ?`;
-//     await pool.query(sql1, [name, username, email, phone, id]);
-//     const sql2 = `UPDATE address SET street = ?, city = ? WHERE id = ?`;
-//     await pool.query(sql2, [street, city, id]);
-//     // const sql3 = `UPDATE passwords SET password = ? WHERE user_id = ?`;
-//     // await pool.query(sql3, [password, id]);
-//   } catch (err) {
-//     console.error("Error updating user:", err);
-//     throw err; 
-//   }
-// }
+async function putEvent(id) {
+  try {
+    const sql = `UPDATE events SET eventIsAllowed = TRUE WHERE eventId = ?`;
+    const result = await pool.query(sql, [  id]);
+   return result[0].insertId;
+  } catch (err) {
+    console.error("Error updating user:", err);
+    throw err; 
+  }
+}
 
 // async function postEvent(name, username, email, phone, street, city,password) {
 //   try {
@@ -96,4 +89,4 @@ async function deleteEventById(id) {
 // }
 
 
-module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById }
+module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent }
