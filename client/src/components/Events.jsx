@@ -6,7 +6,7 @@ import { useEventContext } from './App';
 function Events({ viewEvents }) {
   const max_limit = 16;
   const [events, setEvents] = useState([]);
-  const [loadMoreVisible, setLoadMoreVisible] = useState(false);
+  const [loadMoreVisible, setLoadMoreVisible] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
   const [cache, setCache] = useState({}); // Cache to store events data for different categories
   const { setSelectedEvent } = useEventContext();

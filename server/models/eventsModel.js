@@ -20,8 +20,8 @@ async function getEventById(id) {
 async function getNotAllowedEvents() {
   try {
     let result;
-      const sql = '  SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE;';
-      result = await pool.query(sql);
+    const sql = '  SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE;';
+    result = await pool.query(sql);
     return result[0];
   } catch (err) {
     console.log(err);
@@ -41,7 +41,7 @@ async function getAllEvents(category, _start, _limit) {
       const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = TRUE and events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     }
-   
+
     return result[0];
   } catch (err) {
     console.log(err);
@@ -64,29 +64,62 @@ async function deleteEventById(id) {
 async function putEvent(id) {
   try {
     const sql = `UPDATE events SET eventIsAllowed = TRUE WHERE eventId = ?`;
-    const result = await pool.query(sql, [  id]);
-   return result[0].insertId;
+    const result = await pool.query(sql, [id]);
+    return result[0].insertId;
   } catch (err) {
     console.error("Error updating user:", err);
-    throw err; 
+    throw err;
   }
 }
 
-// async function postEvent(name, username, email, phone, street, city,password) {
-//   try {
-//     const sql1 = 'INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)';
-//     const userResult = await pool.query(sql1, [name, username, email, phone]);
-//     const userId = userResult[0].insertId;
-//     const sql2 = 'INSERT INTO address (id, street, city) VALUES (?, ?, ?)';
-//     await pool.query(sql2, [userId, street, city]);
-//     const sql3 = 'INSERT INTO passwords (user_id,password) VALUES (?, ?)';
-//     await pool.query(sql3, [userId,password]);
-//     return { userId }; 
-//   } catch (err) {
-//     console.log(err);
-//     throw err; 
-//   }
-// }
 
+const formatDateForMySQL = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const seconds = String(d.getSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
 
-module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent }
+async function postEvent(eventDetails) {
+  try {
+    const {
+      eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt,
+      eventProducer, eventRemarks, auditoriumName, eventPicUrl, eventCategory, eventIsAllowed
+    } = eventDetails;
+
+    // Format the eventDate to MySQL compatible format
+    const formattedEventDate = formatDateForMySQL(eventDate);
+
+    // Find the auditoriumId based on auditoriumName
+    const auditoriumQuery = 'SELECT auditoriumId FROM auditoriums WHERE auditoriumName = ?';
+    const [auditoriumResult] = await pool.query(auditoriumQuery, [auditoriumName]);
+    const auditoriumId = auditoriumResult.length > 0 ? auditoriumResult[0].auditoriumId : null;
+
+    if (!auditoriumId) {
+      throw new Error('Invalid auditorium name');
+    }
+
+    // Insert the event into the database
+    const sql = `
+      INSERT INTO events (eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, 
+      eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const result = await pool.query(sql, [
+      eventName, formattedEventDate, eventOpenGates, eventBeginAt, eventEndAt,
+      eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed
+    ]);
+
+    return result[0];
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent, postEvent };
+

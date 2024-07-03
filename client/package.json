@@ -16,8 +16,10 @@
     "jsbarcode": "^3.11.6",
     "moment": "^2.30.1",
     "react": "^18.2.0",
+    "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
+    "react-time-picker": "^7.0.0",
     "react-timer-hook": "^3.0.7"
   },
   "devDependencies": {

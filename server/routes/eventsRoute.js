@@ -59,11 +59,16 @@ router.delete("/:id",verifyRoles(["admin"]), async (req, res) => {
     const event = await controller.deleteEventById(id);
     res.send(event)
 });
-router.post("/", async (req, res) => { 
-    // const title  = req.body; 
-    // const event = await controller.postEvent(); 
-    // res.send(event);
-});
+router.post("/", async (req, res) => {
+    console.log("Received POST request with body:", req.body);
+    try {
+      const eventDetails = req.body;
+      const event = await controller.postEvent(eventDetails);
+      res.status(201).send(event);
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  });
 
 router.put("/:id",verifyRoles(["admin"]), async(req, res) => {
     try{

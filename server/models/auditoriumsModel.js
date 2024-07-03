@@ -38,7 +38,7 @@ const pool = require('../DB.js');
 // }
 async function getAllAuditoriums() {
   try {
-    const sql = 'SELECT auditoriumName FROM auditoriums WHERE auditoriumExists = FALSE';
+    const sql = 'SELECT auditoriumId, auditoriumName, auditoriumExists FROM auditoriums';
     const result = await pool.query(sql);
     console.log(result[0]);
     return result[0];
@@ -46,6 +46,7 @@ async function getAllAuditoriums() {
     console.log(err);
   }
 }
+
 // async function deleteUser(id) {
 //   try {
 //     const sql3 = 'DELETE FROM passwords WHERE user_id=?';

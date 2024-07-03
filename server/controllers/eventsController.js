@@ -35,25 +35,21 @@ async function deleteEventById(id) {
     }
 
 }
-async function putEvent(id,eventIsAllowed) {
+async function putEvent(id, eventIsAllowed) {
     try {
-        return model.putEvent(id,eventIsAllowed);
+        return model.putEvent(id, eventIsAllowed);
     } catch (err) {
         throw err;
     }
 }
 
-// async function postEvent() {
-
-// try {
-//     // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-
-//     return model.postEvent();
-// } catch (err) {
-//     throw err;
-// }
-
-// }
+async function postEvent(eventDetails) {
+    try {
+        return await model.postEvent(eventDetails);
+    } catch (err) {
+        throw err;
+    }
+}
 
 
-module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent }
+module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent, postEvent }

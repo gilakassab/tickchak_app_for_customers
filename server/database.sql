@@ -133,6 +133,15 @@ FOREIGN KEY (userId) REFERENCES users (userId)
  );
 
 
+-- Create the ticketPrices table
+CREATE TABLE ticketPrices (
+  priceId INT AUTO_INCREMENT PRIMARY KEY,
+  eventId INT,
+  ticketPrice DECIMAL(10, 2),
+  FOREIGN KEY (eventId) REFERENCES events (eventId)
+);
+
+
 -- -CREATE TABLE blocksView (
 --   blockId INT,
 --   rowsId INT,
