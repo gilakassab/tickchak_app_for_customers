@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import moment from "moment";
 import "../css/AdminEvent.css"; // Create and import a new CSS file for AdminEvent styles
 
@@ -8,11 +8,20 @@ function AdminEvent({
   auditoriums,
   onSaveEvent,
 }) {
+  const [auditoriumsDoesntExist,setAuditoriumsDoesntExist]=useState([]);
+  useEffect(()=>{
+    setAuditoriumsDoesntExist(auditoriums);
+    console.log(auditoriumsDoesntExist)
+  },[auditoriums])
   const handleClickBtnSave = async () => {
+    console.log(auditoriums);
     const auditoriumExists = auditoriums.some(
       (auditorium) => auditorium.auditoriumId === eventToShow.auditoriumId
     );
     if (auditoriumExists) {
+      alert("Cannot save because the auditorium doesnt exists.");
+      setOpenSingleEvent(false);
+    } else {
       try {
         const response = await fetch(
           `http://localhost:3300/events/${eventToShow.eventId}`,
@@ -34,9 +43,6 @@ function AdminEvent({
       } catch (error) {
         console.error("Error updating event:", error);
       }
-    } else {
-      alert("Cannot save because the auditorium doesn't exist.");
-      setOpenSingleEvent(false);
     }
   };
 

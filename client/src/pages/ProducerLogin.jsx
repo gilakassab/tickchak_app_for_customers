@@ -16,11 +16,11 @@ function ProducerLogin() {
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
-
+console.log(username,password)
     try {
       const response = await fetch(`http://localhost:3300/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'authorization' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userName: username, password: password }),
         credentials: "include"
       });

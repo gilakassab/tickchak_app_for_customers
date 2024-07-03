@@ -27,6 +27,7 @@ function AdminHome() {
 
       if (Array.isArray(data)) {
         setAuditoriums(data);
+       
       } else {
         console.error("Unexpected response format:", data);
       }
@@ -34,7 +35,7 @@ function AdminHome() {
       console.error("Error fetching auditoriums:", error);
     }
   };
-
+  
   const fetchEventsFromServer = async () => {
     try {
       const response = await fetch(`http://localhost:3300/events`,
