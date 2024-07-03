@@ -1,11 +1,14 @@
 const model = require('../models/usersModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 require('dotenv').config();
 
 
 const handleLogin = async (userName, password) => {
+    console.log(userName + " " + password);
     if (!userName || !password) {
+        
         return null;
     }
 
@@ -14,14 +17,23 @@ const handleLogin = async (userName, password) => {
         return null; // Unauthorized
     }
 
-    const match = await bcrypt.compare(password, foundUser.password);
-    if (match) {
+    const user = foundUser[0]; 
+    console.log(password + "=" + user.password)
+
+
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+   
+
+   
+    if (hashedPassword === user.password) {
         const role = foundUser.roleId;
         const accessToken = jwt.sign(
-            { "userInfo": {
-                userName: foundUser.username,
-                userRole: role
-            } },
+            {
+                userInfo: {
+                    userName: user.username,
+                    userRole: role
+                }
+            },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
