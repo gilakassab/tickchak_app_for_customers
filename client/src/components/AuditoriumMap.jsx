@@ -24,7 +24,9 @@ function AuditoriumMap({ onContinue }) {
 
     const fetchEventFromServer = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3300/events/${id}`);
+            const response = await fetch(`http://localhost:3300/events/${id}`,
+                {credentials: "include"}
+            );
             const event = await response.json();
             setSelectedEvent(event);
             fetchAuditoriumParts(event.auditoriumId);
@@ -36,7 +38,9 @@ function AuditoriumMap({ onContinue }) {
 
     const fetchAuditoriumParts = async (auditoriumId) => {
         try {
-            const response = await fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${auditoriumId}`);
+            const response = await fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${auditoriumId}`,
+                {credentials: "include"}
+            );
             const newMap = await response.json();
             
             setMap(newMap);

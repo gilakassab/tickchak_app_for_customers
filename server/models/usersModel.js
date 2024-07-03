@@ -66,18 +66,18 @@ const pool = require('../DB.js');
 //     throw err; 
 //   }
 // }
-// async function postUserWithPwd(userName,passwords,userPhone,userEmail,roleId) {
-//   try {
-//     const sql1 = 'INSERT INTO users (userName,userPhone,userEmail,roleId) VALUES (?, ?, ?,?)';
-//     const userResult = await pool.query(sql1, [userName,userPhone,userEmail,roleId])
-//     const sql2 = 'INSERT INTO passwords (userId,password) VALUES (?,?)';
-//     const result = await pool.query(sql2, [userResult[0].insertId,passwords])
-//     return userResult[0].insertId; 
-//   } catch (err) {
-//     console.log(err);
-//     throw err; 
-//   }
-// }
+async function postUserWithPwd(userName,passwords,userPhone,userEmail,roleId) {
+  try {
+    const sql1 = 'INSERT INTO users (userName,userPhone,userEmail,roleId) VALUES (?, ?, ?,?)';
+    const userResult = await pool.query(sql1, [userName,userPhone,userEmail,roleId])
+    const sql2 = 'INSERT INTO passwords (userId,password) VALUES (?,?)';
+    const result = await pool.query(sql2, [userResult[0].insertId,passwords])
+    return userResult[0].insertId; 
+  } catch (err) {
+    console.log(err);
+    throw err; 
+  }
+}
 
 // async function deleteUser(id) {
 //   try {
@@ -106,4 +106,4 @@ async function postUser(userName,userPhone,userEmail) {
 }
 
 
-module.exports = {postUser}
+module.exports = {postUser,postUserWithPwd}

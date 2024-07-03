@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import "../css/AdminHome.css";
-import MainHeader from "../components/MainHeader";
+import AdminEvent from "../components/AdminEvent";
 
 function AdminHome() {
   const [events, setEvents] = useState([]);
   const [auditoriums, setAuditoriums] = useState([]);
   const [navView, setNavView] = useState("events");
+  const [openSingleEvent, setOpenSingleEvent] = useState(false);
+  const [eventToShow, setEventToShow] = useState(null); // Change to null to indicate no event initially
 
   useEffect(() => {
     if (navView === 'events') {
@@ -18,7 +20,9 @@ function AdminHome() {
 
   const fetchAuditoriumsFromServer = async () => {
     try {
-      const response = await fetch(`http://localhost:3300/auditoriums`);
+      const response = await fetch(`http://localhost:3300/auditoriums`,
+        {credentials: "include"}
+      );
       const data = await response.json();
 
       if (Array.isArray(data)) {
@@ -33,7 +37,9 @@ function AdminHome() {
 
   const fetchEventsFromServer = async () => {
     try {
-      const response = await fetch(`http://localhost:3300/events`);
+      const response = await fetch(`http://localhost:3300/events`,
+        {credentials: "include"}
+      );
       const data = await response.json();
 
       if (Array.isArray(data)) {
@@ -45,6 +51,25 @@ function AdminHome() {
       console.error("Error fetching events:", error);
     }
   };
+
+  const handleRowDoubleClick = (event) => {
+    setEventToShow(event);
+    setOpenSingleEvent(true);
+  };
+
+  const onSaveEvent = (updatedEvent) => {
+    // Update the events state with the updated event
+    const updatedEvents = events.map(event =>
+      event.eventId === updatedEvent.eventId ? updatedEvent : event
+    );
+    setEvents(updatedEvents);
+  };
+
+  // const onDeleteEvent = (eventId) => {
+  //   // Remove the event from events state based on eventId
+  //   const updatedEvents = events.filter(event => event.eventId !== eventId);
+  //   setEvents(updatedEvents);
+  // };
 
   return (
     <div>
@@ -76,23 +101,21 @@ function AdminHome() {
                 <th>Begin At</th>
                 <th>End At</th>
                 <th>Producer</th>
+                <th>Auditorium</th>
                 <th>Remarks</th>
-                {/* <th>Category</th> */}
-                {/* <th>Is Allowed</th> */}
               </tr>
             </thead>
             <tbody>
               {events.map((event, index) => (
-                <tr key={index}>
+                <tr key={index} onDoubleClick={() => handleRowDoubleClick(event)}>
                   <td>{event.eventName}</td>
                   <td>{moment(event.eventDate).format("DD/MM/YYYY")}</td>
                   <td>{event.eventOpenGates.slice(0, 5)}</td>
                   <td>{event.eventBeginAt.slice(0, 5)}</td>
                   <td>{event.eventEndAt.slice(0, 5)}</td>
-                  <td>{event.eventProducer}</td>
+                  <td>{event.userName}</td>
+                  <td>{event.auditoriumName}</td>
                   <td>{event.eventRemarks}</td>
-                  {/* <td>{event.eventCategory}</td> */}
-                  {/* <td>{event.eventIsAllowed ? "Yes" : "No"}</td> */}
                 </tr>
               ))}
             </tbody>
@@ -108,6 +131,16 @@ function AdminHome() {
               ))}
             </ul>
           </div>
+        )}
+
+        {openSingleEvent && (
+          <AdminEvent
+            eventToShow={eventToShow}
+            setOpenSingleEvent={setOpenSingleEvent}
+            auditoriums={auditoriums}
+            onSaveEvent={onSaveEvent}
+       
+          />
         )}
       </div>
     </div>

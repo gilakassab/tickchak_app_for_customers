@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const controller = require('../controllers/eventsController')
-const controllerSeats = require('../controllers/seatsViewController')
+const controllerSeats = require('../controllers/seatsViewController');
+const verifyRoles = require("../middleware/verifyRoles");
 
 
 router.use(express.json());
@@ -10,7 +11,7 @@ router.use(express.urlencoded({ extended: true }));
 // const photosRouter = require('./photosRoutes');
 // router.use('/:albumId/photos', photosRouter);
 
-router.get("/:id", async (req, res) => {
+router.get("/:id" ,async (req, res) => {
     const id = req.params.id;
     const event = await controller.getEventById(id);
     res.send(event);
@@ -53,7 +54,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",verifyRoles(["admin"]), async (req, res) => {
     const id = req.params.id;
     const event = await controller.deleteEventById(id);
     res.send(event)
@@ -64,10 +65,18 @@ router.post("/", async (req, res) => {
     // res.send(event);
 });
 
-router.put("/:id", async(req, res) => {
-    // const id = req.params.id;
-    // const response=await controller.putEvent(req.body.title,id)
-    // res.send(response);
+router.put("/:id",verifyRoles(["admin"]), async(req, res) => {
+    try{
+        const id = req.params.id;
+        const eventIsAllowed = req.body.eventIsAllowed;
+        const response=await controller.putEvent(id,eventIsAllowed);
+        res.send(response);
+    }
+   catch(error){
+    res.status(500).send({ message: error.message });
+   }
+   
+   
 });
 
 

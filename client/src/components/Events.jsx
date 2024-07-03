@@ -28,7 +28,9 @@ function Events({ viewEvents }) {
   }, [viewEvents, cache]);
 
   const fetchEvents = useCallback((start, limit, category) => {
-    fetch(`http://localhost:3300/events?category=${category}&_start=${start}&_limit=${limit}`)
+    fetch(`http://localhost:3300/events?category=${category}&_start=${start}&_limit=${limit}`,
+      {credentials: "include"}
+    )
       .then((res) => res.json())
       .then((moreEvents) => {
         const hasMore = moreEvents.length === limit;

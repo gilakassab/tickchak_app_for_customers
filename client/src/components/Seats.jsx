@@ -248,7 +248,9 @@ function Seats({ partId, partName, onBackToMap }) {
 
   useEffect(() => {
     if (id && partId) {
-      fetch(`http://localhost:3300/events/${id}/seatsView?partId=${partId}`)
+      fetch(`http://localhost:3300/events/${id}/seatsView?partId=${partId}`,
+        {credentials: "include"}
+      )
         .then((res) => res.json())
         .then((newSeats) => {
           setSeats(newSeats);

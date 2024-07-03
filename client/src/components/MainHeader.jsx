@@ -15,7 +15,7 @@ function MainHeader({ headerPage }) {
   };
 
   const producerLoginClicked = () => {
-    navigate("/tickchak/producer/1"); // הפניה לקומפוננטת ההתחברות (LogIn)
+    navigate("/tickchak/producer"); // הפניה לקומפוננטת ההתחברות (LogIn)
   };
   const producerClicked = () => {
     navigate("/tickchak/producer"); // הפניה לקומפוננטת ההתחברות (LogIn)

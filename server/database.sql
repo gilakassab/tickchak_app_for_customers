@@ -17,9 +17,10 @@ DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS blocks;
 DROP TABLE IF EXISTS auditoriumsParts;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS auditoriums;
 DROP TABLE IF EXISTS passwords;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS auditoriums;
 
 
 -- Create the auditoriums table
@@ -27,6 +28,11 @@ CREATE TABLE auditoriums (
   auditoriumId INT AUTO_INCREMENT PRIMARY KEY,
   auditoriumName VARCHAR(255),
   auditoriumExists BOOLEAN
+);
+
+CREATE TABLE roles (
+roleId INT PRIMARY KEY,
+roleName VARCHAR(255)
 );
 
 -- Create the events table
@@ -51,7 +57,9 @@ CREATE TABLE users (
   userId INT AUTO_INCREMENT PRIMARY KEY,
   userName VARCHAR(255) NOT NULL,
   userPhone VARCHAR(255),
-  userEmail VARCHAR(255) NOT NULL
+  userEmail VARCHAR(255) NOT NULL,
+  roleId INT,
+  FOREIGN KEY (roleId) REFERENCES roles (roleId)
 );
 
 -- Create the orders table
@@ -117,15 +125,12 @@ CREATE TABLE blocks (
   numOfRowsAndSeats VARCHAR(255),
   FOREIGN KEY (partId) REFERENCES auditoriumsParts (partId)
 );
-
--- Create the ticketPrices table
-CREATE TABLE ticketPrices (
-  priceId INT AUTO_INCREMENT PRIMARY KEY,
-  eventId INT,
-  ticketPrice DECIMAL(10, 2),
-  FOREIGN KEY (eventId) REFERENCES events (eventId)
-);
-
+CREATE TABLE passwords(
+passwordId INT AUTO_INCREMENT PRIMARY KEY,
+userId INT,
+password VARCHAR(255),
+FOREIGN KEY (userId) REFERENCES users (userId)
+ );
 
 
 -- -CREATE TABLE blocksView (
@@ -140,6 +145,11 @@ INSERT INTO auditoriums (auditoriumName,auditoriumExists) VALUES
 ('בנייני האומה',TRUE),
 ('Auditorium 2',FALSE),
 ('Auditorium 3',TRUE);
+
+INSERT INTO roles(roleId,roleName) VALUES
+(1001,'admin'),
+(2001,'producer'),
+(3001,'buyer');
 
 -- Insert data into the users table
 INSERT INTO users (userName, userPhone, userEmail) VALUES
