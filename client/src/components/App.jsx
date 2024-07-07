@@ -14,6 +14,7 @@ import SignUp from "../pages/SignUp";
 import AdminHome from "../pages/AdminHome.jsx";
 
 
+
 export const EventContext = createContext();
 export const useEventContext = () => useContext(EventContext);
 

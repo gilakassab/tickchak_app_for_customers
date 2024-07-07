@@ -1,65 +1,110 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import PartDetail from './PartDetail';
+import '../css/NewAuditorium.css'; // Import the CSS file
 
-
-function NewAuditorium() {
-  const { auditoriumName } = useParams();
+const NewAuditorium = () => {
+  const { name } = useParams();
   const [numParts, setNumParts] = useState(1);
-  const [parts, setParts] = useState([{ title: '', image: '' }]);
+  const [parts, setParts] = useState([{ title: '', matrix: [[true]] }]);
+  const [openPartsDetails, setOpenPartsDetails] = useState(false);
+  const [selectedPart, setSelectedPart] = useState(null);
 
   const handleNumPartsChange = (e) => {
-    const count = parseInt(e.target.value, 10);
-    setNumParts(count);
-
+    const value = parseInt(e.target.value, 10);
+    setNumParts(value);
     const newParts = [...parts];
-    while (newParts.length < count) {
-      newParts.push({ title: '', image: '' });
-    }
-    setParts(newParts.slice(0, count));
-  };
 
-  const handlePartChange = (index, field, value) => {
-    const newParts = parts.map((part, i) =>
-      i === index ? { ...part, [field]: value } : part
-    );
+    if (value > numParts) {
+      for (let i = numParts; i < value; i++) {
+        newParts.push({ title: '', matrix: [[true]] });
+      }
+    } else {
+      newParts.length = value;
+    }
+
     setParts(newParts);
   };
 
+  const handlePartClick = (index) => {
+    setSelectedPart(index);
+    setOpenPartsDetails(true);
+  };
+
+  const handleSavePartDetail = (index, partData) => {
+    const updatedParts = [...parts];
+    updatedParts[index] = partData;
+    setParts(updatedParts);
+    setOpenPartsDetails(false);
+  };
+
+  const handleSaveAllParts = async() => {
+    // try {
+    //   const response = await fetch(
+    //     `http://localhost:3300/auditoriums`,
+    //     {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body:JSON.stringify({ auditoriumName: name, parts:parts }),
+    //       credentials: "include"
+    //     }
+    //   );
+
+    //   if (!response.ok) {
+    //     console.log("not ok");
+    //     throw new Error("Failed to update event");
+    //   }
+    //   const data = await response.json();
+    //   console.log(data);
+    // } catch (error) {
+    //   console.error("Error updating event:", error);
+    // }
+  };
+
+  const allPartsFilled = parts.every(part => part.title && part.matrix.length && part.matrix[0].length);
+
+
+
   return (
-    <div>
-      <h1>{auditoriumName}</h1>
-      <label>
-        Number of Parts:
-        <input
-          type="number"
-          value={numParts}
-          min="1"
-          onChange={handleNumPartsChange}
-        />
-      </label>
-      {parts.map((part, index) => (
-        <div key={index}>
-          <h2>Part {index + 1}</h2>
+    <div className="new-auditorium-container">
+      {!openPartsDetails && (
+        <>
+          <h1>{name}</h1>
           <label>
-            Title:
+            Number of Parts:
             <input
-              type="text"
-              value={part.title}
-              onChange={(e) => handlePartChange(index, 'title', e.target.value)}
+              type="number"
+              value={numParts}
+              min="1"
+              onChange={handleNumPartsChange}
             />
           </label>
-          <div>
-          <img src="../images/rows-red-seats-theater.jpg" />
-        </div>
-          {/* <div>
-            <Link to={`/auditorium/${auditoriumName}/part/${index + 1}`}>
-              Go to Part {index + 1}
-            </Link>
-          </div> */}
-        </div>
-      ))}
+          <div className="parts-container">
+            {parts.map((part, index) => (
+              <div
+                key={index}
+                className="part-box"
+                onClick={() => handlePartClick(index)}
+              >
+                <h2>{part.title || `${index + 1}`}</h2>
+              </div>
+            ))}
+          </div>
+          <button onClick={handleSaveAllParts} disabled={!allPartsFilled}>
+            Save All Parts
+          </button>
+        </>
+      )}
+      {openPartsDetails && (
+        <PartDetail
+          parts={parts}
+          index={selectedPart}
+          setOpenPartsDetails={setOpenPartsDetails}
+          onSave={handleSavePartDetail}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default NewAuditorium;

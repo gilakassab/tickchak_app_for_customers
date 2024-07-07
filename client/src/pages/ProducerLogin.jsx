@@ -17,6 +17,17 @@ function ProducerLogin() {
     setEmail(e.target.value);
   };
 
+  const handleBlur = () => {
+    const lowerCaseEmail = email.toLowerCase();
+    if (lowerCaseEmail && !lowerCaseEmail.includes('@')) {
+      setEmail(`${lowerCaseEmail}@gmail.com`);
+    } else if (lowerCaseEmail && lowerCaseEmail.endsWith('@')) {
+      setEmail(`${lowerCaseEmail}gmail.com`);
+    } else {
+      setEmail(lowerCaseEmail);
+    }
+  };
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -85,6 +96,7 @@ function ProducerLogin() {
             type="text"
             value={email}
             onChange={handleEmailChange}
+            onBlur={handleBlur}
             required
             className="input"
           />

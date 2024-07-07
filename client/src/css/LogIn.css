@@ -55,4 +55,27 @@
     margin-top: -10px;
     margin-bottom: 10px;
   }
+  /* ProducerLogin.css */
+.email-container {
+  position: relative;
+}
+
+.email-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.email-input {
+  width: 100%;
+  padding-right: 90px; /* מרווח כדי שהטקסט המושלם לא יעלה על הטקסט המוקלד */
+}
+
+.email-suffix {
+  position: absolute;
+  right: 10px;
+  color: #ccc; /* צבע אפור לטקסט המושלם */
+  pointer-events: none; /* שלא יפריע בהקלדה */
+}
+
   
