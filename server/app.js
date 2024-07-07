@@ -1,6 +1,6 @@
 const express = require('express');
 // const config = require('./config/config');
-
+const path = require('path');
 const app = express();
 require('dotenv').config();
 app.use(express.json());
@@ -33,7 +33,6 @@ const auditoriumsPartsRouter = require('./routes/auditoriumsPartsRoute');
 const auditoriumsRouter = require('./routes/auditoriumsRoute');
 
 app.use('/users', userRouter);
-
 app.use('/seatsView',seatsViewRouter);
 app.use('/seatsTaken',seatsTakenRouter)
 app.use('/auditoriumsParts',auditoriumsPartsRouter);
@@ -45,6 +44,8 @@ const verifyJWT = require('./middleware/verifyJWT')
 const verifyRoles = require('./middleware/verifyRoles')
 app.use(verifyJWT);
 app.use(verifyRoles);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 
 // const passswordsRouter = require('./Routes/passwordsRoutes');

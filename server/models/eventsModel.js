@@ -120,6 +120,5 @@ async function postEvent(eventDetails) {
     throw err;
   }
 }
-
 module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent, postEvent };
 

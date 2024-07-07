@@ -20,7 +20,7 @@ function AdminHome() {
 
   const fetchAuditoriumsFromServer = async () => {
     try {
-      const response = await fetch(`http://localhost:3300/auditoriums`,
+      const response = await fetch('http://localhost:3300/auditoriums?exists=false',
         {credentials: "include"}
       );
       const data = await response.json();

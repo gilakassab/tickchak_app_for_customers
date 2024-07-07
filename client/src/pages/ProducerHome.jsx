@@ -16,7 +16,7 @@ function ProducerHome() {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [auditoriums, setAuditoriums] = useState([]);
-  const [successMessage, setSuccessMessage] = useState(''); // הוסף מצב להודעת הצלחה
+  const [successMessage, setSuccessMessage] = useState('');
 
   const stages = [
     'Event Name',
@@ -29,10 +29,10 @@ function ProducerHome() {
   useEffect(() => {
     const fetchAuditoriums = async () => {
       try {
-        const response = await fetch('http://localhost:3300/auditoriums');
+        const response = await fetch('http://localhost:3300/auditoriums?exists=true');
         const data = await response.json();
-        const filteredData = data.filter(auditorium => auditorium.auditoriumExists);
-        setAuditoriums(filteredData);
+        const flattenedData = data.flat();
+        setAuditoriums(flattenedData);
       } catch (error) {
         console.error('Error fetching auditoriums:', error);
       }
@@ -49,26 +49,25 @@ function ProducerHome() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const eventDetails = {
-      eventName,
-      eventDate: date,
-      eventOpenGates: time.openGates,
-      eventBeginAt: time.beginAt,
-      eventEndAt: time.endAt,
-      eventProducer: 1,
-      eventRemarks: description,
-      auditoriumName: location === 'OTHER' ? otherLocation : location,
-      eventPicUrl: image ? URL.createObjectURL(image) : '',
-      eventCategory: category,
-      eventIsAllowed: false,
-    };
-    console.log("handleSubmit called", eventDetails);
+    const formData = new FormData();
+    formData.append('eventName', eventName);
+    formData.append('eventDate', date);
+    formData.append('eventOpenGates', time.openGates);
+    formData.append('eventBeginAt', time.beginAt);
+    formData.append('eventEndAt', time.endAt);
+    formData.append('eventProducer', 1);
+    formData.append('eventRemarks', description);
+    formData.append('auditoriumName', location === 'OTHER' ? otherLocation : location);
+    if (image) {
+      formData.append('image', image);
+    }
+    formData.append('eventCategory', category);
+    formData.append('eventIsAllowed', 0); // שינוי לערך מספרי
 
     try {
       const response = await fetch('http://localhost:3300/events', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventDetails),
+        body: formData,
         credentials: 'include'
       });
 
@@ -166,12 +165,14 @@ function ProducerHome() {
                 <option value="OTHER">Other</option>
               </select>
               {location === 'OTHER' && (
-                <input
-                  type="text"
-                  value={otherLocation}
-                  onChange={(e) => setOtherLocation(e.target.value)}
-                  placeholder="Enter location"
-                />
+                <>
+                  <label>Other Location:</label>
+                  <input
+                    type="text"
+                    value={otherLocation}
+                    onChange={(e) => setOtherLocation(e.target.value)}
+                  />
+                </>
               )}
               <button onClick={handleNextStage}>Next</button>
             </div>
@@ -184,9 +185,10 @@ function ProducerHome() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <label>Image:</label>
+              <label>Upload Image:</label>
               <input
                 type="file"
+                accept="image/*"
                 onChange={(e) => setImage(e.target.files[0])}
               />
               <button onClick={handleSubmit}>Submit</button>

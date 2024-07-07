@@ -6,7 +6,6 @@ require('dotenv').config();
 
 
 const handleLogin = async (userName, password) => {
-    console.log(userName + " " + password);
     if (!userName || !password) {
         
         return null;
@@ -18,7 +17,6 @@ const handleLogin = async (userName, password) => {
     }
 
     const user = foundUser[0]; 
-    console.log(password + "=" + user.password)
 
 
     const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
