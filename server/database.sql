@@ -160,9 +160,6 @@ INSERT INTO roles(roleId,roleName) VALUES
 (2001,'producer'),
 (3001,'buyer');
 
-
-
-
 -- Insert data into the users table
 INSERT INTO users (userName, userPhone, userEmail, roleId) VALUES
 ('Gila', '0583257160', 'gilakassab@gmail.com',1001),

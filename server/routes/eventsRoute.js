@@ -3,6 +3,7 @@ const multer = require("multer");
 const router = express.Router();
 const controller = require('../controllers/eventsController');
 const controllerSeats = require('../controllers/seatsViewController');
+const controllerAuditorium = require('../controllers/auditoriumsController')
 const verifyRoles = require("../middleware/verifyRoles");
 const verifyJWT = require("../middleware/verifyJWT");
 
