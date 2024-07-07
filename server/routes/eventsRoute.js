@@ -69,7 +69,7 @@ router.post("/", upload.single('image'), async (req, res) => {
     console.log("Received POST request with body:", req.body);
     try {
       const eventDetails = req.body;
-      eventDetails.eventPicUrl = req.file ? `/uploads/${req.file.filename}` : '';
+      eventDetails.eventPicUrl = req.file ? req.file.filename : '';
       eventDetails.eventIsAllowed = eventDetails.eventIsAllowed === 'true' ? 1 : 0;
       
       if (eventDetails.auditoriumName === 'OTHER' && eventDetails.otherLocation) {
@@ -78,6 +78,8 @@ router.post("/", upload.single('image'), async (req, res) => {
       }
       
       const event = await controller.postEvent(eventDetails);
+      console.log("event", event);
+
       res.status(201).send(event);
     } catch (error) {
       res.status(500).send({ message: error.message });

@@ -58,7 +58,7 @@ function Events({ viewEvents }) {
   const eventsElements = events.map((ev, index) => (
     <Link to={`/tickchak/event/${ev.eventId}`} key={ev.eventId || index} className="event-tile" onClick={() => handleEventClick(ev)}>
       <div className="event-info" >
-        <img src={ev.eventPicUrl} alt={ev.eventName} />
+        <img src={`http://localhost:3300/uploads/${ev.eventPicUrl}`} alt={ev.eventName} />
         <div className="eventDetails">
           <p className="pEventName">{ev.eventName}</p>
           {/* <p className="pEvent">{ev.eventRemarks}</p> */}

@@ -103,19 +103,17 @@ async function postEvent(eventDetails) {
       eventProducer, eventRemarks, auditoriumName, eventPicUrl, eventCategory, eventIsAllowed
     } = eventDetails;
 
-    // Format the eventDate to MySQL compatible format
     const formattedEventDate = formatDateForMySQL(eventDate);
 
-    // Find the auditoriumId based on auditoriumName
-    const auditoriumQuery = 'SELECT auditoriumId FROM auditoriums WHERE auditoriumName = ?';
+    const auditoriumQuery = 'SELECT * FROM auditoriums WHERE auditoriumName = ?';
     const [auditoriumResult] = await pool.query(auditoriumQuery, [auditoriumName]);
-    const auditoriumId = auditoriumResult.length > 0 ? auditoriumResult[0].auditoriumId : null;
-
-    if (!auditoriumId) {
-      return auditoriumId;
+    
+    if (auditoriumResult.length === 0) {
+      return { error: 'Auditorium not found' };
     }
+    
+    const auditoriumId = auditoriumResult[0].auditoriumId;
 
-    // Insert the event into the database
     const sql = `
       INSERT INTO events (eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, 
       eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed) 
@@ -130,7 +128,9 @@ async function postEvent(eventDetails) {
   } catch (err) {
     console.error(err);
     throw err;
-  }}
+  }
+}
+
 
 
 

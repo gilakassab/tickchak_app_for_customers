@@ -56,9 +56,8 @@ console.log(`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`)
             <div>
                 <div className="event-container">
                     <Timer eventDate={selectedEvent.eventDate} eventBeginAt={selectedEvent.eventBeginAt}/>
-                    <img id='showcase' className='eventPic' src={selectedEvent.eventPicUrl} alt={selectedEvent.eventName} />
+                    <img id='showcase' className='eventPic' src={`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`} alt={selectedEvent.eventName} />
                     <h1 className='detailsEvents'>{selectedEvent.eventName} | {formattedDate} | {selectedEvent.eventBeginAt} | {selectedEvent.auditoriumName} </h1>
-                    
                     <Link to={`/tickchak/event/${selectedEvent.eventId}/order`} key={selectedEvent.eventId}>
                         <button className='buttonTicketHere'>Tickets here!</button>
                     </Link>

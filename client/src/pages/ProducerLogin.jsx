@@ -10,6 +10,7 @@ function ProducerLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pageOpen, setPageOpen] = useState('');
+  const [userData,setUserData]=useState([]);
   const [errors, setErrors] = useState({});
 
   const handleEmailChange = (e) => {
@@ -49,7 +50,7 @@ function ProducerLogin() {
         throw new Error('Failed to log in');
       }
       const data = await response.json();
-
+      setUserData(data.user)
       if (data.user.roleId === 1001) {
         setPageOpen("admin");
       } else {
@@ -70,7 +71,7 @@ function ProducerLogin() {
   }
 
   if (pageOpen === 'producer') {
-    return <Navigate to="/tickchak/prod" />;
+    return <Navigate to={`/tickchak/producer/${userData.id}`}/>;
   }
 
   return (

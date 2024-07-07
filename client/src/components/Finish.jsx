@@ -79,9 +79,7 @@ function Finish({ mySeats, personalInfo }) {
   return (
     <div>
       {screenshot && <img src={screenshot} alt="Screenshot" />}
-      <h1>הנתונים נשמרו בהצלחה. 
-        נשלח מייל לכתובת המייל שציינת. 
-        תודה שביקרת בטיקצא'ק. מחכים לכם</h1>
+      <h1> The data was saved successfully. An email will be sent to the email address you specified. Thank you for visiting TikTok. waiting for you!</h1>
     </div>
   );
 }
