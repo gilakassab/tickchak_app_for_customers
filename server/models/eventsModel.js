@@ -85,6 +85,17 @@ async function putEvent(id) {
       throw err;
 })};
 
+const formatDateForMySQL = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const seconds = String(d.getSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
 async function postEvent(eventDetails) {
   try {
     const {
@@ -101,7 +112,7 @@ async function postEvent(eventDetails) {
     const auditoriumId = auditoriumResult.length > 0 ? auditoriumResult[0].auditoriumId : null;
 
     if (!auditoriumId) {
-      throw new Error('Invalid auditorium name');
+      return auditoriumId;
     }
 
     // Insert the event into the database
@@ -120,21 +131,7 @@ async function postEvent(eventDetails) {
     console.error(err);
     throw err;
   }}
-// async function postEvent(name, username, email, phone, street, city,password) {
-//   try {
-//     const sql1 = 'INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)';
-//     const userResult = await pool.query(sql1, [name, username, email, phone]);
-//     const userId = userResult[0].insertId;
-//     const sql2 = 'INSERT INTO address (id, street, city) VALUES (?, ?, ?)';
-//     await pool.query(sql2, [userId, street, city]);
-//     const sql3 = 'INSERT INTO passwords (user_id,password) VALUES (?, ?)';
-//     await pool.query(sql3, [userId,password]);
-//     return { userId }; 
-//   } catch (err) {
-//     console.log(err);
-//     throw err; 
-//   }
-// }
 
 
-module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent ,postEvent}
+
+module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent ,postEvent,getAllDatesEvents}

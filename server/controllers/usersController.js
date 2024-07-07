@@ -1,5 +1,6 @@
 const model = require('../models/usersModel');
 const crypto = require('crypto');
+const _ = require("lodash");
 
 async function postUser(userName,userPhone,userEmail) {
     try {
@@ -12,7 +13,8 @@ async function postUser(userName,userPhone,userEmail) {
 async function postUserWithPwd(userName,password, userPhone,userEmail) {
     try {
         const emailExists = await model.checkEmailExists(userEmail);
-        if (emailExists) {
+        if (!_.isEmpty(emailExists)) {
+            console.log("hi")
             const error = new Error('Email already exists');
             error.status = 403;
             throw error;

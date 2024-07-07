@@ -56,6 +56,7 @@ const pool = require('../DB.js');
 // }
 async function postUserLogin(userEmail) {
   try {
+    console.log("userEmailB",userEmail);
     const sql = 'SELECT users.*, passwords.password FROM users NATURAL JOIN passwords  WHERE users.userEmail = ?';
     const result = await pool.query(sql, [userEmail])
     console.log("userEmail",result[0]);
@@ -67,8 +68,9 @@ async function postUserLogin(userEmail) {
 }
 async function checkEmailExists(userEmail) {
   try {
-    const sql = 'SELECT userEmail FROM users  WHERE users.userEmail = ?';
+    const sql = 'SELECT userEmail FROM users  WHERE userEmail = ?';
     const result = await pool.query(sql, [userEmail])
+    console.log(result[0])
     return result[0]; 
   } catch (err) {
     console.log(err);

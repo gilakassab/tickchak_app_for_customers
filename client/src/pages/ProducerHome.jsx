@@ -47,8 +47,54 @@ function ProducerHome() {
     }
   };
 
+  const validateCurrentStage = () => {
+    switch (currentStage) {
+      case 0:
+        if (!eventName) {
+          setErrorMessage('Please enter the event name.');
+          return false;
+        }
+        break;
+      case 1:
+        if (!category) {
+          setErrorMessage('Please select a category.');
+          return false;
+        }
+        break;
+      case 2:
+        if (!date || !time.openGates || !time.beginAt || !time.endAt) {
+          setErrorMessage('Please select the date and time.');
+          return false;
+        }
+        break;
+      case 3:
+        if (!location || (location === 'OTHER' && !otherLocation)) {
+          setErrorMessage('Please select a location or provide the other location.');
+          return false;
+        }
+        break;
+      case 4:
+        if (!description) {
+          setErrorMessage('Please enter a description.');
+          return false;
+        }
+        if (!image) {
+          setErrorMessage('Please upload an image.');
+          return false;
+        }
+        break;
+      default:
+        break;
+    }
+    return true;
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!validateCurrentStage()) {
+      return;
+    }
+  
     const formData = new FormData();
     formData.append('eventName', eventName);
     formData.append('eventDate', date);
@@ -57,24 +103,25 @@ function ProducerHome() {
     formData.append('eventEndAt', time.endAt);
     formData.append('eventProducer', 1);
     formData.append('eventRemarks', description);
-    formData.append('auditoriumName', location === 'OTHER' ? otherLocation : location);
+    formData.append('auditoriumName', location === 'OTHER' ? 'OTHER' : location);
+    formData.append('otherLocation', location === 'OTHER' ? otherLocation : '');
     if (image) {
       formData.append('image', image);
     }
     formData.append('eventCategory', category);
-    formData.append('eventIsAllowed', 0); // שינוי לערך מספרי
-
+    formData.append('eventIsAllowed', 0);
+  
     try {
       const response = await fetch('http://localhost:3300/events', {
         method: 'POST',
         body: formData,
         credentials: 'include'
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to submit event');
       }
-
+  
       console.log('Event submitted successfully');
       setSuccessMessage('The event has been successfully registered. It will be forwarded to the site manager for final approval. Thank you for choosing Tickchak.');
     } catch (error) {

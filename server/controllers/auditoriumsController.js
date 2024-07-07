@@ -10,7 +10,15 @@ async function getAllAuditoriums(auditoriumExists) {
       throw err;
     }
   }
+  async function addAuditorium(auditoriumName) {
+    try {
+      return await model.addAuditorium(auditoriumName);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+}
   
 
 
-module.exports = {getAllAuditoriums}
+module.exports = {getAllAuditoriums, addAuditorium}
