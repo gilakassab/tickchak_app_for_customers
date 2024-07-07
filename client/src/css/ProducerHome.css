@@ -1,5 +1,3 @@
-/* ProducerHome.css */
-
 .producer-home {
   padding: 20px;
 }
@@ -50,6 +48,7 @@
   color: white;
   border: none;
   cursor: pointer;
+  position: relative; /* For the tooltip */
 }
 
 .stage-content button:hover {
@@ -93,3 +92,25 @@
   font-size: 28px; /* גודל טקסט בולט */
 }
 
+.error-message {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4d4d;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  visibility: hidden;
+  white-space: nowrap; /* Make sure the message doesn't break into a new line */
+  font-size: 14px; /* Smaller font size for better fit */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slight shadow for better visibility */
+}
+
+.error-message.show {
+  opacity: 1;
+  visibility: visible;
+}

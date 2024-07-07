@@ -3,6 +3,7 @@ const multer = require("multer");
 const router = express.Router();
 const controller = require('../controllers/eventsController');
 const controllerSeats = require('../controllers/seatsViewController');
+const controllerAuditorium = require('../controllers/auditoriumsController');
 const verifyRoles = require("../middleware/verifyRoles");
 
 router.use(express.json());
@@ -62,12 +63,19 @@ router.post("/", upload.single('image'), async (req, res) => {
       const eventDetails = req.body;
       eventDetails.eventPicUrl = req.file ? `/uploads/${req.file.filename}` : '';
       eventDetails.eventIsAllowed = eventDetails.eventIsAllowed === 'true' ? 1 : 0;
+      
+      if (eventDetails.auditoriumName === 'OTHER' && eventDetails.otherLocation) {
+        const newAuditorium = await controllerAuditorium.addAuditorium(eventDetails.otherLocation);
+        eventDetails.auditoriumName = newAuditorium.auditoriumName;
+      }
+      
       const event = await controller.postEvent(eventDetails);
       res.status(201).send(event);
     } catch (error) {
       res.status(500).send({ message: error.message });
     }
-  });
+});
+
   
   
 
