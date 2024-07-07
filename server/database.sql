@@ -163,12 +163,14 @@ INSERT INTO roles(roleId,roleName) VALUES
 -- Insert data into the users table
 INSERT INTO users (userName, userPhone, userEmail, roleId) VALUES
 ('Gila', '0583257160', 'gilakassab@gmail.com',1001),
+('Brachi', '0583299491','brachikim@gmail.com',1001),
 ('User 1', '123-456-7890', 'user1@example.com',3001),
 ('User 2', '234-567-8901', 'user2@example.com',3001),
 ('User 3', '345-678-9012', 'user3@example.com',3001);
 
 INSERT INTO passwords(userId,password) VALUES
-(1,SHA2('gk1234', 256));
+(1,SHA2('gk1234', 256)),
+(2,SHA2('brachi123',256));
 
 -- Insert data into the orders table
 INSERT INTO orders (userId, orderDate) VALUES

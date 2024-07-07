@@ -10,10 +10,22 @@ function ProducerLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pageOpen, setPageOpen] = useState('');
+  const [userData,setUserData]=useState([]);
   const [errors, setErrors] = useState({});
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+  };
+
+  const handleBlur = () => {
+    const lowerCaseEmail = email.toLowerCase();
+    if (lowerCaseEmail && !lowerCaseEmail.includes('@')) {
+      setEmail(`${lowerCaseEmail}@gmail.com`);
+    } else if (lowerCaseEmail && lowerCaseEmail.endsWith('@')) {
+      setEmail(`${lowerCaseEmail}gmail.com`);
+    } else {
+      setEmail(lowerCaseEmail);
+    }
   };
 
   const handlePasswordChange = (e) => {
@@ -49,7 +61,7 @@ function ProducerLogin() {
         throw new Error('Failed to log in');
       }
       const data = await response.json();
-
+      setUserData(data.user)
       if (data.user.roleId === 1001) {
         setPageOpen("admin");
       } else {
@@ -70,7 +82,7 @@ function ProducerLogin() {
   }
 
   if (pageOpen === 'producer') {
-    return <Navigate to="/tickchak/prod" />;
+    return <Navigate to={`/tickchak/producer/${userData.id}`}/>;
   }
 
   return (
@@ -84,6 +96,7 @@ function ProducerLogin() {
             type="text"
             value={email}
             onChange={handleEmailChange}
+            onBlur={handleBlur}
             required
             className="input"
           />

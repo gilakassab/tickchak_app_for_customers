@@ -1,0 +1,60 @@
+.new-auditorium-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .new-auditorium-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .new-auditorium-container label {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    color: #666;
+  }
+  
+  .new-auditorium-container input[type="number"] {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 1em;
+  }
+  
+  .parts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .part-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .part-box:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .part-box h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #444;
+  }
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

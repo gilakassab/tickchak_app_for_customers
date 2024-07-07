@@ -13,6 +13,7 @@ import NewAuditorium from "../pages/NewAuditorium.jsx";
 import SignUp from "../pages/SignUp";
 import AdminHome from "../pages/AdminHome.jsx";
 
+
 export const EventContext = createContext();
 export const useEventContext = () => useContext(EventContext);
 
@@ -53,16 +54,18 @@ function App() {
                 <Route path="event/:id" element={<Event />} />
                 <Route path="event/:id/order" element={<Order />} />
                 <Route path="signup" element={<SignUp />} />
-                <Route path="prod" element={<ProducerHome />} />
-                <Route path="producerlogin" element={<ProducerLogin />}>
-                  <Route path=":id" element={<ProducerHome />} />
+                {/* <Route path="prod" element={<ProducerHome />} /> */}
+                <Route path="producerlogin" element={<ProducerLogin />}/>
+                  <Route path="producer/:id" element={<ProducerHome />} />
                   <Route path="newevent" element={<NewEvent />} />
-                </Route>
+                {/* </Route> */}
                 <Route path="adminhome" element={<AdminHome />} />
                 <Route
                   path="newauditorium/:name"
                   element={<NewAuditorium />}
+                 
                 />
+                
               </Routes>
             </Layout>
           }

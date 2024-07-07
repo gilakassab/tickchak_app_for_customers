@@ -1,0 +1,71 @@
+.part-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .part-detail-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .part-detail-container label {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #666;
+  }
+  
+  .part-detail-container input[type="text"],
+  .part-detail-container input[type="number"] {
+    margin-left: 10px;
+    padding: 8px;
+    font-size: 1em;
+  }
+  
+  .matrix-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .matrix-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .matrix-row {
+    display: flex;
+  }
+  
+  .matrix-button {
+    width: 20px; /* Increased button size for better visibility */
+    height: 20px; /* Increased button size for better visibility */
+    margin: 2px;
+    background-color: #ccc; /* Light gray background */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .matrix-button.pressed {
+    background-color: #ff69b4; /* Pink color when pressed */
+  }
+  .matrix-button.hovered {
+    background-color: #ccc; /* צבע אפור למעלה */
+}
+.matrix-inputs input:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+
+
+  
