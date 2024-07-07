@@ -6,15 +6,21 @@ const controller = require('../controllers/authController');
 
 router.post("/", async (req, res) => {
         console.log(req.body);
-        const userName = req.body.userName;
+        const userEmail = req.body.userEmail;
         const password = req.body.password;
-        console.log(11);
-        const accessToken = await controller.handleLogin(userName, password);
-        console.log(accessToken);
-        if (accessToken) {
-            res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-            return res.json({ accessToken });
+        
+        const loginResponse = await controller.handleLogin(userEmail, password);
+    console.log(loginResponse);
 
+    if (loginResponse) {
+        const { accessToken, user } = loginResponse;
+        res.cookie('accessToken', accessToken, { 
+            httpOnly: true, 
+            sameSite: 'None', 
+            secure: true, 
+            maxAge: 24 * 60 * 60 * 1000 
+        });
+        return res.json({ accessToken, user });
     }
  else {
     return res.status(401).json({ message: 'Unauthorized' });

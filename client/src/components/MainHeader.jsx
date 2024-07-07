@@ -15,14 +15,9 @@ function MainHeader({ headerPage }) {
   };
 
   const producerLoginClicked = () => {
-    navigate("/tickchak/producer"); // הפניה לקומפוננטת ההתחברות (LogIn)
+    navigate("/tickchak/producerlogin"); // הפניה לקומפוננטת ההתחברות (LogIn)
   };
-  const producerClicked = () => {
-    navigate("/tickchak/producer"); // הפניה לקומפוננטת ההתחברות (LogIn)
-  };
-  const AdminClicked = () => {
-    navigate("/tickchak/adminhome"); // הפניה לקומפוננטת ההתחברות (LogIn)
-  };
+
 
   return (
     <header className="main-header">
@@ -42,12 +37,6 @@ function MainHeader({ headerPage }) {
           </a>
           <button className="producer-button" onClick={producerLoginClicked}>
             ProducerLogin
-          </button>
-          <button className="producer-button" onClick={producerClicked}>
-            Producer
-          </button>
-          <button className="producer-button" onClick={AdminClicked}>
-            Admin
           </button>
         </nav>
       )}

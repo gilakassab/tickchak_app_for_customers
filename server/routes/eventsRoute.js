@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require('../controllers/eventsController')
 const controllerSeats = require('../controllers/seatsViewController');
 const verifyRoles = require("../middleware/verifyRoles");
+const verifyJWT = require("../middleware/verifyJWT");
 
 
 router.use(express.json());
@@ -54,7 +55,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.delete("/:id",verifyRoles(["admin"]), async (req, res) => {
+router.delete("/:id",verifyJWT,verifyRoles(1001), async (req, res) => {
     const id = req.params.id;
     const event = await controller.deleteEventById(id);
     res.send(event)
@@ -65,11 +66,15 @@ router.post("/", async (req, res) => {
     // res.send(event);
 });
 
-router.put("/:id",verifyRoles(["admin"]), async(req, res) => {
+router.put("/:id",verifyJWT,verifyRoles(1001), async(req, res) => {
     try{
+        console.log("123");
+        const eventDate = req.body.eventDate;
+        const eventEndAt = req.body.eventEndAt;
+        const eventOpenGates = req.body.eventOpenGates;
+        const auditoriumId = req.body.auditoriumId;
         const id = req.params.id;
-        const eventIsAllowed = req.body.eventIsAllowed;
-        const response=await controller.putEvent(id,eventIsAllowed);
+        const response=await controller.putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId);
         res.send(response);
     }
    catch(error){

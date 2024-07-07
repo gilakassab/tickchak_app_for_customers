@@ -35,9 +35,50 @@ async function deleteEventById(id) {
     }
 
 }
-async function putEvent(id,eventIsAllowed) {
+
+
+    async function checkEventOverlap(auditoriumId, eventDate, eventEndAt, eventOpenGates) {
+        try {
+          // Retrieve all events from the model for the given auditorium and date
+          const allEvents = await model.getAllDatesEvents(auditoriumId, eventDate);
+      
+          // Convert eventEndAt and eventOpenGates to Date objects for comparison
+          const newEventStart = new Date(eventOpenGates);
+          const newEventEnd = new Date(eventEndAt);
+      
+          // Convert eventDate to Date object for date comparison
+          const newEventDate = new Date(eventDate);
+      
+          // Check for overlap
+          const overlappingEvent = allEvents.find(event => {
+            const eventStart = new Date(event.eventOpenGates);
+            const eventEnd = new Date(event.eventEndAt);
+            const eventDate = new Date(event.eventDate);
+      
+            // Check for both time overlap and date match
+            return (newEventStart < eventEnd && newEventEnd > eventStart && eventDate.getTime() === newEventDate.getTime());
+          });
+      
+          if (overlappingEvent) {
+            return { overlap: true, overlappingEvent };
+          } else {
+            return { overlap: false };
+          }
+        } catch (err) {
+          console.error(err);
+          throw err;
+        }
+      }
+      
+
+async function putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId) {
     try {
-        return model.putEvent(id,eventIsAllowed);
+        const overlapCheck = await checkEventOverlap(auditoriumId,eventDate,eventEndAt, eventOpenGates);
+    if (overlapCheck.overlap) {
+
+        return model.deleteEventById(id)
+    }
+        return model.putEvent(id);
     } catch (err) {
         throw err;
     }

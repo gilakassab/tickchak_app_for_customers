@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/SignUp.css'; // Import the CSS file
 
 function SignUp() {
+  const navigate = useNavigate();
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [errors, setErrors] = useState({});
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -23,8 +27,26 @@ function SignUp() {
     setPhone(e.target.value);
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!username) newErrors.username = 'Username is required';
+    if (!password) newErrors.password = 'Password is required';
+    if (!email) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Email is invalid';
+    if (!phone) newErrors.phone = 'Phone number is required';
+    else if (!/^\d{10}$/.test(phone)) newErrors.phone = 'Phone number is invalid';
+
+    return newErrors;
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault(); // Prevent the default form submission
+
+    const formErrors = validate();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:3300/signup', {
@@ -43,6 +65,9 @@ function SignUp() {
       let data;
       if (contentType && contentType.includes('application/json')) {
         data = await response.json();
+        if(response.status === 403){
+          alert("Email already exists.Try Again");
+        }
       } else {
         data = await response.text(); // Handle non-JSON response
       }
@@ -50,7 +75,8 @@ function SignUp() {
       if (!response.ok) {
         throw new Error(data.message || 'Failed to sign up');
       }
-      alert("sign up successful");
+      alert("Sign up successful");
+      navigate('/tickchak/producerlogin', { state: { fromSignUp: true } });
       console.log('Sign up successful:', data);
     } catch (error) {
       console.error('Error signing up:', error.message);
@@ -65,6 +91,7 @@ function SignUp() {
 
   return (
     <div className="container">
+      <button onClick={() => { navigate('/tickchak/producerlogin'); }} className="back-button">➪</button>
       <h2 className="title">Sign Up</h2>
       <form onSubmit={handleSignUp} className="form">
         <label className="label">
@@ -76,6 +103,7 @@ function SignUp() {
             required
             className="input"
           />
+          {errors.username && <p className="error">{errors.username}</p>}
         </label>
         <br />
         <label className="label">
@@ -87,6 +115,7 @@ function SignUp() {
             required
             className="input"
           />
+          {errors.password && <p className="error">{errors.password}</p>}
         </label>
         <br />
         <label className="label">
@@ -98,6 +127,7 @@ function SignUp() {
             required
             className="input"
           />
+          {errors.email && <p className="error">{errors.email}</p>}
         </label>
         <br />
         <label className="label">
@@ -109,6 +139,7 @@ function SignUp() {
             required
             className="input"
           />
+          {errors.phone && <p className="error">{errors.phone}</p>}
         </label>
         <br />
         <button type="submit" className="button">Sign Up</button>
@@ -118,4 +149,3 @@ function SignUp() {
 }
 
 export default SignUp;
-

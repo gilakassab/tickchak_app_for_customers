@@ -16,6 +16,17 @@ async function getEventById(id) {
     throw err;
   }
 }
+async function getAllDatesEvents(auditoriumId,eventDate) {
+  try {
+    let result;
+      const sql = '  SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ? AND eventDate = ?;';
+      result = await pool.query(sql,[auditoriumId , eventDate]);
+    return result[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 
 async function getNotAllowedEvents() {
   try {
@@ -62,14 +73,18 @@ async function deleteEventById(id) {
 
 
 async function putEvent(id) {
-  try {
+
+    console.log("id",id);
     const sql = `UPDATE events SET eventIsAllowed = TRUE WHERE eventId = ?`;
-    const result = await pool.query(sql, [  id]);
-   return result[0].insertId;
-  } catch (err) {
-    console.error("Error updating user:", err);
-    throw err; 
-  }
+    return pool.query(sql, [id])
+    .then(result => {
+      return id;
+    })
+    .catch(err => {
+      console.error("Error updating user:", err);
+      throw err;
+    });
+
 }
 
 // async function postEvent(name, username, email, phone, street, city,password) {
@@ -89,4 +104,4 @@ async function putEvent(id) {
 // }
 
 
-module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent }
+module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent,getAllDatesEvents }
