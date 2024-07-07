@@ -54,17 +54,30 @@ const pool = require('../DB.js');
 //     throw err; 
 //   }
 // }
-async function postUserLogin(userName,passwords) {
+async function postUserLogin(userEmail) {
   try {
-    const sql = 'SELECT users.*, passwords.password FROM users NATURAL JOIN passwords  WHERE users.username = ?';
-    const result = await pool.query(sql, [userName,passwords])
-    console.log(result[0]);
+    console.log("userEmailB",userEmail);
+    const sql = 'SELECT users.*, passwords.password FROM users NATURAL JOIN passwords  WHERE users.userEmail = ?';
+    const result = await pool.query(sql, [userEmail])
+    console.log("userEmail",result[0]);
     return result[0]; 
   } catch (err) {
     console.log(err);
     throw err; 
   }
 }
+async function checkEmailExists(userEmail) {
+  try {
+    const sql = 'SELECT userEmail FROM users  WHERE userEmail = ?';
+    const result = await pool.query(sql, [userEmail])
+    console.log(result[0])
+    return result[0]; 
+  } catch (err) {
+    console.log(err);
+    throw err; 
+  }
+}
+
 async function postUserWithPwd(userName,passwords,userPhone,userEmail,roleId) {
   try {
     const sql1 = 'INSERT INTO users (userName,userPhone,userEmail,roleId) VALUES (?, ?, ?,?)';
@@ -105,4 +118,4 @@ async function postUser(userName,userPhone,userEmail) {
 }
 
 
-module.exports = {postUser,postUserWithPwd,postUserLogin}
+module.exports = {postUser,postUserWithPwd,postUserLogin,checkEmailExists}

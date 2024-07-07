@@ -27,6 +27,17 @@ async function getAllSeats(id, partId) {
     console.log(err);
   }
 }
+async function getSeatsByPartId(partId) {
+  try {
+   
+   const sql = `SELECT seatId FROM seatsView where partId=?`;   
+    const result = await pool.query(sql, [partId]);
+    console.log("result", result[0])
+    return result[0];
+  } catch (err) {
+    console.log(err);
+  }
+}
 // async function checkByUsername(userName) {
 //   try {
 //     const sql = 'SELECT * FROM users WHERE users.username = ?;';
@@ -92,4 +103,4 @@ async function getAllSeats(id, partId) {
 // }
 
 
-module.exports = {getAllSeats}
+module.exports = {getAllSeats,getSeatsByPartId}

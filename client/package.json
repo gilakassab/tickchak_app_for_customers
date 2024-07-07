@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify/react": "^5.0.1",
     "emailjs": "^4.0.3",
     "emailjs-com": "^3.2.0",
     "html2canvas": "^1.4.1",
@@ -18,6 +19,7 @@
     "react": "^18.2.0",
     "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",
+    "react-onclickoutside": "^6.13.1",
     "react-router-dom": "^6.23.1",
     "react-time-picker": "^7.0.0",
     "react-timer-hook": "^3.0.7"

@@ -16,6 +16,17 @@ async function getEventById(id) {
     throw err;
   }
 }
+async function getAllDatesEvents(auditoriumId,eventDate) {
+  try {
+    let result;
+      const sql = '  SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ? AND eventDate = ?;';
+      result = await pool.query(sql,[auditoriumId , eventDate]);
+    return result[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 
 async function getNotAllowedEvents() {
   try {
@@ -62,16 +73,17 @@ async function deleteEventById(id) {
 
 
 async function putEvent(id) {
-  try {
-    const sql = `UPDATE events SET eventIsAllowed = TRUE WHERE eventId = ?`;
-    const result = await pool.query(sql, [id]);
-    return result[0].insertId;
-  } catch (err) {
-    console.error("Error updating user:", err);
-    throw err;
-  }
-}
 
+    console.log("id",id);
+    const sql = `UPDATE events SET eventIsAllowed = TRUE WHERE eventId = ?`;
+    return pool.query(sql, [id])
+    .then(result => {
+      return id;
+    })
+    .catch(err => {
+      console.error("Error updating user:", err);
+      throw err;
+})};
 
 const formatDateForMySQL = (date) => {
   const d = new Date(date);
@@ -100,7 +112,7 @@ async function postEvent(eventDetails) {
     const auditoriumId = auditoriumResult.length > 0 ? auditoriumResult[0].auditoriumId : null;
 
     if (!auditoriumId) {
-      throw new Error('Invalid auditorium name');
+      return auditoriumId;
     }
 
     // Insert the event into the database
@@ -118,7 +130,8 @@ async function postEvent(eventDetails) {
   } catch (err) {
     console.error(err);
     throw err;
-  }
-}
-module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent, postEvent };
+  }}
 
+
+
+module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent ,postEvent,getAllDatesEvents}

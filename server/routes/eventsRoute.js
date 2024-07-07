@@ -5,6 +5,8 @@ const controller = require('../controllers/eventsController');
 const controllerSeats = require('../controllers/seatsViewController');
 const controllerAuditorium = require('../controllers/auditoriumsController');
 const verifyRoles = require("../middleware/verifyRoles");
+const verifyJWT = require("../middleware/verifyJWT");
+
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -57,6 +59,12 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/:id",verifyRoles(["admin"]), async (req, res) => {
+    const id = req.params.id;
+    const event = await controller.deleteEventById(id);
+    res.send(event)
+});
+
 router.post("/", upload.single('image'), async (req, res) => {
     console.log("Received POST request with body:", req.body);
     try {
@@ -79,21 +87,21 @@ router.post("/", upload.single('image'), async (req, res) => {
   
   
 
-router.delete("/:id", verifyRoles(["admin"]), async (req, res) => {
-  const id = req.params.id;
-  const event = await controller.deleteEventById(id);
-  res.send(event);
-});
 
-router.put("/:id", verifyRoles(["admin"]), async (req, res) => {
-  try {
-    const id = req.params.id;
-    const eventIsAllowed = req.body.eventIsAllowed;
-    const response = await controller.putEvent(id, eventIsAllowed);
-    res.send(response);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+router.put("/:id",verifyJWT,verifyRoles(1001), async(req, res) => {
+  try{
+      console.log("123");
+      const eventDate = req.body.eventDate;
+      const eventEndAt = req.body.eventEndAt;
+      const eventOpenGates = req.body.eventOpenGates;
+      const auditoriumId = req.body.auditoriumId;
+      const id = req.params.id;
+      const response=await controller.putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId);
+      res.send(response);
   }
+ catch(error){
+  res.status(500).send({ message: error.message });
+ }
 });
 
 module.exports = router;

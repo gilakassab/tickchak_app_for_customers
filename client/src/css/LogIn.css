@@ -49,4 +49,10 @@
     color: #007bff;
     text-decoration: none;
   }
+  .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
   

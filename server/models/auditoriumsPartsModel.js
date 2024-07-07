@@ -1,22 +1,18 @@
 const { json } = require('express');
 const pool = require('../DB.js');
 
-// async function getUser(id) {
-//     try {
+async function getAuditoriumParts(auditoriumId) {
+    try {
+      const sql = 'SELECT partId FROM auditoriumsParts where auditoriumId=?';
+      const result = await pool.query(sql, [auditoriumId]);
+      console.log("result",result[0]);
+      return result[0];
+    } catch (err) {
+      console.log(err);
+    }
+}
 
-//       const sql = 'SELECT * FROM users natural join address where id=?';
-//       const result = await pool.query(sql, [id]);
-//       if( !result[0][0])
-//          {
-         
-//           return res.status(200).json({});
-//          }
-//      return result[0][0];
-  
-//     } catch (err) {
-//       console.log(err);
-//     }
-// }
+
 async function getAllAuditoriumParts(_auditoriumId) {
   try {
     console.log(_auditoriumId);
@@ -93,4 +89,4 @@ async function getAllAuditoriumParts(_auditoriumId) {
 // }
 
 
-module.exports = {getAllAuditoriumParts}
+module.exports = {getAllAuditoriumParts,getAuditoriumParts}

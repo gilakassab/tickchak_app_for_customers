@@ -54,13 +54,13 @@ function App() {
                 <Route path="event/:id/order" element={<Order />} />
                 <Route path="signup" element={<SignUp />} />
                 <Route path="prod" element={<ProducerHome />} />
-                <Route path="producer" element={<ProducerLogin />}>
+                <Route path="producerlogin" element={<ProducerLogin />}>
                   <Route path=":id" element={<ProducerHome />} />
                   <Route path="newevent" element={<NewEvent />} />
                 </Route>
                 <Route path="adminhome" element={<AdminHome />} />
                 <Route
-                  path="newauditorium"
+                  path="newauditorium/:name"
                   element={<NewAuditorium />}
                 />
               </Routes>

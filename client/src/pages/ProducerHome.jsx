@@ -100,6 +100,10 @@ function ProducerHome() {
       return;
     }
   
+    if (!validateCurrentStage()) {
+      return;
+    }
+  
     const formData = new FormData();
     formData.append('eventName', eventName);
     formData.append('eventDate', date);
@@ -110,10 +114,14 @@ function ProducerHome() {
     formData.append('eventRemarks', description);
     formData.append('auditoriumName', location === 'OTHER' ? 'OTHER' : location);
     formData.append('otherLocation', location === 'OTHER' ? otherLocation : '');
+    formData.append('auditoriumName', location === 'OTHER' ? 'OTHER' : location);
+    formData.append('otherLocation', location === 'OTHER' ? otherLocation : '');
     if (image) {
       formData.append('image', image);
     }
     formData.append('eventCategory', category);
+    formData.append('eventIsAllowed', 0);
+  
     formData.append('eventIsAllowed', 0);
   
     try {
@@ -123,9 +131,11 @@ function ProducerHome() {
         credentials: 'include'
       });
   
+  
       if (!response.ok) {
         throw new Error('Failed to submit event');
       }
+  
   
       console.log('Event submitted successfully');
       setSuccessMessage('The event has been successfully registered. It will be forwarded to the site manager for final approval. Thank you for choosing Tickchak.');

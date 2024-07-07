@@ -11,6 +11,16 @@ async function getAllAuditoriums(auditoriumExists) {
     throw err;
   }
 }
+async function addAuditorium(auditoriumName) {
+  try {
+    const sql = 'INSERT INTO auditoriums (auditoriumName, auditoriumExists) VALUES (?, ?)';
+    const result = await pool.query(sql, [auditoriumName, false]);
+    return { auditoriumId: result[0].insertId, auditoriumName, auditoriumExists: false };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
 
 async function addAuditorium(auditoriumName) {
   try {

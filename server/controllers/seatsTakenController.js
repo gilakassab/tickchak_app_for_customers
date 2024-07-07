@@ -1,6 +1,8 @@
-const model = require('../models/seatsTakenModel');
-
-
+const model = require("../models/seatsTakenModel");
+const audModel = require("../models/auditoriumsPartsModel");
+const seatsModel = require("../models/seatsViewModel");
+const _ = require("lodash");
+const { error } = require("console");
 
 // async function getEventById(id) {
 //     try {
@@ -27,27 +29,49 @@ const model = require('../models/seatsTakenModel');
 //     }
 
 // }
-async function putSeatsTaken(id,seatIds) {
-    try {
-        console.log("eventid - ",id);
-        console.log("seatIds - ",seatIds);
-        return model.putSeatsTaken(id,seatIds);
-    } catch (err) {
-        throw err;
-    }
+async function putSeatsTaken(id, seatIds) {
+  try {
+    console.log("eventid - ", id);
+    console.log("seatIds - ", seatIds);
+    return model.putSeatsTaken(id, seatIds);
+  } catch (err) {
+    throw err;
+  }
 }
 
-// async function postEvent() {
+async function postSeatsTaken(eventId, auditoriumId) {
+  try {
+    const auditoriumParts = await audModel.getAuditoriumParts(auditoriumId);
+   
+    if (!auditoriumParts) {
+      throw new Error("error: auditorium isn't updated in the db");
+    }
+    const SEATS = [];
 
-// try {
-//     // const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    await Promise.all(
+      auditoriumParts.map(async (part) => {
+        const seats = await seatsModel.getSeatsByPartId(part);
+        let seatIds;
+        if (_.isEmpty(seats)) {
+          seatIds = []; // אם המושבים ריקים, החזר מערך ריק
+        } else {
+          seatIds = seats.map((seat) => seat.seatId);
+        }
+        SEATS.push(seatIds);
+      })
+    );
+   
+    await Promise.all(
+      SEATS.map((seatsInPart) => {
+        if (_.isEmpty(seatsInPart)) {
+          return Promise.resolve();
+        }
+        return model.postSeatsTaken(eventId, seatsInPart);
+      })
+    );
+  } catch (err) {
+    throw err;
+  }
+}
 
-//     return model.postEvent();
-// } catch (err) {
-//     throw err;
-// }
-
-// }
-
-
-module.exports = { putSeatsTaken }
+module.exports = { putSeatsTaken, postSeatsTaken };
