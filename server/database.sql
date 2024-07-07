@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS seats;
 DROP TABLE IF EXISTS seatsView;
 DROP TABLE IF EXISTS partsView;
 DROP TABLE IF EXISTS blocksView;
+DROP TABLE IF EXISTS ticketPrices;
 DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS blocks;
@@ -131,6 +132,14 @@ userId INT,
 password VARCHAR(255),
 FOREIGN KEY (userId) REFERENCES users (userId)
  );
+ 
+ -- Create the ticketPrices table
+CREATE TABLE ticketPrices (
+  priceId INT AUTO_INCREMENT PRIMARY KEY,
+  eventId INT,
+  ticketPrice DECIMAL(10, 2),
+  FOREIGN KEY (eventId) REFERENCES events (eventId)
+);
 
 
 -- -CREATE TABLE blocksView (
@@ -151,11 +160,18 @@ INSERT INTO roles(roleId,roleName) VALUES
 (2001,'producer'),
 (3001,'buyer');
 
+
+
+
 -- Insert data into the users table
-INSERT INTO users (userName, userPhone, userEmail) VALUES
-('User 1', '123-456-7890', 'user1@example.com'),
-('User 2', '234-567-8901', 'user2@example.com'),
-('User 3', '345-678-9012', 'user3@example.com');
+INSERT INTO users (userName, userPhone, userEmail, roleId) VALUES
+('Gila', '0583257160', 'gilakassab@gmail.com',1001),
+('User 1', '123-456-7890', 'user1@example.com',3001),
+('User 2', '234-567-8901', 'user2@example.com',3001),
+('User 3', '345-678-9012', 'user3@example.com',3001);
+
+INSERT INTO passwords(userId,password) VALUES
+(1,SHA2('gk1234', 256));
 
 -- Insert data into the orders table
 INSERT INTO orders (userId, orderDate) VALUES
@@ -4715,8 +4731,15 @@ INSERT INTO partsView (partId, numOfBlocks) VALUES
 INSERT INTO events (
   eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed
 ) VALUES
-('Concert A', '2024-06-15', '18:00:00', '19:00:00', '22:00:00', '1', 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'show',TRUE),
+('Concert A', '2024-06-15', '18:00:00', '19:00:00', '22:00:00', '1', 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'performance',TRUE),
 ('Play B', '2024-06-16', '19:00:00', '20:00:00', '22:30:00', '1', 'Remarks B', 1, 'https://www.picshare.co.il/s_pictures/img63008.jpg', 'conference',TRUE),
-('Conference C', '2024-06-17', '08:00:00', '09:00:00', '17:00:00', '2', 'Remarks C', 1, 'https://www.picshare.co.il/s_pictures/img66886.jpg', 'Conference',TRUE),
-('Conference', '2024-06-18', '08:00:00', '09:00:00', '17:00:00', '3', 'Remarks C', 3, 'https://www.picshare.co.il/m_pictures/img43817.jpg', 'Conference',TRUE),
+('Conference C', '2024-06-17', '08:00:00', '09:00:00', '17:00:00', '2', 'Remarks C', 1, 'https://www.picshare.co.il/s_pictures/img66886.jpg', 'Conference',FALSE),
+('Conference', '2024-06-18', '08:00:00', '09:00:00', '17:00:00', '3', 'Remarks C', 3, 'https://www.picshare.co.il/m_pictures/img43817.jpg', 'Conference',FALSE),
 ('Conference G', '2024-06-11', '08:00:00', '09:00:00', '17:00:00', '1', 'kjb', 3, 'https://www.picshare.co.il/m_pictures/img157425.jpg', 'Conference',FALSE);
+
+INSERT INTO ticketPrices (eventId, ticketPrice) VALUES
+(1, 150.00),
+(2, 200.00),
+(3, 120.00),
+(4, 180.00),
+(5, 100.00);

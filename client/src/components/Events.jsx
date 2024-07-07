@@ -6,7 +6,7 @@ import { useEventContext } from './App';
 function Events({ viewEvents }) {
   const max_limit = 16;
   const [events, setEvents] = useState([]);
-  const [loadMoreVisible, setLoadMoreVisible] = useState(false);
+  const [loadMoreVisible, setLoadMoreVisible] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
   const [cache, setCache] = useState({}); // Cache to store events data for different categories
   const { setSelectedEvent } = useEventContext();
@@ -59,8 +59,8 @@ function Events({ viewEvents }) {
     <Link to={`/tickchak/event/${ev.eventId}`} key={ev.eventId || index} className="event-tile"   onClick={() => handleEventClick(ev)}>
     
       <div className="event-info" >
-        <img src={ev.eventPicUrl} alt={ev.eventName} />
-        <div className="eventDetails">
+      <img src={`http://localhost:3300/uploads/${ev.eventPicUrl}`} alt={ev.eventName} />
+      <div className="eventDetails">
         <p className="pEventName">{ev.eventName}</p>
         {/* <p className="pEvent">{ev.eventRemarks}</p> */}
         <p className="pEventDate">{moment(ev.eventDate).format('DD/MM')}</p>

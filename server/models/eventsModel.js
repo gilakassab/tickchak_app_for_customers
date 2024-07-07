@@ -31,8 +31,8 @@ async function getAllDatesEvents(auditoriumId,eventDate) {
 async function getNotAllowedEvents() {
   try {
     let result;
-      const sql = '  SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE;';
-      result = await pool.query(sql);
+    const sql = '  SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE;';
+    result = await pool.query(sql);
     return result[0];
   } catch (err) {
     console.log(err);
@@ -52,7 +52,7 @@ async function getAllEvents(category, _start, _limit) {
       const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = TRUE and events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     }
-   
+
     return result[0];
   } catch (err) {
     console.log(err);
@@ -83,10 +83,43 @@ async function putEvent(id) {
     .catch(err => {
       console.error("Error updating user:", err);
       throw err;
-    });
+})};
 
-}
+async function postEvent(eventDetails) {
+  try {
+    const {
+      eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt,
+      eventProducer, eventRemarks, auditoriumName, eventPicUrl, eventCategory, eventIsAllowed
+    } = eventDetails;
 
+    // Format the eventDate to MySQL compatible format
+    const formattedEventDate = formatDateForMySQL(eventDate);
+
+    // Find the auditoriumId based on auditoriumName
+    const auditoriumQuery = 'SELECT auditoriumId FROM auditoriums WHERE auditoriumName = ?';
+    const [auditoriumResult] = await pool.query(auditoriumQuery, [auditoriumName]);
+    const auditoriumId = auditoriumResult.length > 0 ? auditoriumResult[0].auditoriumId : null;
+
+    if (!auditoriumId) {
+      throw new Error('Invalid auditorium name');
+    }
+
+    // Insert the event into the database
+    const sql = `
+      INSERT INTO events (eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, 
+      eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const result = await pool.query(sql, [
+      eventName, formattedEventDate, eventOpenGates, eventBeginAt, eventEndAt,
+      eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed
+    ]);
+
+    return result[0];
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }}
 // async function postEvent(name, username, email, phone, street, city,password) {
 //   try {
 //     const sql1 = 'INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)';
@@ -104,4 +137,4 @@ async function putEvent(id) {
 // }
 
 
-module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent,getAllDatesEvents }
+module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent ,postEvent}

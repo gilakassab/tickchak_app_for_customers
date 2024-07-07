@@ -6,16 +6,15 @@ router.use(express.urlencoded({ extended: true }));
 
 
 router.get("/", async (req, res) => {
-    try{
-        const audtoriumsParts = await controller.getAllAuditoriums();
-        res.status(200).send(audtoriumsParts);
+    const { exists } = req.query;
+    const auditoriumExists = exists === 'true';
+    try {
+      const auditoriums = await controller.getAllAuditoriums(auditoriumExists);
+      console.log(auditoriums)
+      res.status(200).send(auditoriums);
+    } catch (error) {
+      res.status(500).send({ message: error.message });
     }
-    catch(error)
-    {
-        res.status(500).send({ message: err.message });
-    }
-   
-});
-
+  });
 
 module.exports = router;
