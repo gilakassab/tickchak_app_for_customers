@@ -54,6 +54,25 @@ const pool = require('../DB.js');
 //     throw err; 
 //   }
 // }
+
+async function getUser(id) {
+  try {
+    const sql = 'SELECT userName FROM users WHERE userId = ?';
+    const result = await pool.query(sql, [id]);
+    console.log("result",result);
+      if (result[0].length > 0) {
+        console.log("result",result[0][0].userName);
+          return result[0][0].userName;
+      } else {
+          throw new Error(`User with ID ${id} not found`);
+      }
+  } catch (err) {
+      console.error('Error fetching user:', err);
+      throw err;
+  }
+}
+
+
 async function postUserLogin(userEmail) {
   try {
     console.log("userEmailB",userEmail);
@@ -118,4 +137,4 @@ async function postUser(userName,userPhone,userEmail) {
 }
 
 
-module.exports = {postUser,postUserWithPwd,postUserLogin,checkEmailExists}
+module.exports = {postUser,postUserWithPwd,postUserLogin,checkEmailExists,getUser}

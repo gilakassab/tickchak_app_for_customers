@@ -4,7 +4,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
-// import '../css/NewEvent.css';
+import '../css/NewEvent.css';
 
 function NewEvent() {
   const { id: producerId } = useParams(); // Get the producer ID from the URL

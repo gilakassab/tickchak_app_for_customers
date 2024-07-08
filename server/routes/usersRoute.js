@@ -13,11 +13,24 @@ router.use(express.urlencoded({ extended: true }));
 // router.route('/:id')
 //     .get(employeesController.getEmployee);
 
+//לבדוק אם באמת לא צריך
+// router.get("/:id", async (req, res) => {
+//     const event = await controller.getEventById(id);
+//     res.send(event)
+// });
+
 
 router.get("/:id", async (req, res) => {
-    const event = await controller.getEventById(id);
-    res.send(event)
+  const id = req.params.id;
+  try {
+      const producerName = await controller.getProducerNameById(id);
+      res.status(200).json({ producerName });
+  } catch (err) {
+      console.error("Error fetching producer name:", err);
+      res.status(500).json({ error: "Failed to fetch producer name" });
+  }
 });
+
 
 router.post("/", async (req, res) => {
     try{
