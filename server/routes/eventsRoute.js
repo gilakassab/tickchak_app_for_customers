@@ -59,7 +59,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:id",verifyRoles(["admin"]), async (req, res) => {
+router.delete("/:id",verifyJWT,verifyRoles(1001), async (req, res) => {
     const id = req.params.id;
     const event = await controller.deleteEventById(id);
     res.send(event)
@@ -92,7 +92,7 @@ router.post("/", upload.single('image'), async (req, res) => {
 
 router.put("/:id",verifyJWT,verifyRoles(1001), async(req, res) => {
   try{
-      console.log("123");
+     
       const eventDate = req.body.eventDate;
       const eventEndAt = req.body.eventEndAt;
       const eventOpenGates = req.body.eventOpenGates;

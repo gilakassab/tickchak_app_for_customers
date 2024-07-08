@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import PartDetail from '../components/PartDetail';
 import '../css/NewAuditorium.css'; // Import the CSS file
 
+
 const NewAuditorium = () => {
   const { name } = useParams();
   const [numParts, setNumParts] = useState(1);
@@ -34,6 +35,7 @@ const NewAuditorium = () => {
   const handleSavePartDetail = (index, partData) => {
     const updatedParts = [...parts];
     updatedParts[index] = partData;
+    console.log(updatedParts)
     setParts(updatedParts);
     setOpenPartsDetails(false);
   };
@@ -41,7 +43,7 @@ const NewAuditorium = () => {
   const handleSaveAllParts = async() => {
     try {
       const response = await fetch(
-        `http://localhost:3300/auditoriums/name=${auditoriumName}`,
+        `http://localhost:3300/auditoriums/${name}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

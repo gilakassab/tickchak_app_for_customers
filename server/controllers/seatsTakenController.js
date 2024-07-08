@@ -43,24 +43,32 @@ async function postSeatsTaken(eventId, auditoriumId) {
   try {
     const auditoriumParts = await audModel.getAuditoriumParts(auditoriumId);
    
-    if (!auditoriumParts) {
-      throw new Error("error: auditorium isn't updated in the db");
+    if (!auditoriumParts || auditoriumParts.length === 0) {
+      throw new Error("error: no parts found for the given auditoriumId");
     }
+
     const SEATS = [];
 
+    // מעדכן את SEATS בצורה אסינכרונית
     await Promise.all(
       auditoriumParts.map(async (part) => {
-        const seats = await seatsModel.getSeatsByPartId(part);
-        let seatIds;
-        if (_.isEmpty(seats)) {
-          seatIds = []; // אם המושבים ריקים, החזר מערך ריק
-        } else {
-          seatIds = seats.map((seat) => seat.seatId);
+        try {
+          const seats = await seatsModel.getSeatsByPartId(part);
+          let seatIds;
+          if (_.isEmpty(seats)) {
+            seatIds = []; // אם המושבים ריקים, החזר מערך ריק
+          } else {
+            seatIds = seats.map((seat) => seat.seatId);
+          }
+          SEATS.push(seatIds);
+        } catch (err) {
+          console.error(`Failed to get seats for part ${part}:`, err);
+          SEATS.push([]); // במקרה של שגיאה, הוסף מערך ריק
         }
-        SEATS.push(seatIds);
       })
     );
-   
+
+    // מעדכן את המושבים באירוע בצורה אסינכרונית
     await Promise.all(
       SEATS.map((seatsInPart) => {
         if (_.isEmpty(seatsInPart)) {
@@ -69,9 +77,15 @@ async function postSeatsTaken(eventId, auditoriumId) {
         return model.postSeatsTaken(eventId, seatsInPart);
       })
     );
+    
+    console.log('Seats taken successfully updated.');
+    
   } catch (err) {
-    throw err;
+    console.error('Error updating seats taken:', err);
+    throw err; // ניתן לזרוק מחדש את השגיאה כדי שהיא תטופל במקום הקורא
   }
 }
+
+
 
 module.exports = { putSeatsTaken, postSeatsTaken };

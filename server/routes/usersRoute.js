@@ -37,11 +37,12 @@ router.post("/", async (req, res) => {
         const userName = req.body.userName;
         const userPhone = req.body.userPhone;
         const userEmail = req.body.userEmail;
+        
         const users = await controller.postUser(userName,userPhone,userEmail);
-        res.status(200).send(users);
+        res.sendStatus(200).send(users);
     }
       catch (err) {
-        res.status(500).send({ message: err.message });
+        res.sendStatus(500).send({ message: err.message });
   }
 });
 

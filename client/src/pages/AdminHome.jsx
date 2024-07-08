@@ -31,7 +31,7 @@ function AdminHome() {
         credentials: "include"
       });
       const data = await response.json();
-
+      console.log(data)
       if (Array.isArray(data)) {
         setEvents(data);
       } else {
@@ -95,8 +95,9 @@ function AdminHome() {
           throw new Error("Failed to update event");
         }
         const data = await response.json();
+        console.log(data);
         handleAddSeatsToEvent(event);
-        console.log(data)
+        
        onSaveEvent(event);
        const text = "Dear producer . We are glad to tell you that your suggest for the event was accepted. Here is our phone *1212. Be in touch";
         handleSendEmail(event,text);
@@ -146,10 +147,21 @@ function AdminHome() {
 
       if (!response.ok) {
         console.log("not ok");
-        throw new Error("Failed to update event");
+        try{ await fetch(
+          `http://localhost:3300/events/${event.eventId}`,
+          {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"
+          }
+        );
+        throw new Error("Failed to update event");}
+        catch(error){
+          console.error("Error Deleting event:", error);
+        }
+      
       }
-      const data = await response.json();
-      console.log(data);
+      
     } catch (error) {
       console.error("Error updating event:", error);
     }
