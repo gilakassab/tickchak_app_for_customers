@@ -17,4 +17,12 @@ router.get("/", async (req, res) => {
     }
   });
 
+  router.put("/:auditoriumName", async(req, res) => {
+    const auditoriumName = req.params.name;
+    console.log(auditoriumName);
+     const parts=req.body.parts;
+     const response=await controller.putAuditorium(auditoriumName,parts)
+     res.send(response);
+});
+
 module.exports = router;

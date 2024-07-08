@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import PartDetail from './PartDetail';
+import PartDetail from '../components/PartDetail';
 import '../css/NewAuditorium.css'; // Import the CSS file
 
 const NewAuditorium = () => {
@@ -39,26 +39,26 @@ const NewAuditorium = () => {
   };
 
   const handleSaveAllParts = async() => {
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:3300/auditoriums`,
-    //     {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body:JSON.stringify({ auditoriumName: name, parts:parts }),
-    //       credentials: "include"
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        `http://localhost:3300/auditoriums/name=${auditoriumName}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body:JSON.stringify({ parts:parts }),
+          credentials: "include"
+        }
+      );
 
-    //   if (!response.ok) {
-    //     console.log("not ok");
-    //     throw new Error("Failed to update event");
-    //   }
-    //   const data = await response.json();
-    //   console.log(data);
-    // } catch (error) {
-    //   console.error("Error updating event:", error);
-    // }
+      if (!response.ok) {
+        console.log("not ok");
+        throw new Error("Failed to update event");
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error updating event:", error);
+    }
   };
 
   const allPartsFilled = parts.every(part => part.title && part.matrix.length && part.matrix[0].length);

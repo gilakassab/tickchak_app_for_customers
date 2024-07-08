@@ -28,9 +28,5 @@ router.get("/", async (req, res) => {
 //     // res.send(event);
 // });
 
-// router.put("/:id", async(req, res) => {
-//     // const id = req.params.id;
-//     // const response=await controller.putEvent(req.body.title,id)
-//     // res.send(response);
-// });
+
 module.exports = router;
