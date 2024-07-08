@@ -163,7 +163,7 @@ function AdminHome() {
       });
 
       if (response.ok) {
-        navigate('/tickchak/home');
+        navigate('/tickchak/producerlogin');
       } else {
         console.error('Failed to log out');
       }

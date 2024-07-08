@@ -18,7 +18,7 @@ function Events({ viewEvents }) {
         setEvents(data);
         setLoadMoreVisible(hasMore);
         setStartIndex(data.length);
-      } 
+      }
       else {
         // Fetch data if not in cache
         setStartIndex(0);
@@ -29,7 +29,7 @@ function Events({ viewEvents }) {
 
   const fetchEvents = useCallback((start, limit, category) => {
     fetch(`http://localhost:3300/events?category=${category}&_start=${start}&_limit=${limit}`,
-      {credentials: "include"}
+      { credentials: "include" }
     )
       .then((res) => res.json())
       .then((moreEvents) => {
@@ -56,27 +56,23 @@ function Events({ viewEvents }) {
   };
 
   const eventsElements = events.map((ev, index) => (
-    <Link to={`/tickchak/event/${ev.eventId}`} key={ev.eventId || index} className="event-tile"   onClick={() => handleEventClick(ev)}>
-    
+    <Link to={`/tickchak/event/${ev.eventId}`} key={ev.eventId || index} className="event-tile" onClick={() => handleEventClick(ev)}>
       <div className="event-info" >
-      <img src={`http://localhost:3300/uploads/${ev.eventPicUrl}`} alt={ev.eventName} />
-      <div className="eventDetails">
-        <p className="pEventName">{ev.eventName}</p>
-        {/* <p className="pEvent">{ev.eventRemarks}</p> */}
-        <p className="pEventDate">{moment(ev.eventDate).format('DD/MM')}</p>
-        <p className="pEventDetails">{ev.eventBeginAt}</p>
-        <p className="pEventDetails">{ev.auditoriumName}</p>
+        <img src={`http://localhost:3300/uploads/${ev.eventPicUrl}`} alt={ev.eventName} />
+        <div className="eventDetails">
+          <p className="pEventName">{ev.eventName}</p>
+          {/* <p className="pEvent">{ev.eventRemarks}</p> */}
+          <p className="pEventDate">{moment(ev.eventDate).format('DD/MM')}</p>
+          <p className="pEventDetails">{ev.eventBeginAt}</p>
+          <p className="pEventDetails">{ev.auditoriumName}</p>
         </div>
-        
       </div>
-     
-      </Link>
-    
+    </Link>
   ));
-  
-  const handleEventClick = (event)=>{
+
+  const handleEventClick = (event) => {
     setSelectedEvent(event);
-   
+
   }
   return (
     <div>

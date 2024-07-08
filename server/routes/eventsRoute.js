@@ -3,7 +3,7 @@ const multer = require("multer");
 const router = express.Router();
 const controller = require('../controllers/eventsController');
 const controllerSeats = require('../controllers/seatsViewController');
-const controllerAuditorium = require('../controllers/auditoriumsController')
+const controllerAuditorium = require('../controllers/auditoriumsController');
 const verifyRoles = require("../middleware/verifyRoles");
 const verifyJWT = require("../middleware/verifyJWT");
 
@@ -66,25 +66,28 @@ router.delete("/:id",verifyRoles(["admin"]), async (req, res) => {
 });
 
 router.post("/", upload.single('image'), async (req, res) => {
-  console.log("Received POST request with body:", req.body);
-  try {
-    const eventDetails = req.body;
-    eventDetails.eventPicUrl = req.file ? `/uploads/${req.file.filename}` : '';
-    eventDetails.eventIsAllowed = eventDetails.eventIsAllowed === 'true' ? 1 : 0;
-    
-    if (eventDetails.auditoriumName === 'OTHER' && eventDetails.otherLocation) {
-      const newAuditorium = await controllerAuditorium.addAuditorium(eventDetails.otherLocation);
-      eventDetails.auditoriumName = newAuditorium.auditoriumName;
+    console.log("Received POST request with body:", req.body);
+    try {
+      const eventDetails = req.body;
+      eventDetails.eventPicUrl = req.file ? req.file.filename : '';
+      eventDetails.eventIsAllowed = eventDetails.eventIsAllowed === 'true' ? 1 : 0;
+      
+      if (eventDetails.auditoriumName === 'OTHER' && eventDetails.otherLocation) {
+        const newAuditorium = await controllerAuditorium.addAuditorium(eventDetails.otherLocation);
+        eventDetails.auditoriumName = newAuditorium.auditoriumName;
+      }
+      
+      const event = await controller.postEvent(eventDetails);
+      console.log("event", event);
+
+      res.status(201).send(event);
+    } catch (error) {
+      res.status(500).send({ message: error.message });
     }
-    
-    const event = await controller.postEvent(eventDetails);
-    res.status(201).send(event);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
 });
 
-
+  
+  
 
 
 router.put("/:id",verifyJWT,verifyRoles(1001), async(req, res) => {

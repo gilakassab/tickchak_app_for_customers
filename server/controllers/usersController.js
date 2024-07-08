@@ -2,9 +2,18 @@ const model = require('../models/usersModel');
 const crypto = require('crypto');
 const _ = require("lodash");
 
+async function getProducerNameById(id) {
+    try {
+        const userName = await model.getUser(id);
+        return userName; // או איך שהשם של המפיק מאוחסן בבסיס הנתונים שלך
+    } catch (err) {
+        console.error("Error fetching producer name:", err);
+        throw err;
+    }
+}
+
 async function postUser(userName,userPhone,userEmail) {
     try {
-        ;
         return model.postUser(userName,userPhone,userEmail);
     } catch (err) {
         throw err;ג
@@ -28,4 +37,4 @@ async function postUserWithPwd(userName,password, userPhone,userEmail) {
     }
 }
 
-module.exports = { postUser,postUserWithPwd }
+module.exports = { postUser,postUserWithPwd,getProducerNameById }

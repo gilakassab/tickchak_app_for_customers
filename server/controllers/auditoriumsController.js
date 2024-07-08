@@ -1,7 +1,5 @@
 const model = require('../models/auditoriumsModel');
 
-
-
 async function getAllAuditoriums(auditoriumExists) {
     try {
       return await model.getAllAuditoriums(auditoriumExists);
@@ -9,8 +7,9 @@ async function getAllAuditoriums(auditoriumExists) {
       console.error(err);
       throw err;
     }
-  }
-  async function addAuditorium(auditoriumName) {
+}
+
+async function addAuditorium(auditoriumName) {
     try {
       return await model.addAuditorium(auditoriumName);
     } catch (err) {
@@ -18,7 +17,5 @@ async function getAllAuditoriums(auditoriumExists) {
       throw err;
     }
 }
-  
 
-
-module.exports = {getAllAuditoriums, addAuditorium}
+module.exports = { getAllAuditoriums, addAuditorium };

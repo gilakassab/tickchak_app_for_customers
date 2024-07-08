@@ -48,7 +48,7 @@ function Event() {
     if (!selectedEvent) {
         return <div>No event selected</div>;
     }
-console.log(`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`);
+console.log(`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`)
     const formattedDate = moment(selectedEvent.eventDate).format('DD/MM/YYYY');
     return (
         <>

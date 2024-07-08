@@ -1,248 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import TimePicker from 'react-time-picker';
-import 'react-time-picker/dist/TimePicker.css';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa'; // ייבוא האייקון
 import '../css/ProducerHome.css';
 
 function ProducerHome() {
-  const [currentStage, setCurrentStage] = useState(0);
-  const [eventName, setEventName] = useState('');
-  const [category, setCategory] = useState('');
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState({ openGates: '18:00', beginAt: '19:00', endAt: '22:00' });
-  const [location, setLocation] = useState('');
-  const [otherLocation, setOtherLocation] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
-  const [auditoriums, setAuditoriums] = useState([]);
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const stages = [
-    'Event Name',
-    'Category',
-    'Date and Time',
-    'Location',
-    'Description'
-  ];
+  const navigate = useNavigate();
+  const { id } = useParams(); // משיכת ה-ID מה-URL
+  const [producerName, setProducerName] = useState('');
 
   useEffect(() => {
-    const fetchAuditoriums = async () => {
-      try {
-        const response = await fetch('http://localhost:3300/auditoriums?exists=true');
-        const data = await response.json();
-        const flattenedData = data.flat();
-        setAuditoriums(flattenedData);
-      } catch (error) {
-        console.error('Error fetching auditoriums:', error);
-      }
-    };
-
-    fetchAuditoriums();
+    // כאשר הרכיב מורכב, קרא לפונקציה לקבלת שם המפיק
+    fetchProducerName();
   }, []);
 
-  const handleNextStage = () => {
-    if (currentStage < stages.length - 1) {
-      setCurrentStage(currentStage + 1);
+  const fetchProducerName = async () => {
+    try {
+      const response = await fetch(`http://localhost:3300/users/${id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setProducerName(data.producerName); // שימוש במאפיין producerName במקום name
+        console.log("producerName", data);
+      } else {
+        console.error('Failed to fetch producer name');
+      }
+    } catch (error) {
+      console.error('Error fetching producer name:', error);
     }
   };
 
-  const validateCurrentStage = () => {
-    switch (currentStage) {
-      case 0:
-        if (!eventName) {
-          setErrorMessage('Please enter the event name.');
-          return false;
-        }
-        break;
-      case 1:
-        if (!category) {
-          setErrorMessage('Please select a category.');
-          return false;
-        }
-        break;
-      case 2:
-        if (!date || !time.openGates || !time.beginAt || !time.endAt) {
-          setErrorMessage('Please select the date and time.');
-          return false;
-        }
-        break;
-      case 3:
-        if (!location || (location === 'OTHER' && !otherLocation)) {
-          setErrorMessage('Please select a location or provide the other location.');
-          return false;
-        }
-        break;
-      case 4:
-        if (!description) {
-          setErrorMessage('Please enter a description.');
-          return false;
-        }
-        if (!image) {
-          setErrorMessage('Please upload an image.');
-          return false;
-        }
-        break;
-      default:
-        break;
-    }
-    return true;
+  const handleAddEventClick = () => {
+    navigate(`/tickchak/producer/${id}/newevent`); // ניווט לניתוב המתאים להוספת אירוע חדש
   };
-  
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!validateCurrentStage()) {
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append('eventName', eventName);
-    formData.append('eventDate', date);
-    formData.append('eventOpenGates', time.openGates);
-    formData.append('eventBeginAt', time.beginAt);
-    formData.append('eventEndAt', time.endAt);
-    formData.append('eventProducer', 1);
-    formData.append('eventRemarks', description);
-    formData.append('auditoriumName', location === 'OTHER' ? 'OTHER' : location);
-    formData.append('otherLocation', location === 'OTHER' ? otherLocation : '');
-    if (image) {
-      formData.append('image', image);
-    }
-    formData.append('eventCategory', category);
-    formData.append('eventIsAllowed', 0);
-  
+
+  const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:3300/events', {
+      const response = await fetch('http://localhost:3300/logout', {
         method: 'POST',
-        body: formData,
         credentials: 'include'
       });
-  
-      if (!response.ok) {
-        throw new Error('Failed to submit event');
+
+      if (response.ok) {
+        navigate('/tickchak/producerlogin');
+      } else {
+        console.error('Failed to log out');
       }
-  
-      console.log('Event submitted successfully');
-      setSuccessMessage('The event has been successfully registered. It will be forwarded to the site manager for final approval. Thank you for choosing Tickchak.');
     } catch (error) {
-      console.error('Error submitting event:', error);
+      console.error('Error logging out:', error);
     }
   };
 
   return (
     <div className="producer-home">
-      <div className="stages">
-        {stages.map((stage, index) => (
-          <div key={index} className={`stage ${index === currentStage ? 'active' : ''}`}>
-            {stage}
-          </div>
-        ))}
-      </div>
-
-      {successMessage ? (
-        <div className="success-message">
-          <strong>{successMessage}</strong>
+      <nav className="nav-bar">
+        <div className="nav-bar-left">
+          <button onClick={() => navigate('/tickchak/home')} className="site-logo">Tickchak</button>
         </div>
-      ) : (
-        <>
-          {currentStage === 0 && (
-            <div className="stage-content">
-              <label>Event Name:</label>
-              <input
-                type="text"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-              />
-              <button onClick={handleNextStage}>Next</button>
-            </div>
-          )}
-
-          {currentStage === 1 && (
-            <div className="stage-content">
-              <label>Category:</label>
-              <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Select Category</option>
-                <option value="Conference">Conference</option>
-                <option value="Performance">Performance</option>
-                <option value="None">None</option>
-              </select>
-              <button onClick={handleNextStage}>Next</button>
-            </div>
-          )}
-
-          {currentStage === 2 && (
-            <div className="stage-content">
-              <label>Date:</label>
-              <Calendar onChange={setDate} value={date} />
-              <label>Open Gates:</label>
-              <TimePicker
-                onChange={(value) => setTime({ ...time, openGates: value })}
-                value={time.openGates}
-                clockIcon={null}
-                disableClock={true}
-              />
-              <label>Begin At:</label>
-              <TimePicker
-                onChange={(value) => setTime({ ...time, beginAt: value })}
-                value={time.beginAt}
-                clockIcon={null}
-                disableClock={true}
-              />
-              <label>End At:</label>
-              <TimePicker
-                onChange={(value) => setTime({ ...time, endAt: value })}
-                value={time.endAt}
-                clockIcon={null}
-                disableClock={true}
-              />
-              <button onClick={handleNextStage}>Next</button>
-            </div>
-          )}
-
-          {currentStage === 3 && (
-            <div className="stage-content">
-              <label>Location:</label>
-              <select value={location} onChange={(e) => setLocation(e.target.value)}>
-                <option value="">Select Location</option>
-                {auditoriums.map((auditorium) => (
-                  <option key={auditorium.auditoriumId} value={auditorium.auditoriumName}>
-                    {auditorium.auditoriumName}
-                  </option>
-                ))}
-                <option value="OTHER">Other</option>
-              </select>
-              {location === 'OTHER' && (
-                <>
-                  <label>Other Location:</label>
-                  <input
-                    type="text"
-                    value={otherLocation}
-                    onChange={(e) => setOtherLocation(e.target.value)}
-                  />
-                </>
-              )}
-              <button onClick={handleNextStage}>Next</button>
-            </div>
-          )}
-
-          {currentStage === 4 && (
-            <div className="stage-content">
-              <label>Description:</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <label>Upload Image:</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-              <button onClick={handleSubmit}>Submit</button>
-            </div>
-          )}
-        </>
-      )}
+        <div className="nav-bar-right">
+          <button onClick={handleLogout} className="nav-button">Logout</button>
+        </div>
+      </nav>
+      <div className="nav-bar-line"></div>
+      <div className="content">
+        <h2 className="prod-title">Hi, {producerName}! Good to see you.</h2>
+        <button onClick={handleAddEventClick} className="add-event-button">
+          <FaPlus style={{ marginRight: '8px' }} /> {/* הוספת האייקון לכפתור */}
+          Add New Event
+        </button>
+      </div>
     </div>
   );
 }

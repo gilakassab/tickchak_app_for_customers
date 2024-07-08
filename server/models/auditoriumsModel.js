@@ -1,4 +1,3 @@
-const { json } = require('express');
 const pool = require('../DB.js');
 
 async function getAllAuditoriums(auditoriumExists) {
@@ -23,8 +22,15 @@ async function addAuditorium(auditoriumName) {
   }
 }
 
+async function addAuditorium(auditoriumName) {
+  try {
+    const sql = 'INSERT INTO auditoriums (auditoriumName, auditoriumExists) VALUES (?, ?)';
+    const result = await pool.query(sql, [auditoriumName, false]);
+    return { auditoriumId: result[0].insertId, auditoriumName, auditoriumExists: false };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
 
-
-
-
-module.exports = {getAllAuditoriums,addAuditorium}
+module.exports = { getAllAuditoriums, addAuditorium };

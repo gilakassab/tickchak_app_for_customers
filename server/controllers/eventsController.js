@@ -86,6 +86,7 @@ async function putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId) {
 
 async function postEvent(eventDetails) {
     try {
+        console.log("eventDetails", eventDetails);
         return await model.postEvent(eventDetails);
     } catch (err) {
         throw err;

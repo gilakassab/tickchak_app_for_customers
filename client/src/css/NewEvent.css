@@ -1,0 +1,115 @@
+
+.stages {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.stage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.stage.active {
+  background-color: #7fcbd3;
+  color: white;
+}
+
+.stage-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-content label {
+  margin-bottom: 10px;
+}
+
+.stage-content input,
+.stage-content select,
+.stage-content textarea {
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.stage-content button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #7fcbd3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  position: relative; /* For the tooltip */
+}
+
+.stage-content button:hover {
+  background-color: #7fcbd3;
+}
+
+.react-time-picker {
+  width: 100%;
+}
+
+.react-time-picker__wrapper {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.react-time-picker__inputGroup {
+  font-size: 1rem;
+}
+
+.react-time-picker__clear-button,
+.react-time-picker__clock-button {
+  display: none;
+}
+
+/* סגנון כללי להודעת הצלחה */
+.success-message {
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #dff0d8; /* צבע רקע ירוק בהיר */
+  color: #3c763d; /* צבע טקסט ירוק כהה */
+  border: 1px solid #d6e9c6; /* מסגרת ירוקה בהירה */
+  border-radius: 4px; /* פינות מעוגלות */
+  font-size: 24px; /* גודל טקסט */
+  text-align: center; /* טקסט מיושר למרכז */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל לתיבה */
+  max-width: 600px; /* רוחב מקסימלי */
+  margin: 20px auto; /* מרכוז האופקי של התיבה */
+}
+
+.success-message strong {
+  font-size: 28px; /* גודל טקסט בולט */
+}
+
+.error-message {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4d4d;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  visibility: hidden;
+  white-space: nowrap; /* Make sure the message doesn't break into a new line */
+  font-size: 14px; /* Smaller font size for better fit */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slight shadow for better visibility */
+}
+
+.error-message.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
