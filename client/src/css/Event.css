@@ -1,62 +1,78 @@
+/* Event.css */
 body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-.eventPic{
-    width:100%;
-    height:630px;
-    margin: 0;
-  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.eventPic {
+  width: auto;
+  height: 630px;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
   display: block;
 }
 
-.detailsEvents{
-    background-color: rgb(205, 79, 117);
-    color: white;
-    text-shadow: 2px;
-    margin: 0;
-  padding: 2%;
-
-}
-.event-container {
-    display: flex;
-    flex-direction: column;
-  
-    margin: 0;
-    padding: 0;
-    width:100%
-  }
-  .timer{
-      color:rgb(231, 225, 225);
-      border: 4px dotted rgb(231, 225, 225); /* הגדרת מסגרת עם קו מודגש */
-      padding:2px;
-      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); /* הגדרת צל לטקסט */
-      font-size: 70px;
-      position: absolute; /* מקום יחסי או מוחלט באמצעות position */
-      z-index: 1; 
-      margin-top: 530px;
-      margin-left: 1110px;
-
-  }
-  /*
-  .timer {
+.detailsEvents {
+  background-color: #7fcbd3; /* Light blue */
+  color: black;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 2%;
+}
+
+.event-h1{
   font-size: 24px;
-  font-family: Arial, sans-serif;
+  color: white;
 }
 
-.timer > div {
-  display: inline-block;
-  margin: 0 5px;
-  width: 40px;
-  height: 40px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+.detailsEvents h1 {
+  margin: 0;
+}
+
+.event-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: relative;
+}
+
+.timer {
+  color: white;
+  border: 4px dotted white;
+  padding: 2px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  font-size: 70px;
+}
+
+.buttonTicketHere:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.tooltip {
+  background-color: black;
+  color: white;
   text-align: center;
-  line-height: 40px;
-  border-radius: 5px;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  transform: translateX(-50%);
+  width: 200px;
+  visibility: visible;
+  opacity: 0.9;
 }
 
-  */
-  
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}

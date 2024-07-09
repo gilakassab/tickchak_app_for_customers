@@ -131,7 +131,4 @@ async function postEvent(eventDetails) {
   }
 }
 
-
-
-
 module.exports = { getAllEvents,getNotAllowedEvents, getEventById, deleteEventById,putEvent ,postEvent,getAllDatesEvents}

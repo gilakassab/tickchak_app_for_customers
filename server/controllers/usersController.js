@@ -16,7 +16,7 @@ async function postUser(userName,userPhone,userEmail) {
     try {
         return model.postUser(userName,userPhone,userEmail);
     } catch (err) {
-        throw err;ג
+        throw err;
     }
 }
 async function postUserWithPwd(userName,password, userPhone,userEmail) {

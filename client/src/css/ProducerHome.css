@@ -36,7 +36,7 @@
     font-size: 18px;
     cursor: pointer;
     border-radius: 30px; /* עיגול יותר */
-    margin-top: 100px;
+    margin-top: 50px;
   }
   
   .add-event-button:hover {
@@ -47,5 +47,9 @@
     display: flex;
   flex-direction: column;
   align-items: center; /* מרכז את התוכן באמצע העמוד */
+  }
+
+  .prod-p{
+    margin-top: 130px;
   }
   

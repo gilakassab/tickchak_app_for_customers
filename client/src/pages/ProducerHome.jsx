@@ -62,6 +62,7 @@ function ProducerHome() {
       <div className="nav-bar-line"></div>
       <div className="content">
         <h2 className="prod-title">Hi, {producerName}! Good to see you.</h2>
+        <p className="prod-p">This is where your customers' experience starts, go for it...</p>
         <button onClick={handleAddEventClick} className="add-event-button">
           <FaPlus style={{ marginRight: '8px' }} /> {/* הוספת האייקון לכפתור */}
           Add New Event
