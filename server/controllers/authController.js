@@ -5,7 +5,7 @@ const crypto = require("crypto");
 require("dotenv").config();
 
 const handleLogin = async (userEmail, password) => {
-  console.log(userEmail + " " + password);
+
   if (!userEmail || !password) {
     return null;
   }
@@ -43,7 +43,7 @@ const handleLogin = async (userEmail, password) => {
         userPhone: user.userPhone,
         userEmail: user.userEmail,
         roleId: user.roleId,
-        // Include any other user details you want to return
+        
       },
     };
   } else {
@@ -52,26 +52,5 @@ const handleLogin = async (userEmail, password) => {
 };
 
 module.exports = { handleLogin };
-// const accessToken = jwt.sign(
-//     {
-//         userId: user.id,
-//         roleId: user.roleId,
-//     },
-//     process.env.ACCESS_TOKEN_SECRET,
-//     { expiresIn: "5m" }
-// );
-// res.cookie("accessToken", accessToken, {
-//     httpOnly: true,
-//     sameSite: "None",
-//     secure: true,
-// });
 
-// res.status(201).send(user);
-// }
-// } catch (error) {
-// res.status(500).send({ error: 'Failed to fetch book' });
-// }
-// });
 
-// module.exports = loginRouter;
-// השמירה של הcookie

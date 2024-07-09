@@ -20,7 +20,7 @@ async function getAllDatesEvents(auditoriumId, eventDate) {
   try {
     let result;
     const sql = "SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ?";
-    
+
     result = await pool.query(sql, [auditoriumId, eventDate]);
     return result[0];
   } catch (err) {
@@ -47,13 +47,12 @@ async function getAllEvents(category, _start, _limit) {
     let result;
 
     if (category === "allEvents") {
-      const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = TRUE LIMIT ${_start}, ${_limit}`;
+      const sql = `SELECT * FROM events NATURAL JOIN auditoriums NATURAL JOIN ticketPrices WHERE events.eventIsAllowed = TRUE LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     } else {
-      const sql = `SELECT * FROM events NATURAL JOIN auditoriums WHERE events.eventIsAllowed = TRUE and events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
+      const sql = `SELECT * FROM events NATURAL JOIN auditoriums NATURAL JOIN ticketPrices WHERE events.eventIsAllowed = TRUE and events.eventCategory='${category}' LIMIT ${_start}, ${_limit}`;
       result = await pool.query(sql);
     }
-
     return result[0];
   } catch (err) {
     console.log(err);

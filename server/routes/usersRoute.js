@@ -4,21 +4,6 @@ const controller = require('../controllers/usersController');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-// router.route('/')
-//     .get(verifyJWT, employeesController.getAllEmployees)
-//     .post(employeesController.createNewEmployee)
-//     .put(employeesController.updateEmployee)
-//     .delete(employeesController.deleteEmployee);
-
-// router.route('/:id')
-//     .get(employeesController.getEmployee);
-
-//לבדוק אם באמת לא צריך
-// router.get("/:id", async (req, res) => {
-//     const event = await controller.getEventById(id);
-//     res.send(event)
-// });
-
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
@@ -36,9 +21,7 @@ router.post("/", async (req, res) => {
         const userName = req.body.userName;
         const userPhone = req.body.userPhone;
         const userEmail = req.body.userEmail;
-        
         const users = await controller.postUser(userName,userPhone,userEmail);
-    
           res.sendStatus(200); // שליחת תגובה עם קוד סטטוס 200 והמשתמשים
       } catch (err) {
           res.sendStatus(500); // שליחת תגובה עם קוד סטטוס 500 והודעת שגיאה

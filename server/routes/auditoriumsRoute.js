@@ -6,7 +6,7 @@ const verifyJWT = require("../middleware/verifyJWT");
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.get("/", async (req, res) => {
+router.get("/", verifyJWT, verifyRoles(1001), async (req, res) => {
     const { exists } = req.query;
     const auditoriumExists = exists === 'true';
     try {
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", verifyJWT, verifyRoles(1001), async (req, res) => {
     const { auditoriumName } = req.body;
     try {
       const newAuditorium = await controller.addAuditorium(auditoriumName);
@@ -33,10 +33,10 @@ router.put("/:name", verifyJWT, verifyRoles(1001), async (req, res) => {
     const name = req.params.name;
     const parts = req.body.parts;
     const response = await controller.putAuditorium(name, parts);
-    res.status(201).json(response); // שימוש ב-json לשליחת התשובה עם סטטוס 201
+    res.status(201).json(response); 
   } catch (error) {
     if (!res.headersSent) {
-      res.status(500).json({ message: error.message }); // שימוש ב-json לשליחת הודעת השגיאה עם סטטוס 500
+      res.status(500).json({ message: error.message });
     } else {
       console.error('Headers already sent, error:', error);
     }

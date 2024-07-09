@@ -10,5 +10,16 @@ async function deletePriceByEventId(id) {
       throw err;
     }
   }
-  module.exports = {deletePriceByEventId}
+  async function postPrice(eventId, ticketPrice){
+    try {
+      const sql1 = "INSERT INTO ticketPrices (eventId, ticketPrice) VALUES (?,?)";
+      const result = await pool.query(sql1, [eventId, ticketPrice]);
+      return result[0].insertId;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+  
+  module.exports = {deletePriceByEventId, postPrice}
 

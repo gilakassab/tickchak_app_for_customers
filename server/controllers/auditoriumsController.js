@@ -34,7 +34,7 @@ async function putAuditorium(name, parts) {
     const partInsertIds = [];
 
     for (const part of parts) {
-      // הכנס את החלק לטבלה audPartModel וקבל את partInsertId
+      
       const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId.auditoriumId, part.title, part.edgePoints);
       if (!partInsertId) {
         throw new Error("could not update parts");
