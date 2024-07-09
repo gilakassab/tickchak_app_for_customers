@@ -19,8 +19,8 @@ async function getEventById(id) {
 async function getAllDatesEvents(auditoriumId, eventDate) {
   try {
     let result;
-    const sql =
-      "  SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ? AND eventDate = ?;";
+    const sql = "SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ?";
+    
     result = await pool.query(sql, [auditoriumId, eventDate]);
     return result[0];
   } catch (err) {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import PartDetail from '../components/PartDetail';
-import '../css/NewAuditorium.css'; // Import the CSS file
-
+import '../css/NewAuditorium.css';
 
 const NewAuditorium = () => {
+  const navigate = useNavigate();
   const { name } = useParams();
   const [numParts, setNumParts] = useState(1);
   const [parts, setParts] = useState([{ title: '', matrix: [[true]] }]);
@@ -35,19 +35,18 @@ const NewAuditorium = () => {
   const handleSavePartDetail = (index, partData) => {
     const updatedParts = [...parts];
     updatedParts[index] = partData;
-    console.log(updatedParts)
     setParts(updatedParts);
     setOpenPartsDetails(false);
   };
 
-  const handleSaveAllParts = async() => {
+  const handleSaveAllParts = async () => {
     try {
       const response = await fetch(
         `http://localhost:3300/auditoriums/${name}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body:JSON.stringify({ parts:parts }),
+          body: JSON.stringify({ parts: parts }),
           credentials: "include"
         }
       );
@@ -56,8 +55,10 @@ const NewAuditorium = () => {
         console.log("not ok");
         throw new Error("Failed to update event");
       }
+
       const data = await response.json();
-      console.log(data);
+      alert("Auditorium added successfully");
+      navigate('/tickchak/adminhome');
     } catch (error) {
       console.error("Error updating event:", error);
     }
@@ -65,11 +66,9 @@ const NewAuditorium = () => {
 
   const allPartsFilled = parts.every(part => part.title && part.matrix.length && part.matrix[0].length);
 
-
-
   return (
     <div className="new-auditorium-container">
-      {!openPartsDetails && (
+      {!openPartsDetails ? (
         <>
           <h1>{name}</h1>
           <label>
@@ -96,8 +95,7 @@ const NewAuditorium = () => {
             Save All Parts
           </button>
         </>
-      )}
-      {openPartsDetails && (
+      ) : (
         <PartDetail
           parts={parts}
           index={selectedPart}

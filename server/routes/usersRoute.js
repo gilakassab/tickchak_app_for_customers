@@ -31,7 +31,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
 router.post("/", async (req, res) => {
     try{
         const userName = req.body.userName;
@@ -39,27 +38,12 @@ router.post("/", async (req, res) => {
         const userEmail = req.body.userEmail;
         
         const users = await controller.postUser(userName,userPhone,userEmail);
-        res.sendStatus(200).send(users);
-    }
-      catch (err) {
-        res.sendStatus(500).send({ message: err.message });
-  }
+    
+          res.sendStatus(200); // שליחת תגובה עם קוד סטטוס 200 והמשתמשים
+      } catch (err) {
+          res.sendStatus(500); // שליחת תגובה עם קוד סטטוס 500 והודעת שגיאה
+      }
+      
 });
 
-// router.delete("/:id", async (req, res) => {
-//     const id = req.params.id;
-//     const event = await controller.deleteEventById(id);
-//     res.send(event)
-// });
-// router.post("/", async (req, res) => { 
-//     // const title  = req.body; 
-//     // const event = await controller.postEvent(); 
-//     // res.send(event);
-// });
-
-// router.put("/:id", async(req, res) => {
-//     // const id = req.params.id;
-//     // const response=await controller.putEvent(req.body.title,id)
-//     // res.send(response);
-// });
 module.exports = router;

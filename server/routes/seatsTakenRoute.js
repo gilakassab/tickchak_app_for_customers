@@ -44,9 +44,10 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/", verifyJWT, verifyRoles(1001), async (req, res) => {
   try {
+
     const eventId = req.query.eventId;
     const auditoriumId = req.body.auditoriumId;
-
+    console.log(eventId,auditoriumId)
     await controller.postSeatsTaken(eventId, auditoriumId);
     res.status(200).send();
   } catch (error) {

@@ -107,3 +107,9 @@
     height: 50px;
     object-fit: cover;
   }
+  .mdDeleteOutline{
+    font-size: 270%;
+  }
+  .bsSave{
+    font-size: 230%;
+  }

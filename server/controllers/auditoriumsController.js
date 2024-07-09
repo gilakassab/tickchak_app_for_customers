@@ -26,7 +26,8 @@ async function putAuditorium(name, parts) {
       throw new Error("error: auditorium isn't updated in the db");
     }
     const auditoriumId = await model.getAuditoriumById(name);
-    if (!auditoriumId) {
+   
+    if (!auditoriumId.auditoriumId) {
       throw new Error("auditorium doesn't exist");
     }
 
@@ -34,16 +35,24 @@ async function putAuditorium(name, parts) {
 
     for (const part of parts) {
       // הכנס את החלק לטבלה audPartModel וקבל את partInsertId
-      const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId, part.title);
+      const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId.auditoriumId, part.title, part.edgePoints);
       if (!partInsertId) {
         throw new Error("could not update parts");
       }
       partInsertIds.push(partInsertId);
 
       for (let rowIndex = 0; rowIndex < part.matrix.length; rowIndex++) {
+        let countIndex=1;
         for (let colIndex = 0; colIndex < part.matrix[rowIndex].length; colIndex++) {
           const seatIsVisible = part.matrix[rowIndex][colIndex];
-          await seatsModel.postSeatsView(rowIndex, colIndex, partInsertId, seatIsVisible);
+          if(seatIsVisible){
+            await seatsModel.postSeatsView(rowIndex, countIndex, partInsertId, seatIsVisible);
+            countIndex++;
+          }
+          else {
+            await seatsModel.postSeatsView(rowIndex, 0, partInsertId, seatIsVisible);
+          }
+         
         }
       }
     }

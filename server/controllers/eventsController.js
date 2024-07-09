@@ -1,4 +1,5 @@
 const model = require('../models/eventsModel');
+const pricesmodel = require('../models/ticketPricesModel');
 
 
 
@@ -29,6 +30,7 @@ async function getNotAllowedEvents() {
 
 async function deleteEventById(id) {
     try {
+        await pricesmodel.deletePriceByEventId(id);
         return model.deleteEventById(id);
     } catch (err) {
         throw err;
@@ -37,48 +39,39 @@ async function deleteEventById(id) {
 }
 
 
-    async function checkEventOverlap(auditoriumId, eventDate, eventEndAt, eventOpenGates) {
-        try {
-          // Retrieve all events from the model for the given auditorium and date
-          const allEvents = await model.getAllDatesEvents(auditoriumId, eventDate);
-      
-          // Convert eventEndAt and eventOpenGates to Date objects for comparison
-          const newEventStart = new Date(eventOpenGates);
-          const newEventEnd = new Date(eventEndAt);
-      
-          // Convert eventDate to Date object for date comparison
-          const newEventDate = new Date(eventDate);
-      
-          // Check for overlap
-          const overlappingEvent = allEvents.find(event => {
-            const eventStart = new Date(event.eventOpenGates);
-            const eventEnd = new Date(event.eventEndAt);
-            const eventDate = new Date(event.eventDate);
-      
-            // Check for both time overlap and date match
-            return (newEventStart < eventEnd && newEventEnd > eventStart && eventDate.getTime() === newEventDate.getTime());
-          });
-      
-          if (overlappingEvent) {
-            return { overlap: true, overlappingEvent };
-          } else {
-            return { overlap: false };
-          }
-        } catch (err) {
-          console.error(err);
-          throw err;
-        }
-      }
-      
-
-async function putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId) {
+async function checkEventOverlap(auditoriumId, eventDate) {
     try {
-        const overlapCheck = await checkEventOverlap(auditoriumId,eventDate,eventEndAt, eventOpenGates);
-    if (overlapCheck.overlap) {
+        // Retrieve all events from the model for the given auditorium and date
+        const allEvents = await model.getAllDatesEvents(auditoriumId, eventDate);
 
-        return model.deleteEventById(id)
+        // Convert eventDate to Date object for date comparison
+        const newEventDate = new Date(eventDate);
+
+        // Check for overlap
+        const overlappingEvent = allEvents.find(event => {
+            const eventDate = new Date(event.eventDate);
+
+            // Check for date match
+            return eventDate.getTime() === newEventDate.getTime();
+        });
+
+        return !!overlappingEvent; // Convert to boolean
+    } catch (err) {
+        console.error(err);
+        throw err;
     }
-        return model.putEvent(id);
+}
+
+async function putEvent(id, eventDate, auditoriumId) {
+    try {
+        // Check for overlap with existing events based on date only
+        const overlapCheck = await checkEventOverlap(auditoriumId, eventDate);
+        if (overlapCheck) {
+            throw new Error("Event already exists on the same date");
+        }
+
+        // If no overlap, update the event
+        return await model.putEvent(id);
     } catch (err) {
         throw err;
     }
@@ -86,12 +79,10 @@ async function putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId) {
 
 async function postEvent(eventDetails) {
     try {
-        console.log("eventDetails", eventDetails);
         return await model.postEvent(eventDetails);
     } catch (err) {
         throw err;
     }
 }
-
 
 module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent, postEvent }

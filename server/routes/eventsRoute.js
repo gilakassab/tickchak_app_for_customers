@@ -94,11 +94,10 @@ router.put("/:id",verifyJWT,verifyRoles(1001), async(req, res) => {
   try{
      
       const eventDate = req.body.eventDate;
-      const eventEndAt = req.body.eventEndAt;
-      const eventOpenGates = req.body.eventOpenGates;
       const auditoriumId = req.body.auditoriumId;
       const id = req.params.id;
-      const response=await controller.putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId);
+     
+      const response=await controller.putEvent(id,eventDate,auditoriumId);
       res.send(response);
   }
  catch(error){

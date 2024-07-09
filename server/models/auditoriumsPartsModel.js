@@ -58,10 +58,10 @@ async function getAllAuditoriumParts(_auditoriumId) {
 // }
 
 
-async function postAuditoriumParts(auditoriumId, partName) {
+async function postAuditoriumParts(auditoriumId, partName,coords) {
   try {
     const sql1 = `INSERT INTO auditoriumsParts (auditoriumId, partName, coords) VALUES (?, ?, ?)`;
-    const partInsertId = await pool.query(sql1, [auditoriumId, partName, "20,30 30,10, 30,50"]);
+    const partInsertId = await pool.query(sql1, [auditoriumId, partName, ""]);
     return partInsertId[0].insertId;
   } catch (err) {
     console.error("Error updating user:", err);
