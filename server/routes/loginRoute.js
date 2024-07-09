@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/authController');
-// const verifyJWT = require('../middleware/verifyJWT');
-// const verifyRoles = require('../middleware/verifyRoles');
 
 router.post("/", async (req, res) => {
-        console.log(req.body);
+        
         const userEmail = req.body.userEmail;
         const password = req.body.password;
         
         const loginResponse = await controller.handleLogin(userEmail, password);
-    console.log(loginResponse);
+    
 
     if (loginResponse) {
         const { accessToken, user } = loginResponse;

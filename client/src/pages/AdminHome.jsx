@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import "../css/AdminHome.css";
+import { BsSave } from "react-icons/bs";
+import { MdDeleteOutline } from "react-icons/md";
 
 
 function AdminHome() {
@@ -85,7 +87,7 @@ function AdminHome() {
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body:JSON.stringify({eventDate: event.eventDate, eventEndAt: event.eventEndAt, eventOpenGates: event.eventOpenGates, auditoriumId:event.auditoriumId}),
+            body:JSON.stringify({eventDate: event.eventDate, auditoriumId:event.auditoriumId}),
             credentials: "include"
           }
         );
@@ -96,6 +98,7 @@ function AdminHome() {
         }
         const data = await response.json();
         console.log(data);
+        alert("go on to seats")
         handleAddSeatsToEvent(event);
         
        onSaveEvent(event);
@@ -134,7 +137,9 @@ function AdminHome() {
   };
 
   const handleAddSeatsToEvent = async (event) =>{
+    console.log("event on seats",event.eventId)
     try {
+      console.log(event.eventId)
       const response = await fetch(
         `http://localhost:3300/seatsTaken?eventId=${event.eventId}`,
         {
@@ -147,18 +152,18 @@ function AdminHome() {
 
       if (!response.ok) {
         console.log("not ok");
-        try{ await fetch(
-          `http://localhost:3300/events/${event.eventId}`,
-          {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include"
-          }
-        );
-        throw new Error("Failed to update event");}
-        catch(error){
-          console.error("Error Deleting event:", error);
-        }
+        // try{ await fetch(
+        //   `http://localhost:3300/events/${event.eventId}`,
+        //   {
+        //     method: "DELETE",
+        //     headers: { "Content-Type": "application/json" },
+        //     credentials: "include"
+        //   }
+        // );
+        // throw new Error("Failed to update event");}
+        // catch(error){
+        //   console.error("Error Deleting event:", error);
+        // }
       
       }
       
@@ -275,12 +280,14 @@ function AdminHome() {
                   <td>{event.userName}</td>
                   <td>{event.auditoriumName}</td>
                   <td>{event.eventRemarks}</td>
-                  <td> <button className="btn-save" onClick={()=>handleClickBtnSave(event)}>
+                  <td><BsSave className="BsSave" onClick={()=>handleClickBtnSave(event)}/>
+                  <MdDeleteOutline className="mdDeleteOutline" onClick={()=>handleClickBtnDelete(event)} /></td>
+                  {/* <td> <button className="btn-save" onClick={()=>handleClickBtnSave(event)}>
               Save
-            </button>
-            <button className="btn-delete" onClick={()=>handleClickBtnDelete(event)}>
+            </button> */}
+            {/* <button className="btn-delete" onClick={()=>handleClickBtnDelete(event)}>
               Delete
-            </button></td>
+            </button> */}
                 </tr>
               ))}
             </tbody>

@@ -1,22 +1,21 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const controller = require('../controllers/eventsController');
-const controllerSeats = require('../controllers/seatsViewController');
-const controllerAuditorium = require('../controllers/auditoriumsController');
+const controller = require("../controllers/eventsController");
+const controllerSeats = require("../controllers/seatsViewController");
+const controllerAuditorium = require("../controllers/auditoriumsController");
 const verifyRoles = require("../middleware/verifyRoles");
 const verifyJWT = require("../middleware/verifyJWT");
-
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads'); // Destination folder for uploaded files
+    cb(null, "uploads"); // Destination folder for uploaded files
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Filename for the uploaded file
+    cb(null, Date.now() + "-" + file.originalname); // Filename for the uploaded file
   },
 });
 
@@ -59,51 +58,54 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:id",verifyJWT,verifyRoles(1001), async (req, res) => {
-    const id = req.params.id;
-    const event = await controller.deleteEventById(id);
-    res.send(event)
+router.delete("/:id", verifyJWT, verifyRoles(1001), async (req, res) => {
+  const id = req.params.id;
+  const event = await controller.deleteEventById(id);
+  res.send(event);
 });
 
-router.post("/", upload.single('image'), async (req, res) => {
-    console.log("Received POST request with body:", req.body);
+router.post(
+  "/",
+  verifyJWT,
+  verifyRoles(2001),
+  upload.single("image"),
+  async (req, res) => {
     try {
       const eventDetails = req.body;
-      eventDetails.eventPicUrl = req.file ? req.file.filename : '';
-      eventDetails.eventIsAllowed = eventDetails.eventIsAllowed === 'true' ? 1 : 0;
-      
-      if (eventDetails.auditoriumName === 'OTHER' && eventDetails.otherLocation) {
-        const newAuditorium = await controllerAuditorium.addAuditorium(eventDetails.otherLocation);
+      eventDetails.eventPicUrl = req.file ? req.file.filename : "";
+      eventDetails.eventIsAllowed =
+        eventDetails.eventIsAllowed === "true" ? 1 : 0;
+
+      if (
+        eventDetails.auditoriumName === "OTHER" &&
+        eventDetails.otherLocation
+      ) {
+        const newAuditorium = await controllerAuditorium.addAuditorium(
+          eventDetails.otherLocation
+        );
         eventDetails.auditoriumName = newAuditorium.auditoriumName;
       }
-      
+
       const event = await controller.postEvent(eventDetails);
-      console.log("event", event);
 
       res.status(201).send(event);
     } catch (error) {
       res.status(500).send({ message: error.message });
     }
-});
-
-  
-  
-
-
-router.put("/:id",verifyJWT,verifyRoles(1001), async(req, res) => {
-  try{
-     
-      const eventDate = req.body.eventDate;
-      const eventEndAt = req.body.eventEndAt;
-      const eventOpenGates = req.body.eventOpenGates;
-      const auditoriumId = req.body.auditoriumId;
-      const id = req.params.id;
-      const response=await controller.putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId);
-      res.send(response);
   }
- catch(error){
-  res.status(500).send({ message: error.message });
- }
+);
+
+router.put("/:id", verifyJWT, verifyRoles(1001), async (req, res) => {
+  try {
+    const eventDate = req.body.eventDate;
+    const auditoriumId = req.body.auditoriumId;
+    const id = req.params.id;
+
+    const response = await controller.putEvent(id, eventDate, auditoriumId);
+    res.send(response);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 module.exports = router;

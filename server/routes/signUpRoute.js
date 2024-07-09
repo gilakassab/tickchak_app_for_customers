@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/usersController");
 
-// router.post("/", controller.handleLogin());
+
 router.post("/", async (req, res) => {
   try {
-    console.log("hi 1");
+    
     const userName = req.body.userName;
     const password = req.body.password;
     const userPhone = req.body.userPhone;

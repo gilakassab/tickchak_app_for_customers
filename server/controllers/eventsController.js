@@ -1,97 +1,90 @@
-const model = require('../models/eventsModel');
-
-
+const model = require("../models/eventsModel");
+const pricesmodel = require("../models/ticketPricesModel");
 
 async function getEventById(id) {
-    try {
-        return await model.getEventById(id);
-    } catch (err) {
-        throw err;
-    }
+  try {
+    return await model.getEventById(id);
+  } catch (err) {
+    throw err;
+  }
 }
 
 async function getAllEvents(category, _start, _limit) {
-    try {
-
-        return model.getAllEvents(category, _start, _limit);
-    } catch (err) {
-        throw err;
-    }
+  try {
+    return model.getAllEvents(category, _start, _limit);
+  } catch (err) {
+    throw err;
+  }
 }
 async function getNotAllowedEvents() {
-    try {
-
-        return model.getNotAllowedEvents();
-    } catch (err) {
-        throw err;
-    }
+  try {
+    return model.getNotAllowedEvents();
+  } catch (err) {
+    throw err;
+  }
 }
 
 async function deleteEventById(id) {
-    try {
-        return model.deleteEventById(id);
-    } catch (err) {
-        throw err;
-    }
-
+  try {
+    await pricesmodel.deletePriceByEventId(id);
+    return model.deleteEventById(id);
+  } catch (err) {
+    throw err;
+  }
 }
 
+async function checkEventOverlap(auditoriumId, eventDate) {
+  try {
+    const allEvents = await model.getAllDatesEvents(auditoriumId, eventDate);
 
-    async function checkEventOverlap(auditoriumId, eventDate, eventEndAt, eventOpenGates) {
-        try {
-          // Retrieve all events from the model for the given auditorium and date
-          const allEvents = await model.getAllDatesEvents(auditoriumId, eventDate);
-      
-          // Convert eventEndAt and eventOpenGates to Date objects for comparison
-          const newEventStart = new Date(eventOpenGates);
-          const newEventEnd = new Date(eventEndAt);
-      
-          // Convert eventDate to Date object for date comparison
-          const newEventDate = new Date(eventDate);
-      
-          // Check for overlap
-          const overlappingEvent = allEvents.find(event => {
-            const eventStart = new Date(event.eventOpenGates);
-            const eventEnd = new Date(event.eventEndAt);
-            const eventDate = new Date(event.eventDate);
-      
-            // Check for both time overlap and date match
-            return (newEventStart < eventEnd && newEventEnd > eventStart && eventDate.getTime() === newEventDate.getTime());
-          });
-      
-          if (overlappingEvent) {
-            return { overlap: true, overlappingEvent };
-          } else {
-            return { overlap: false };
-          }
-        } catch (err) {
-          console.error(err);
-          throw err;
-        }
-      }
-      
+    const newEventDate = new Date(eventDate);
 
-async function putEvent(id,eventDate,eventEndAt,eventOpenGates,auditoriumId) {
-    try {
-        const overlapCheck = await checkEventOverlap(auditoriumId,eventDate,eventEndAt, eventOpenGates);
-    if (overlapCheck.overlap) {
+    const overlappingEvent = allEvents.find((event) => {
+      const eventDate = new Date(event.eventDate);
 
-        return model.deleteEventById(id)
+      return eventDate.getTime() === newEventDate.getTime();
+    });
+
+    return !!overlappingEvent; // Convert to boolean
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+async function putEvent(id, eventDate, auditoriumId) {
+  try {
+    const overlapCheck = await checkEventOverlap(auditoriumId, eventDate);
+    if (overlapCheck) {
+      throw new Error("Event already exists on the same date");
     }
-        return model.putEvent(id);
-    } catch (err) {
-        throw err;
-    }
+
+    return await model.putEvent(id);
+  } catch (err) {
+    throw err;
+  }
 }
 
 async function postEvent(eventDetails) {
-    try {
-        console.log("eventDetails", eventDetails);
-        return await model.postEvent(eventDetails);
-    } catch (err) {
-        throw err;
+  try {
+    const ticketPriceId = await pricesmodel.postPrice(
+      eventDetails.eventId,
+      eventDetails.ticketPrice
+    );
+    if (!ticketPriceId) {
+      throw new Error("Failed to update price");
     }
+    return await model.postEvent(eventDetails);
+  } catch (err) {
+    throw err;
+  }
 }
 
-
-module.exports = { getAllEvents, getNotAllowedEvents, getEventById, deleteEventById, putEvent, postEvent }
+module.exports = {
+  getAllEvents,
+  getNotAllowedEvents,
+  getEventById,
+  deleteEventById,
+  putEvent,
+  postEvent,
+};
