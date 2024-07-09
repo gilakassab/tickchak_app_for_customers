@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EventContext } from '../components/App';
 import MainHeader from '../components/MainHeader';
@@ -15,6 +15,7 @@ function Event() {
     const [isEventPast, setIsEventPast] = useState(false);
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+    const buttonRef = useRef(null); // Ref for the button element
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -28,6 +29,28 @@ function Event() {
             checkIfEventPast(selectedEvent.eventDate);
         }
     }, [selectedEvent, id]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const handleScroll = () => {
+        if (buttonRef.current) {
+            const buttonRect = buttonRef.current.getBoundingClientRect();
+            const topOffset = window.innerHeight / 2; // Adjust as needed
+            const topPosition = buttonRect.top;
+
+            if (topPosition < topOffset) {
+                const rightOffset = window.innerWidth / 2; // Adjust as needed
+                buttonRef.current.style.transform = `translateY(${topOffset - topPosition}px) translateX(${rightOffset}px)`;
+            } else {
+                buttonRef.current.style.transform = 'translateX(50%)';
+            }
+        }
+    };
 
     const fetchEventFromServer = async (id) => {
         try {
@@ -73,13 +96,14 @@ function Event() {
             <MainHeader headerPage={'event'} />
             <div>
                 <div className="event-container">
-                    <img id='showcase' className='eventPic' src={`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`} alt={selectedEvent.eventName} />
+                    <img id='showcase' className='eventPic section' src={`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`} alt={selectedEvent.eventName} />
                     <div className='detailsEvents'>
                         <h1 className='event-h1'>{selectedEvent.eventName} | {formattedDate} | {selectedEvent.eventBeginAt} | {selectedEvent.auditoriumName} </h1>
                         <Timer eventDate={selectedEvent.eventDate} eventBeginAt={selectedEvent.eventBeginAt} />
                     </div>
+                    <p id='about' className="section">{selectedEvent.eventRemarks}</p>
                     <Link to={`/tickchak/event/${selectedEvent.eventId}/order`} key={selectedEvent.eventId}>
-                        <button className='buttonTicketHere' disabled={isEventPast} onClick={handleButtonClick}>
+                        <button ref={buttonRef} className='buttonTicketHere-event' disabled={isEventPast} onClick={handleButtonClick}>
                             Tickets here!
                         </button>
                     </Link>

@@ -118,12 +118,12 @@ function ProducerLogin() {
         <button type="submit" className="button">Log In</button>
       </form>
       {!fromSignUp && (
-        <div className="footer">
+        <div className="footer-login">
           <p>Don't have an account? <Link to="/tickchak/signup" className="link">Sign Up</Link></p>
         </div>
       )}
       {fromSignUp && (
-        <div className="footer">
+        <div className="footer-login">
           <p>Already have an account? <Link to="/tickchak/" className="link">Go to Home</Link></p>
         </div>
       )}

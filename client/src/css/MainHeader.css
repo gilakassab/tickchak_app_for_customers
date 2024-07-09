@@ -1,90 +1,128 @@
+/* Main Header */
 .main-header {
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
-    background-color: transparent; /* רקע שקוף */
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
+  position: fixed; /* שמירת ה-header למעלה */
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* מיקום עליון מעל תכנים אחרים */
+}
 
-  .producer-button {
-    background-color: #7fcbd3; /* רקע ירוק */
-    color: white; /* צבע טקסט לבן */
-    border: none; /* אין גבול */
-    padding: 10px 20px; /* מרווחים פנימיים */
-    text-align: center; /* יישור טקסט למרכז */
-    text-decoration: none; /* אין קישור דיגיטלי */
-    display: inline-block; /* הצגה ככפתור */
-    font-size: 16px; /* גודל פונט */
-    margin-right: 10px; /* מרווח מימין */
-    cursor: pointer; /* מחוון יד */
-  }
-  
-  .producer-button:hover {
-    background-color: #55dfef; /* רקע ירוק כהה בעת העכבות */
-  }
-  
+.section {
+  padding-top: 70px; /* גובה ה-header */
+}
 
-  .site-logo {
-    background: none;
-    border: none;
-    color: inherit;
-    font: inherit;
-    cursor: pointer;
-    padding: 0;
-    text-decoration: none;
-    display: inline-block;
-  }
-  
-  .nav-header1 {
-    justify-content: center;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .nav-button {
-    background-color: transparent; /* רקע שקוף */
-    color: #333;
-    font-size: 16px;
-    padding: 8px 16px;
-    border: 1px solid #7fcbd3;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .nav-button:hover {
-    background-color:  #7fcbd3;
-    border-color: #7fcbd3; /* צבע מסגרת תכלת בעת העברה */
-    color: #161616;
-  }
-  
-  .nav-button.active {
-    background-color: #7fcbd3; /* צבע תכלת גם לכפתור פעיל */
-    border-color: #7fcbd3; /* צבע מסגרת תכלת גם לכפתור פעיל */
-    color: #161616;
-  }
-  
-  .nav-button:focus {
-    outline: none; /* הסרת ההדגשה בפוקוס */
-  }
-  
-  .nav-link1 {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-  }
-  
-  .nav-link1:hover {
-    text-decoration: underline;
-    color: #161616;
-  }
-  
-  .nav-link1.active {
-    font-weight: bold;
-    color: #161616;
-  }
 
-  .p-header{
-    font-size: 12px;
-  }
-  
+.producer-button {
+  background-color: #7fcbd3; /* רקע ירוק */
+  color: white; /* צבע טקסט לבן */
+  border: none; /* אין גבול */
+  padding: 10px 20px; /* מרווחים פנימיים */
+  text-align: center; /* יישור טקסט למרכז */
+  text-decoration: none; /* אין קישור דיגיטלי */
+  display: inline-block; /* הצגה ככפתור */
+  font-size: 16px; /* גודל פונט */
+  margin-right: 30px; /* מרווח מימין */
+  cursor: pointer; /* מחוון יד */
+  border-radius: 20px;
+  transition: transform 0.3s ease; /* אנימציית הגדלה */
+}
+
+.producer-button:hover {
+  transform: scale(1.1); /* הגדלה בעת מעבר עכבר */
+}
+
+.site-logo {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  display: inline-block;
+  font-family: cursive;
+}
+
+.nav-header1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* מיקום כל הפריטים באותה שורה */
+  width: 100%; /* תפוסה מלאה של רוחב */
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  margin: 0 auto; /* יישור לאמצע */
+}
+
+.nav-button {
+  background-color: transparent; /* רקע שקוף */
+  color: #333;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: 1px solid #7fcbd3;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #7fcbd3;
+  border-color: #7fcbd3; /* צבע מסגרת תכלת בעת העברה */
+  color: #161616;
+}
+
+.nav-button.active {
+  background-color: #7fcbd3; /* צבע תכלת גם לכפתור פעיל */
+  border-color: #7fcbd3; /* צבע מסגרת תכלת גם לכפתור פעיל */
+  color: #161616;
+}
+
+.nav-button:focus {
+  outline: none; /* הסרת ההדגשה בפוקוס */
+}
+
+.nav-link1 {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+}
+
+.nav-link1:hover {
+  text-decoration: underline;
+  color: #161616;
+}
+
+.nav-link1.active {
+  font-weight: bold;
+  color: #161616;
+}
+
+.p-header {
+  font-size: 12px;
+}
+
+.buttonTicketHere{
+  background-color: #7fcbd3; /* רקע ירוק */
+  color: white; /* צבע טקסט לבן */
+  border: none; /* אין גבול */
+  padding: 10px 20px; /* מרווחים פנימיים */
+  text-align: center; /* יישור טקסט למרכז */
+  text-decoration: none; /* אין קישור דיגיטלי */
+  display: inline-block; /* הצגה ככפתור */
+  font-size: 16px; /* גודל פונט */
+  margin-right: 30px; /* מרווח מימין */
+  cursor: pointer; /* מחוון יד */
+  border-radius: 20px;
+  transition: transform 0.3s ease; /* אנימציית הגדלה */
+}
+
+.buttonTicketHere:hover {
+  transform: scale(1.1); /* הגדלה בעת מעבר עכבר */
+}

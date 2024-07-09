@@ -15,46 +15,55 @@ function MainHeader({ headerPage }) {
   };
 
   const producerLoginClicked = () => {
-    navigate("/tickchak/producerlogin"); // הפניה לקומפוננטת ההתחברות (LogIn)
+    navigate("/tickchak/producerlogin");
   };
-
 
   return (
     <header className="main-header">
-      <button className="site-logo" onClick={logoClicked}>
-        Tickchak
-      </button>
       {headerPage === "home" && (
         <nav className="nav-header1">
-          <a className="nav-link1" href="#home">
-            Home
-          </a>
-          <a className="nav-link1" href="#about">
-            About Us
-          </a>
-          <a className="nav-link1" href="#contact">
-            Contact Us
-          </a>
+          <button className="site-logo" onClick={logoClicked}>
+            Tickchak
+          </button>
+          <div className="nav-links">
+            <a className="nav-link1" href="#home">
+              Home
+            </a>
+            <a className="nav-link1" href="#about">
+              About Us
+            </a>
+            <a className="nav-link1" href="#contact">
+              Contact Us
+            </a>
+          </div>
           <button className="producer-button" onClick={producerLoginClicked}>
             ProducerLogin
           </button>
         </nav>
       )}
-    
+
       {headerPage === "event" && (
         <nav className="nav-header1">
-          <a className="nav-link1" href="#showcase">
-            Showcase
-          </a>
-          <a className="nav-link1" href="#contact">
-            Contact Us
-          </a>
+          <button className="site-logo" onClick={logoClicked}>
+            Tickchak
+          </button>
+          <div className="nav-links">
+            <a className="nav-link1" href="#showcase">
+              Showcase
+            </a>
+            <a className="nav-link1" href="#about">
+            About the event
+            </a>
+            <a className="nav-link1" href="#contact">
+              Contact Us
+            </a>
+          </div>
           <button className="buttonTicketHere" onClick={tickectHereClicked}>
             Tickets here!
           </button>
         </nav>
       )}
-     
+
       {headerPage === "order" && (
         <nav className="nav-header1">
           <button className={`nav-button ${headerPage === 'order' ? 'active' : ''}`}>

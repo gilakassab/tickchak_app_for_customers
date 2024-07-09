@@ -10,23 +10,22 @@ function Home() {
   return (
     <div>
       <MainHeader headerPage={'home'} />
-      <div className="home">
-        <div className="moving-text">TICKCHAK</div>
+      <div  className="home section" id="home">
+        <div className="moving-text">Tickchak</div>
         <div className="circle circle-1"></div>
         <div className="circle circle-2"></div>
         <div className="circle circle-3"></div>
       </div>
       <SecondHeader />
       <Events />
-      <div id="about">
+      <div className="section" id="about">
         <AboutUs />
       </div>
-      <div id="contact">
+      <div className="section" id="contact">
         <Contact phoneToContact={'*6565'} emailToContact={'info@tickchak.co.il'}/>
       </div>
-     <Footer />
+      <Footer />
     </div>
-   
   );
 }
 

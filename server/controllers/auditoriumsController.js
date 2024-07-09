@@ -26,7 +26,7 @@ async function putAuditorium(name, parts) {
       throw new Error("error: auditorium isn't updated in the db");
     }
     const auditoriumId = await model.getAuditoriumById(name);
-    if (!auditoriumId) {
+    if (!auditoriumId.auditoriumId) {
       throw new Error("auditorium doesn't exist");
     }
 
@@ -34,7 +34,7 @@ async function putAuditorium(name, parts) {
 
     for (const part of parts) {
       // הכנס את החלק לטבלה audPartModel וקבל את partInsertId
-      const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId, part.title);
+      const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId.auditoriumId, part.title);
       if (!partInsertId) {
         throw new Error("could not update parts");
       }
