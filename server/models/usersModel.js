@@ -70,10 +70,11 @@ async function postUserWithPwd(userName,passwords,userPhone,userEmail,roleId) {
 // }
 
 
-async function postUser(userName,userPhone,userEmail) {
+async function postUser(userName,userPhone,userEmail,userRole) {
   try {
-    const sql = 'INSERT INTO users (userName,userPhone,userEmail) VALUES (?, ?, ?)';
-    const result = await pool.query(sql, [userName,userPhone,userEmail])
+    const sql = 'INSERT INTO users (userName,userPhone,userEmail,roleId) VALUES (?, ?, ?,?)';
+    const result = await pool.query(sql, [userName,userPhone,userEmail,userRole])
+    console.log("user",result[0].insertId)
     return result[0].insertId; 
   } catch (err) {
     console.log(err);

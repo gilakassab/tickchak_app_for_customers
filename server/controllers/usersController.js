@@ -14,7 +14,7 @@ async function getProducerNameById(id) {
 
 async function postUser(userName,userPhone,userEmail) {
     try {
-        return model.postUser(userName,userPhone,userEmail);
+        return model.postUser(userName,userPhone,userEmail,3001);
     } catch (err) {
         throw err;
     }

@@ -47,8 +47,8 @@ router.post("/", verifyJWT, verifyRoles(1001), async (req, res) => {
     const eventId = req.query.eventId;
     const auditoriumId = req.body.auditoriumId;
 
-    const response = await controller.postSeatsTaken(eventId, auditoriumId);
-    res.status(200).send(response);
+    await controller.postSeatsTaken(eventId, auditoriumId);
+    res.status(200).send();
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

@@ -86,21 +86,17 @@ async function getSeatsByPartId(partId) {
 //   }
 // }
 
-// async function postUser(name, username, email, phone, street, city,password) {
-//   try {
-//     const sql1 = 'INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)';
-//     const userResult = await pool.query(sql1, [name, username, email, phone]);
-//     const userId = userResult[0].insertId;
-//     const sql2 = 'INSERT INTO address (id, street, city) VALUES (?, ?, ?)';
-//     await pool.query(sql2, [userId, street, city]);
-//     const sql3 = 'INSERT INTO passwords (user_id,password) VALUES (?, ?)';
-//     await pool.query(sql3, [userId,password]);
-//     return { userId }; 
-//   } catch (err) {
-//     console.log(err);
-//     throw err; 
-//   }
-// }
+async function postSeatsView(rowIndex, colIndex, partInsertId, seatIsVisible) {
+  try {
+    const sql1 = 'INSERT INTO seatsView (rowNumber, seatNumber, partId, seatIsVisible) VALUES (?, ?, ?, ?)';
+    const result = await pool.query(sql1, [rowIndex, colIndex, partInsertId, seatIsVisible]);
+   console.log(result[0].insertId )
+    return  result[0].insertId ; 
+  } catch (err) {
+    console.log(err);
+    throw err; 
+  }
+}
 
 
-module.exports = {getAllSeats,getSeatsByPartId}
+module.exports = {getAllSeats,getSeatsByPartId,postSeatsView}

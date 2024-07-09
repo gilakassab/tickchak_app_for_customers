@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import emailjs from 'emailjs-com';
 
 function Finish({ mySeats, personalInfo }) {
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
@@ -56,30 +57,25 @@ function Finish({ mySeats, personalInfo }) {
       const emailParams = {
         user_name: `${personalInfo.firstName} ${personalInfo.lastName}`,
         user_email: personalInfo.email,
-        message: 'Thank you for your purchase. Attached is your ticket.',
-        attachment: screenshot,
+        message: `Thank you for your purchase. Attached is your ticket. ${mySeats.map(seat => `ROW: ${seat.rowNumber} SEAT: ${seat.seatNumber}`).join(', ')}`,
       };
       emailjs.send('service_cg62ejf', 'template_nlwwqay', emailParams, 'Gg5fOmRM5xl63Jlko')
         .then((result) => {
-          console.log('Email sent:', result.text);
+         console.log('Email sent:', result.text);
         }, (error) => {
           console.error('Error sending email:', error.text);
         });
     };
 
-    if (storedScreenshot) {
       updateSeats();
       addUser();
       sendEmail();
-    } else {
-      console.error('No screenshot found in local storage');
-    }
-  }, [mySeats, personalInfo, id, screenshot, navigate]);
+   } ,[mySeats, personalInfo, id, screenshot, navigate]);
 
   return (
     <div>
-      {screenshot && <img src={screenshot} alt="Screenshot" />}
-      <h1> The data was saved successfully. An email will be sent to the email address you specified. Thank you for visiting TikTok. waiting for you!</h1>
+      {/* {screenshot && <img src={screenshot} alt="Screenshot" />} */}
+      <h1> The data was saved successfully. An email will be sent to the email address you specified. Thank you for visiting TikChak. waiting for you!</h1>
     </div>
   );
 }
