@@ -20,10 +20,10 @@ export const useEventContext = () => useContext(EventContext);
 
 const EventProvider = ({ children }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
-
+  const [activeComponent, setActiveComponent] = useState("order"); // משתנה חדש לניהול הקומפוננטה הפעילה
 
   return (
-    <EventContext.Provider value={{ selectedEvent, setSelectedEvent }}>
+    <EventContext.Provider value={{ selectedEvent, setSelectedEvent , activeComponent, setActiveComponent }}>
       {children}
     </EventContext.Provider>
   );

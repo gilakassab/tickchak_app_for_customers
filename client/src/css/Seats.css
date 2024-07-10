@@ -58,6 +58,8 @@
     margin-right: 30px; /* מרווח מימין */
     cursor: pointer; /* מחוון יד */
     border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .continue-button:focus {

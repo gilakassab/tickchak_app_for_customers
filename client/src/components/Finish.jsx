@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import emailjs from 'emailjs-com';
+import "../css/Finish.css";
+
 
 function Finish({ mySeats, personalInfo }) {
 
@@ -72,8 +74,8 @@ function Finish({ mySeats, personalInfo }) {
    } ,[mySeats, personalInfo, id, navigate]);
 
   return (
-    <div>
-      <h1> The data was saved successfully. An email will be sent to the email address you specified. Thank you for visiting TikChak. waiting for you!</h1>
+    <div className='success-message-finish'>
+      <h1> The data was saved successfully. An email will be sent to the email address you specified. Thank you for visiting Tikchak. waiting for you!</h1>
     </div>
   );
 }

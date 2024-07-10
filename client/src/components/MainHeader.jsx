@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from 'react';
+import { EventContext } from '../components/App';
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/MainHeader.css";
 
-function MainHeader({ headerPage, currentStep }) {
+function MainHeader({ headerPage }) {
+  const { activeComponent,setActiveComponent } = useContext(EventContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const tickectHereClicked = () => {
     navigate(`/tickchak/event/${id}/order`);
+    setActiveComponent('order')
   };
 
   const logoClicked = () => {
@@ -17,9 +20,6 @@ function MainHeader({ headerPage, currentStep }) {
   const producerLoginClicked = () => {
     navigate("/tickchak/producerlogin");
   };
-
-  console.log("headerPage:", headerPage);
-  console.log("currentStep:", currentStep);
 
   return (
     <header className="main-header">
@@ -68,20 +68,23 @@ function MainHeader({ headerPage, currentStep }) {
       )}
 
       {headerPage === "order" && (
-        <nav className="nav-header1">
-          <button className={`nav-button ${currentStep === 'order' ? 'active' : ''}`}>
+        <nav className="order-nav">
+           <button className="site-logo" onClick={logoClicked}>
+            Tickchak
+          </button>
+          <button className={`nav-button ${activeComponent === 'order' ? 'active' : ''}`}>
             Order
           </button>
           <p className="p-header">➟</p>
-          <button className={`nav-button ${currentStep === 'personalInformation' ? 'active' : ''}`}>
+          <button className={`nav-button ${activeComponent === 'personalInformation' ? 'active' : ''}`}>
             Personal Information
           </button>
           <p className="p-header">➟</p>
-          <button className={`nav-button ${currentStep === 'payment' ? 'active' : ''}`}>
+          <button className={`nav-button ${activeComponent === 'payment' ? 'active' : ''}`}>
             Payment
           </button>
           <p className="p-header">➟</p>
-          <button className="nav-button">
+          <button className={`nav-button ${activeComponent === 'finish' ? 'active' : ''}`}>
             Finish
           </button>
         </nav>

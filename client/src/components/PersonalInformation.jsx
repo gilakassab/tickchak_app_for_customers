@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { EventContext } from '../components/App';
 import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
 const PersonalInformation = ({ mySeats, timer }) => {
-  const { selectedEvent, setSelectedEvent } = useContext(EventContext);
+  const { selectedEvent, setActiveComponent } = useContext(EventContext); 
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
@@ -13,17 +13,70 @@ const PersonalInformation = ({ mySeats, timer }) => {
     email: '',
     phone: ''
   });
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: ''
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [personalInfo, errors]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPersonalInfo({ ...personalInfo, [name]: value });
+    validateField(name, value);
+  };
+
+  const validateField = (name, value) => {
+    let error = '';
+
+    switch (name) {
+      case 'firstName':
+      case 'lastName':
+        if (value.length < 2) {
+          error = 'Name must be at least 2 characters long';
+        }
+        break;
+      case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          error = 'Invalid email address';
+        }
+        break;
+      case 'phone':
+        const phoneRegex = /^\d+$/;
+        if (!phoneRegex.test(value)) {
+          error = 'Phone number must contain only digits';
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors({ ...errors, [name]: error });
+  };
+
+  const checkFormValidity = () => {
+    const { firstName, lastName, email, phone } = personalInfo;
+    const isValid = 
+      firstName.length >= 2 && 
+      lastName.length >= 2 &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && 
+      /^\d+$/.test(phone);
+    setIsFormValid(isValid);
   };
 
   const handleContinue = (event) => {
     event.preventDefault();
-    setShowPersonalInformation(false);
-    setShowPayment(true);
-    // onContinue('payment');
+    if (isFormValid) {
+      setShowPersonalInformation(false);
+      setShowPayment(true);
+      setActiveComponent("payment"); 
+    }
   };
 
   const calculateTotal = () => {
@@ -39,6 +92,7 @@ const PersonalInformation = ({ mySeats, timer }) => {
   };
 
   return (
+    <>
     <div className="personal-information-container">
       {showPersonalInformation && (
         <>
@@ -59,6 +113,7 @@ const PersonalInformation = ({ mySeats, timer }) => {
                   value={personalInfo.firstName}
                   onChange={handleInputChange}
                 />
+                {errors.firstName && <span className="error">{errors.firstName}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last Name:</label>
@@ -69,6 +124,7 @@ const PersonalInformation = ({ mySeats, timer }) => {
                   value={personalInfo.lastName}
                   onChange={handleInputChange}
                 />
+                {errors.lastName && <span className="error">{errors.lastName}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
@@ -79,6 +135,7 @@ const PersonalInformation = ({ mySeats, timer }) => {
                   value={personalInfo.email}
                   onChange={handleInputChange}
                 />
+                {errors.email && <span className="error">{errors.email}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="phone">Phone Number:</label>
@@ -89,8 +146,13 @@ const PersonalInformation = ({ mySeats, timer }) => {
                   value={personalInfo.phone}
                   onChange={handleInputChange}
                 />
+                {errors.phone && <span className="error">{errors.phone}</span>}
               </div>
-              <button className="continue-button" onClick={handleContinue}>
+              <button 
+                className="continue-button" 
+                onClick={handleContinue} 
+                disabled={!isFormValid}
+              >
                 Continue
               </button>
             </form>
@@ -110,9 +172,9 @@ const PersonalInformation = ({ mySeats, timer }) => {
           </div>
         </>
       )}
-
+ </div>
       {showPayment && <Payment mySeats={mySeats} personalInfo={personalInfo} />}
-    </div>
+  </>
   );
 };
 

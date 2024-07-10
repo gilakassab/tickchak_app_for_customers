@@ -120,7 +120,7 @@ async function postEvent(eventDetails) {
     const auditoriumResult = await pool.query(auditoriumQuery, [
       auditoriumName,
     ]);
-    console.log(auditoriumResult[0])
+    console.log(auditoriumResult[0].auditoriumId)
     if (!auditoriumResult ) {
       return { error: "Auditorium not found" };
     }

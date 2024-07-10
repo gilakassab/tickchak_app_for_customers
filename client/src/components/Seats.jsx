@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom";
 import "../css/Seats.css";
 import PersonalInformation from "./PersonalInformation";
 import { EventContext } from "../components/App";
-import html2canvas from 'html2canvas';
 
 function Seats({ partId, partName, onBackToMap }) {
   const { id } = useParams();
   const [showTooltip, setShowTooltip] = useState(false);
   const [showPersonalInformation, setShowPersonalInformation] = useState(false);
-  const { selectedEvent } = useContext(EventContext);
+  const { selectedEvent, setActiveComponent } = useContext(EventContext);
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [timeouts, setTimeouts] = useState({});
@@ -128,6 +127,7 @@ function Seats({ partId, partName, onBackToMap }) {
 
   const handleContinue = () => {
     setShowPersonalInformation(true);
+    setActiveComponent("personalInformation");
     // captureScreenshot();
   };
 
@@ -141,7 +141,7 @@ function Seats({ partId, partName, onBackToMap }) {
     <div>
       {!showPersonalInformation && (
         <div>
-           <div className="back-button-container">
+          <div className="back-button-container">
             <button
               className="back-button-seats"
               onClick={onBackToMap}
@@ -162,7 +162,7 @@ function Seats({ partId, partName, onBackToMap }) {
               {formatTime(timer)}
             </div>
           )}
-         
+
           <div className="seats-container" id="center-element">
             {Array.isArray(selectedSeats) &&
               Object.keys(groupedSeats).map((rowNumber) => (
@@ -205,8 +205,8 @@ function Seats({ partId, partName, onBackToMap }) {
           </div>
 
 
-          <button className="continue-button" onClick={handleContinue}>
-            CONTINUE
+          <button className="continue-button" onClick={handleContinue} disabled={mySeats.length === 0} >
+            Continue
           </button>
         </div>
       )}

@@ -1,0 +1,13 @@
+.success-message-finish{
+    padding: 20px;
+    background-color: #dff0d8; /* צבע רקע ירוק בהיר */
+    color: #3c763d; /* צבע טקסט ירוק כהה */
+    border: 1px solid #d6e9c6; /* מסגרת ירוקה בהירה */
+    border-radius: 4px; /* פינות מעוגלות */
+    font-size: 24px; /* גודל טקסט */
+    text-align: center; /* טקסט מיושר למרכז */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל לתיבה */
+    max-width: 600px; /* רוחב מקסימלי */
+    margin: 100px auto; /* מרכוז האופקי של התיבה */
+  }
+  
