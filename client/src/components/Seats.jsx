@@ -284,13 +284,13 @@ function Seats({ partId, partName, onBackToMap }) {
     return acc;
   }, {});
 
-  const captureScreenshot = () => {
-    const element = document.getElementById('center-element'); // ודא שיש לך אלמנט עם ID כזה במרכז המסך
-    html2canvas(element).then(canvas => {
-      const screenshot = canvas.toDataURL();
-      localStorage.setItem('screenshot', screenshot);
-    });
-  };
+  // const captureScreenshot = () => {
+  //   const element = document.getElementById('center-element'); // ודא שיש לך אלמנט עם ID כזה במרכז המסך
+  //   html2canvas(element).then(canvas => {
+  //     const screenshot = canvas.toDataURL();
+  //     localStorage.setItem('screenshot', screenshot);
+  //   });
+  // };
 
   const handleSeatChosen = (seatId) => {
     setSelectedSeats((prevSelectedSeats) => {

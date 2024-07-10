@@ -30,12 +30,11 @@ async function putAuditorium(name, parts) {
     if (!auditoriumId.auditoriumId) {
       throw new Error("auditorium doesn't exist");
     }
-
     const partInsertIds = [];
 
     for (const part of parts) {
       
-      const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId.auditoriumId, part.title, part.edgePoints);
+      const partInsertId = await audPartModel.postAuditoriumParts(auditoriumId.auditoriumId, part.title);
       if (!partInsertId) {
         throw new Error("could not update parts");
       }

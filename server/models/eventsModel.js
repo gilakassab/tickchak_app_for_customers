@@ -4,7 +4,7 @@ const pool = require("../DB");
 async function getEventById(id) {
   try {
     const sql = `
-      SELECT events.*, auditoriums.auditoriumName 
+      SELECT events.*, auditoriums.auditoriumName
       FROM events 
       JOIN auditoriums ON events.auditoriumId = auditoriums.auditoriumId 
       WHERE events.eventId = ?;

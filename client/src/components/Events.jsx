@@ -71,6 +71,7 @@ function Events({ viewEvents }) {
   ));
 
   const handleEventClick = (event) => {
+    
     setSelectedEvent(event);
 
   }
