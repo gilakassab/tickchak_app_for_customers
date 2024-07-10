@@ -11,7 +11,7 @@ async function getEventById(id) {
       WHERE events.eventId = ?;
     `;
     const [result] = await pool.query(sql, [id]);
-    console.log(result[0])
+    console.log(result[0]);
     return result[0]; // Assuming result is an array and we need the first element
   } catch (err) {
     console.error(err);
@@ -21,7 +21,8 @@ async function getEventById(id) {
 async function getAllDatesEvents(auditoriumId, eventDate) {
   try {
     let result;
-    const sql = "SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ?";
+    const sql =
+      "SELECT * FROM events WHERE events.eventIsAllowed = TRUE and auditoriumId = ?";
 
     result = await pool.query(sql, [auditoriumId, eventDate]);
     return result[0];
@@ -33,10 +34,11 @@ async function getAllDatesEvents(auditoriumId, eventDate) {
 
 async function getNotAllowedEvents() {
   try {
-  console.log("hi2");
-    const sql = "SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE";
+    console.log("hi2");
+    const sql =
+      "SELECT * FROM events NATURAL JOIN auditoriums JOIN users ON events.eventProducer = users.userId WHERE events.eventIsAllowed = FALSE";
     const result = await pool.query(sql);
-    console.log(result[0])
+    console.log(result[0]);
     return result[0];
   } catch (err) {
     console.log(err);
@@ -98,6 +100,7 @@ const formatDateForMySQL = (date) => {
 
 async function postEvent(eventDetails) {
   try {
+    console.log("1", eventDetails.auditoriumName);
     const {
       eventName,
       eventDate,
@@ -113,18 +116,19 @@ async function postEvent(eventDetails) {
     } = eventDetails;
 
     const formattedEventDate = formatDateForMySQL(eventDate);
-    console.log(auditoriumName)
+    console.log("1", auditoriumName);
 
-    const auditoriumQuery =
-      "SELECT * FROM auditoriums WHERE auditoriumName = ? and auditoriumExists=false";
-    const auditoriumResult = await pool.query(auditoriumQuery, [
-      auditoriumName,
-    ]);
-    console.log(auditoriumResult[0])
-    if (!auditoriumResult ) {
-      return { error: "Auditorium not found" };
-    }
-    const auditoriumId = auditoriumResult[0].auditoriumId;
+    // const auditoriumQuery =
+    //   "SELECT * FROM auditoriums WHERE auditoriumName = ? and auditoriumExists=false";
+    // const auditoriumResult = await pool.query(auditoriumQuery, [
+    //   auditoriumName,
+    // ]);
+    // console.log(auditoriumResult[0]);
+
+    // if (!auditoriumResult) {
+    //   return { error: "Auditorium not found" };
+    // }
+    // const auditoriumId = auditoriumResult[0].auditoriumId;
 
     const sql = `
       INSERT INTO events (eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, 
@@ -139,7 +143,7 @@ async function postEvent(eventDetails) {
       eventEndAt,
       eventProducer,
       eventRemarks,
-      auditoriumId,
+      auditoriumName,
       eventPicUrl,
       eventCategory,
       eventIsAllowed,

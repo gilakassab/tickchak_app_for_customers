@@ -3,7 +3,7 @@ const pool = require('../DB.js');
 
 async function getAllAuditoriums(auditoriumExists) {
   try {
-    const sql = 'SELECT auditoriumId, auditoriumName, auditoriumExists FROM auditoriums WHERE auditoriumExists = ?';
+    const sql = 'SELECT * FROM auditoriums WHERE auditoriumExists = ?';
     const result = await pool.query(sql, [auditoriumExists]);
     return result[0];
   } catch (err) {

@@ -39,9 +39,13 @@ function NewEvent() {
       try {
         const response = await fetch('http://localhost:3300/auditoriums?exists=true');
         const data = await response.json();
-        setAuditoriums(data);
+        
+          setAuditoriums(data);
+          console.log(data)
+       
       } catch (error) {
         console.error('Error fetching auditoriums:', error);
+        setErrorMessage('Failed to fetch auditoriums');
       }
     };
 
@@ -149,7 +153,7 @@ function NewEvent() {
 
       setSuccessMessage('The event has been successfully registered. It will be forwarded to the site manager for final approval. Thank you for choosing Tickchak.');
     } catch (error) {
-     alert('Error submitting event:', error);
+      alert('Error submitting event:', error);
     }
   };
 
@@ -285,43 +289,41 @@ function NewEvent() {
             </div>
           )}
 
-          {currentStage === 3 && (
-            <div className="stage-content">
-              <label>Location:</label>
-              <select
-                value={location}
-                onChange={(e) => {
-                  setLocation(e.target.value);
-                  if (errorMessage && e.target.value) {
-                    setErrorMessage('');
-                  }
-                }}
-              >
-                <option value="">Select Location</option>
-                {auditoriums.map((auditorium) => (
-                  <option key={auditorium.auditoriumId} value={auditorium.auditoriumId}>
-                    {auditorium.auditoriumName}
-                  </option>
-                ))}
-                <option value="OTHER">Other</option>
-              </select>
-              {location === 'OTHER' && (
-                <input
-                  type="text"
-                  placeholder="Other Location"
-                  value={otherLocation}
-                  onChange={(e) => {
-                    setOtherLocation(e.target.value);
-                    if (errorMessage && e.target.value) {
-                      setErrorMessage('');
-                    }
-                  }}
-                />
-              )}
-              <button className="next-button" onClick={handleNextStage}>Next</button>
-              <div className={`error-message ${errorMessage ? 'show' : ''}`}>{errorMessage}</div>
-            </div>
-          )}
+{currentStage === 3 && (
+  <div className="stage-content">
+    <label>Location:</label>
+    <select
+      value={location}
+      onChange={(e) => {
+        setLocation(e.target.value);
+        if (errorMessage && e.target.value) {
+          setErrorMessage('');
+        }
+      }}
+    >
+      <option value="" key="default">Select Location</option>
+      {Array.isArray(auditoriums) && auditoriums.map((auditorium) => (
+        <option key={auditorium.auditoriumId} value={auditorium.auditoriumId}>{auditorium.auditoriumName}</option>
+      ))}
+      <option value="OTHER" key="OTHER">Other</option>
+    </select>
+    {location === 'OTHER' && (
+      <input
+        type="text"
+        placeholder="Enter other location"
+        value={otherLocation}
+        onChange={(e) => {
+          setOtherLocation(e.target.value);
+          if (errorMessage && e.target.value) {
+            setErrorMessage('');
+          }
+        }}
+      />
+    )}
+    <button className="next-button" onClick={handleNextStage}>Next</button>
+    <div className={`error-message ${errorMessage ? 'show' : ''}`}>{errorMessage}</div>
+  </div>
+)}
 
           {currentStage === 4 && (
             <div className="stage-content">
@@ -335,24 +337,27 @@ function NewEvent() {
                   }
                 }}
               />
+              <label>Image:</label>
               <div {...getRootProps({ className: 'dropzone' })}>
                 <input {...getInputProps()} />
-                <p>Drag and drop an image here, or click to select one</p>
-                {image && (
-                  <div className="image-preview">
-                    <img src={URL.createObjectURL(image)} alt="Event" />
+                {image ? (
+                  <div className="selected-image">
+                    <img src={URL.createObjectURL(image)} alt="Selected" />
                   </div>
+                ) : (
+                  <p>Drag 'n' drop an image here, or click to select an image</p>
                 )}
               </div>
               <button className="next-button" onClick={handleNextStage}>Next</button>
               <div className={`error-message ${errorMessage ? 'show' : ''}`}>{errorMessage}</div>
             </div>
           )}
+
           {currentStage === 5 && (
             <div className="stage-content">
               <label>Price:</label>
               <input
-                type="text"
+                type="number"
                 value={price}
                 onChange={(e) => {
                   setPrice(e.target.value);
@@ -361,7 +366,7 @@ function NewEvent() {
                   }
                 }}
               />
-              <button className="next-button" onClick={handleSubmit}>Submit</button>
+              <button className="submit-button" onClick={handleSubmit}>Submit</button>
               <div className={`error-message ${errorMessage ? 'show' : ''}`}>{errorMessage}</div>
             </div>
           )}

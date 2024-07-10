@@ -83,7 +83,8 @@ router.post(
         const newAuditorium = await controllerAuditorium.addAuditorium(
           eventDetails.otherLocation
         );
-        eventDetails.auditoriumName = newAuditorium.auditoriumName;
+      
+        eventDetails.auditoriumId = newAuditorium[0].auditoriumId;
       }
 
       const event = await controller.postEvent(eventDetails);
