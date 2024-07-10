@@ -88,9 +88,9 @@ router.post(
 
       const event = await controller.postEvent(eventDetails);
 
-      res.status(201).send(event);
+      res.sendStatus(201);
     } catch (error) {
-      res.status(500).send({ message: error.message });
+      res.sendStatus(500);
     }
   }
 );

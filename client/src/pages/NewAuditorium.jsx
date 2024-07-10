@@ -52,15 +52,13 @@ const NewAuditorium = () => {
       );
 
       if (!response.ok) {
-        console.log("not ok");
         throw new Error("Failed to update event");
       }
 
       const data = await response.json();
-      alert("Auditorium added successfully");
       navigate('/tickchak/adminhome');
     } catch (error) {
-      console.error("Error updating event:", error);
+     alert("Error updating event:", error);
     }
   };
 

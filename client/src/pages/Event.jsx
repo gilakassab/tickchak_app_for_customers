@@ -15,7 +15,6 @@ function Event() {
     const [isEventPast, setIsEventPast] = useState(false);
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-    const buttonRef = useRef(null); // Ref for the button element
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -29,28 +28,6 @@ function Event() {
             checkIfEventPast(selectedEvent.eventDate);
         }
     }, [selectedEvent, id]);
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    const handleScroll = () => {
-        if (buttonRef.current) {
-            const buttonRect = buttonRef.current.getBoundingClientRect();
-            const topOffset = window.innerHeight / 2; // Adjust as needed
-            const topPosition = buttonRect.top;
-
-            if (topPosition < topOffset) {
-                const rightOffset = window.innerWidth / 2; // Adjust as needed
-                buttonRef.current.style.transform = `translateY(${topOffset - topPosition}px) translateX(${rightOffset}px)`;
-            } else {
-                buttonRef.current.style.transform = 'translateX(50%)';
-            }
-        }
-    };
 
     const fetchEventFromServer = async (id) => {
         try {
@@ -71,15 +48,7 @@ function Event() {
         setIsEventPast(eventMoment.isBefore(now));
     };
 
-    const handleButtonClick = (event) => {
-        if (isEventPast) {
-            event.preventDefault();
-            const rect = event.target.getBoundingClientRect();
-            setTooltipPosition({ top: rect.top - 40, left: rect.left + rect.width / 2 });
-            setTooltipVisible(true);
-            setTimeout(() => setTooltipVisible(false), 10000);
-        }
-    };
+    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -103,13 +72,13 @@ function Event() {
                     </div>
                     <p id='about' className="section">{selectedEvent.eventRemarks}</p>
                     <Link to={`/tickchak/event/${selectedEvent.eventId}/order`} key={selectedEvent.eventId}>
-                        <button ref={buttonRef} className='buttonTicketHere-event' disabled={isEventPast} onClick={handleButtonClick}>
+                        <button className='buttonTicketHere-event' disabled={isEventPast}>
                             Tickets here!
                         </button>
                     </Link>
                 </div>
                 {tooltipVisible && <div className="tooltip" style={{ top: tooltipPosition.top, left: tooltipPosition.left }}>Sorry, ticket sales for this event are not available</div>}
-                <Contact phoneToContact={selectedEvent.phoneToContact} emailToContact={selectedEvent.emailToContact} />
+                <Contact phoneToContact={'*6565'} emailToContact={'info@tickchak.co.il'}/>
                 <Footer />
             </div>
         </>

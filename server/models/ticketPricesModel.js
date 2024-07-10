@@ -14,6 +14,7 @@ async function deletePriceByEventId(id) {
     try {
       const sql1 = "INSERT INTO ticketPrices (eventId, ticketPrice) VALUES (?,?)";
       const result = await pool.query(sql1, [eventId, ticketPrice]);
+
       return result[0].insertId;
     } catch (err) {
       console.log(err);

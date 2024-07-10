@@ -10,7 +10,6 @@ function AuditoriumMap({ onContinue }) {
     const [map, setMap] = useState([]);
     const [seatsVisible, setSeatsVisible] = useState(false);
     const [partId, setPartId] = useState(0);
-    const [blocksOfPart, setBlocksOfPart] = useState("");
     const [partName, setPartName] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -28,6 +27,7 @@ function AuditoriumMap({ onContinue }) {
                 {credentials: "include"}
             );
             const event = await response.json();
+            console.log(event)
             setSelectedEvent(event);
             fetchAuditoriumParts(event.auditoriumId);
         } catch (error) {
@@ -38,23 +38,20 @@ function AuditoriumMap({ onContinue }) {
 
     const fetchAuditoriumParts = async (auditoriumId) => {
         try {
-            console.log(auditoriumId);
             const response = await fetch(`http://localhost:3300/auditoriumsParts?auditoriumId=${auditoriumId}`,
                 {credentials: "include"}
             );
             const newMap = await response.json();
-            console.log(newMap);
             setMap(newMap);
             setLoading(false);
         } catch (error) {
-            console.error("Error fetching auditorium parts:", error);
+            alert("Error fetching auditorium parts:", error);
             setLoading(false);
         }
     };
 
     const handleClick = (part) => {
         setPartId(part.partId);
-        // setBlocksOfPart(map[partId].numOfRowsAndSeats)
         setPartName(part.partName);
         setSeatsVisible(true);
     };
@@ -69,12 +66,11 @@ function AuditoriumMap({ onContinue }) {
         const points = coords.split(" ").map(point => {
             const [x, y] = point.split(",").map(Number);
             return {
-                x: (x / 600) * 600, // Adjust X coordinate for 600x600 scale
-                y: (y / 600) * 600  // Adjust Y coordinate for 600x600 scale
+                x: (x / 600) * 600, 
+                y: (y / 600) * 600  
             };
         });
     
-        // Calculate average X and Y coordinates for the center
         const centerX = points.reduce((sum, point) => sum + point.x, 0) / points.length;
         const centerY = points.reduce((sum, point) => sum + point.y, 0) / points.length;
     
@@ -90,7 +86,7 @@ function AuditoriumMap({ onContinue }) {
     }
 
     return (
-        <div className="auditorium-map-container">
+        <div className="auditorium-map-container section">
             {!seatsVisible && (
                 <>
                     <h2>Take a seat in {selectedEvent.auditoriumName}</h2>
@@ -105,17 +101,17 @@ function AuditoriumMap({ onContinue }) {
                                     />
                                 ) : (
                                     <rect
-                                        x={(index % 2) * 100 + 100}  // Adjust x position dynamically based on index
-                                        y={Math.floor(index / 2) * 100 + 30}  // Adjust y position dynamically based on index
+                                        x={(index % 2) * 100 + 100} 
+                                        y={Math.floor(index / 2) * 100 + 30}
                                         width="50"
                                         height="50"
-                                        fill={(index + Math.floor(index / 2)) % 2 === 0 ? "gray" : "lightgray"}  // Alternate colors like a chessboard
+                                        fill={(index + Math.floor(index / 2)) % 2 === 0 ? "gray" : "lightgray"} 
                                         className="auditorium-part"
                                     />
                                 )}
                                 <text
-                                    x={part.coords ? getPolygonCenter(part.coords).x : (index % 2) * 100 + 125}  // Adjust x position for text
-                                    y={part.coords ? getPolygonCenter(part.coords).y : Math.floor(index / 2) * 100 + 55}  // Adjust y position for text
+                                    x={part.coords ? getPolygonCenter(part.coords).x : (index % 2) * 100 + 125} 
+                                    y={part.coords ? getPolygonCenter(part.coords).y : Math.floor(index / 2) * 100 + 55} 
                                     textAnchor="middle"
                                     fill="white"
                                     fontSize="12"
@@ -129,7 +125,7 @@ function AuditoriumMap({ onContinue }) {
                 </>
             )}
             {seatsVisible && (
-                <Seats partId={partId} partName={partName} blocksOfPart={blocksOfPart} onBackToMap={handleBackToMap} onContinue={onContinue} />
+                <Seats partId={partId} partName={partName} onBackToMap={handleBackToMap} onContinue={onContinue} />
             )}
         </div>
     );

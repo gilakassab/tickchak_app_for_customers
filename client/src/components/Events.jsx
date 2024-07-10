@@ -46,7 +46,7 @@ function Events({ viewEvents, searchQuery }) {
                     },
                 }));
             })
-            .catch((error) => console.error("Error fetching events:", error));
+            .catch((error) => alert("Error fetching events:", error));
     }, [events]);
 
     const handleSeeMore = () => {
@@ -72,6 +72,8 @@ function Events({ viewEvents, searchQuery }) {
     ));
 
     const handleEventClick = (event) => {
+        console.log(event)
+
         setSelectedEvent(event);
     };
 

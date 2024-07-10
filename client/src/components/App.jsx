@@ -28,10 +28,6 @@ const EventProvider = ({ children }) => {
     </EventContext.Provider>
   );
 };
-// if (userData == undefined) {
-//   console.log("innnn")
-//   setUserData(JSON.parse(storedUserData));
-//   console.log(userData)
 
 function Layout({ children }) {
   return children;
@@ -55,16 +51,13 @@ function App() {
                   <Route path="event/:id" element={<Event />} />
                   <Route path="event/:id/order" element={<Order />} />
                   <Route path="signup" element={<SignUp />} />
-                  {/* <Route path="prod" element={<ProducerHome />} /> */}
                   <Route path="producerlogin" element={<ProducerLogin />} />
                   <Route path="producer/:id" element={<ProducerHome />} />
                   <Route path="/producer/:id/newevent" element={<NewEvent />} />
-                  {/* </Route> */}
                   <Route path="adminhome" element={<AdminHome />} />
                   <Route
                     path="newauditorium/:name"
                     element={<NewAuditorium />}
-
                   />
 
                 </Routes>

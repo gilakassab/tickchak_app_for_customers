@@ -6,11 +6,11 @@ function Finish({ mySeats, personalInfo }) {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const [screenshot, setScreenshot] = useState(null);
+  // const [screenshot, setScreenshot] = useState(null);
 
   useEffect(() => {
-    const storedScreenshot = localStorage.getItem("screenshot");
-    setScreenshot(storedScreenshot);
+    // const storedScreenshot = localStorage.getItem("screenshot");
+    // setScreenshot(storedScreenshot);
 
     const updateSeats = async () => {
       try {
@@ -69,11 +69,10 @@ function Finish({ mySeats, personalInfo }) {
       updateSeats();
       addUser();
       sendEmail();
-   } ,[mySeats, personalInfo, id, screenshot, navigate]);
+   } ,[mySeats, personalInfo, id, navigate]);
 
   return (
     <div>
-      {/* {screenshot && <img src={screenshot} alt="Screenshot" />} */}
       <h1> The data was saved successfully. An email will be sent to the email address you specified. Thank you for visiting TikChak. waiting for you!</h1>
     </div>
   );

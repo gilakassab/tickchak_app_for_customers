@@ -13,7 +13,7 @@ function Order() {
 
   return (
     <div>
-      <MainHeader headerPage={currentStep} />
+      <MainHeader headerPage="order" currentStep={currentStep} />
 
       {currentStep === 'order' && <AuditoriumMap onContinue={() => handleContinue('personalInformation')} />}
       {currentStep === 'personalInformation' && <PersonalInformation onContinue={() => handleContinue('payment')} />}

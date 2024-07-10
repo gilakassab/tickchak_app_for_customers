@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { EventContext } from '../components/App';
 import '../css/PersonalInformation.css';
 import Payment from './Payment';
 
 const PersonalInformation = ({ mySeats, timer }) => {
+  const { selectedEvent, setSelectedEvent } = useContext(EventContext);
   const [showPersonalInformation, setShowPersonalInformation] = useState(true);
   const [showPayment, setShowPayment] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
@@ -25,7 +27,8 @@ const PersonalInformation = ({ mySeats, timer }) => {
   };
 
   const calculateTotal = () => {
-    const pricePerSeat = 50; // מחיר כרטיס אחד
+    console.log(selectedEvent);
+    const pricePerSeat = selectedEvent.ticketPrice; // מחיר כרטיס אחד
     return mySeats.length * pricePerSeat;
   };
 

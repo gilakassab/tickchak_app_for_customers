@@ -75,14 +75,11 @@ function SignUp() {
       if (!response.ok) {
         throw new Error(data.message || 'Failed to sign up');
       }
-      alert("Sign up successful");
       navigate('/tickchak/producerlogin', { state: { fromSignUp: true } });
-      console.log('Sign up successful:', data);
     } catch (error) {
-      console.error('Error signing up:', error.message);
+     alert('Error signing up:', error.message);
     }
 
-    // Clear the fields after form submission (optional)
     setUsername('');
     setPassword('');
     setEmail('');

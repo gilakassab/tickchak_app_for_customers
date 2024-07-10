@@ -12,8 +12,6 @@ function AdminHome() {
   const [events, setEvents] = useState([]);
   const [auditoriums, setAuditoriums] = useState([]);
   const [navView, setNavView] = useState("events");
-  const [openSingleEvent, setOpenSingleEvent] = useState(false);
-  const [eventToShow, setEventToShow] = useState(null);
   const [error,setError]=useState("");
   const navigate = useNavigate();
 
@@ -37,10 +35,10 @@ function AdminHome() {
       if (Array.isArray(data)) {
         setEvents(data);
       } else {
-        console.error("Unexpected response format:", data);
+        alert("Unexpected response format:", data);
       }
     } catch (error) {
-      console.error("Error fetching events:", error);
+     alert("Error fetching events:", error);
     }
   };
 
@@ -54,16 +52,11 @@ function AdminHome() {
       if (Array.isArray(data)) {
         setAuditoriums(data);
       } else {
-        console.error('Unexpected response format:', data);
+        alert('Unexpected response format:', data);
       }
     } catch (error) {
-      console.error('Error fetching auditoriums:', error);
+      alert('Error fetching auditoriums:', error);
     }
-  };
-
-  const handleRowDoubleClick = (event) => {
-    setEventToShow(event);
-    setOpenSingleEvent(true);
   };
 
   const onSaveEvent = (updatedEvent) => {
@@ -93,19 +86,16 @@ function AdminHome() {
         );
 
         if (!response.ok) {
-          console.log("not ok");
           throw new Error("Failed to update event");
         }
         const data = await response.json();
-        console.log(data);
-        alert("go on to seats")
         handleAddSeatsToEvent(event);
         
        onSaveEvent(event);
        const text = "Dear producer . We are glad to tell you that your suggest for the event was accepted. Here is our phone *1212. Be in touch";
         handleSendEmail(event,text);
       } catch (error) {
-        console.error("Error updating event:", error);
+        alert("Error updating event:", error);
       }
     }
   };
@@ -132,14 +122,12 @@ function AdminHome() {
         Be in touch`;
         handleSendEmail(event,text);
     } catch (error) {
-      console.error("Error deleting event:", error);
+     alert("Error deleting event:", error);
     }
   };
 
   const handleAddSeatsToEvent = async (event) =>{
-    console.log("event on seats",event.eventId)
     try {
-      console.log(event.eventId)
       const response = await fetch(
         `http://localhost:3300/seatsTaken?eventId=${event.eventId}`,
         {
@@ -151,24 +139,23 @@ function AdminHome() {
       );
 
       if (!response.ok) {
-        console.log("not ok");
-        // try{ await fetch(
-        //   `http://localhost:3300/events/${event.eventId}`,
-        //   {
-        //     method: "DELETE",
-        //     headers: { "Content-Type": "application/json" },
-        //     credentials: "include"
-        //   }
-        // );
-        // throw new Error("Failed to update event");}
-        // catch(error){
-        //   console.error("Error Deleting event:", error);
-        // }
+        try { await fetch(
+          `http://localhost:3300/events/${event.eventId}`,
+          {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"
+          }
+        );
+        throw new Error("Failed to update event");}
+        catch(error){
+          alert("Error Deleting event:", error);
+        }
       
       }
       
     } catch (error) {
-      console.error("Error updating event:", error);
+      alert("Error updating event:", error);
     }
   };
 
@@ -182,10 +169,10 @@ function AdminHome() {
       if (response.ok) {
         navigate('/tickchak/producerlogin');
       } else {
-        console.error('Failed to log out');
+       alert('Failed to log out');
       }
     } catch (error) {
-      console.error('Error logging out:', error);
+      alert('Error logging out:', error);
     }
   };
 
@@ -271,7 +258,7 @@ function AdminHome() {
             </thead>
             <tbody>
               {events.map((event, index) => (
-                <tr key={index} onDoubleClick={() => handleRowDoubleClick(event)}>
+                <tr key={index}>
                   <td>{event.eventName}</td>
                   <td>{moment(event.eventDate).format("DD/MM/YYYY")}</td>
                   <td>{event.eventOpenGates.slice(0, 5)}</td>
@@ -282,12 +269,6 @@ function AdminHome() {
                   <td>{event.eventRemarks}</td>
                   <td><BsSave className="BsSave" onClick={()=>handleClickBtnSave(event)}/>
                   <MdDeleteOutline className="mdDeleteOutline" onClick={()=>handleClickBtnDelete(event)} /></td>
-                  {/* <td> <button className="btn-save" onClick={()=>handleClickBtnSave(event)}>
-              Save
-            </button> */}
-            {/* <button className="btn-delete" onClick={()=>handleClickBtnDelete(event)}>
-              Delete
-            </button> */}
                 </tr>
               ))}
             </tbody>
@@ -310,15 +291,6 @@ function AdminHome() {
               ))}
             </ul>
           </div>
-        )}
-
-        {openSingleEvent && (
-          <AdminEvent
-            eventToShow={eventToShow}
-            setOpenSingleEvent={setOpenSingleEvent}
-            auditoriums={auditoriums}
-            onSaveEvent={onSaveEvent}
-          />
         )}
       </div>
     </div>

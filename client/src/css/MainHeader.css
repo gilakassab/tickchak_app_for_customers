@@ -126,3 +126,20 @@
 .buttonTicketHere:hover {
   transform: scale(1.1); /* הגדלה בעת מעבר עכבר */
 }
+
+.nav-header1 {
+  display: flex;
+  justify-content: center; /* מרכז את הכפתורים */
+  align-items: center;
+  width: 100%;
+}
+
+.nav-header1 .nav-button {
+  margin: 0 5px; /* צמצם את הרווחים בין הכפתורים */
+}
+
+.nav-button.active {
+  background-color: lightblue; /* צבע תכלת לכפתור הפעיל */
+  border-color: lightblue;
+  color: #161616;
+}

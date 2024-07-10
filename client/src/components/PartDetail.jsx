@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import '../css/PartDetail.css'; // Import the CSS file
+import '../css/PartDetail.css';
 import { MdSaveAs } from "react-icons/md";
 
 const PartDetail = ({ parts, index, setOpenPartsDetails, onSave }) => {
@@ -7,7 +7,6 @@ const PartDetail = ({ parts, index, setOpenPartsDetails, onSave }) => {
   const [matrixRows, setMatrixRows] = useState(1);
   const [matrixCols, setMatrixCols] = useState(1);
   const [matrix, setMatrix] = useState([[true]]);
-  const [edgePoints, setEdgePoints] = useState('');
   const matrixContainerRef = useRef(null);
 
   useEffect(() => {
@@ -16,13 +15,8 @@ const PartDetail = ({ parts, index, setOpenPartsDetails, onSave }) => {
       setMatrix(parts[index].matrix || [[true]]);
       setMatrixRows(parts[index].matrix.length || 1);
       setMatrixCols(parts[index].matrix[0]?.length || 1);
-      setEdgePoints(parts[index].edgePoints || '');
     }
   }, [index, parts]);
-
-  useEffect(() => {
-    updateEdgePoints(matrix);
-  }, [matrix]);
 
   const handleNameChange = (e) => {
     setPartName(e.target.value);
@@ -78,48 +72,10 @@ const PartDetail = ({ parts, index, setOpenPartsDetails, onSave }) => {
     setMatrix(newMatrix);
   };
 
-  const updateEdgePoints = (matrix) => {
-    const points = [];
-    const containerRect = matrixContainerRef.current.getBoundingClientRect();
-    const buttonSize = containerRect.width / matrixCols;
-
-    const scaleX = 200 / containerRect.width;
-    const scaleY = 200 / containerRect.height;
-
-    for (let row = 0; row < matrix.length; row++) {
-      for (let col = 0; col < matrix[row].length; col++) {
-        if (matrix[row][col]) {
-          const x = Math.round((col * buttonSize + containerRect.left) * scaleX);
-          const y = Math.round((row * buttonSize + containerRect.top) * scaleY);
-          points.push({ x, y });
-        }
-      }
-    }
-
-    // Add edge points for the corners of the matrix
-    const corners = [
-      { x: 0, y: 0 },
-      { x: 0, y: 1000 },
-      { x: 100, y: 0 },
-      { x: 100, y: 1000 }
-    ];
-    points.push(...corners);
-
-    // Filter points to remove close duplicates
-    const filteredPoints = points.filter((point, index) => {
-      const nextPoint = points[index + 1];
-      return !nextPoint || (Math.abs(point.x - nextPoint.x) > 1 && Math.abs(point.y - nextPoint.y) > 1);
-    });
-
-    const edgePointsString = filteredPoints.map(point => `${point.x},${point.y}`).join(' ');
-    setEdgePoints(edgePointsString);
-  };
-
   const handleSave = () => {
     const partData = {
       title: partName,
-      matrix: matrix,
-      edgePoints: edgePoints,
+      matrix: matrix
     }
     onSave(index, partData);
     setOpenPartsDetails(false);

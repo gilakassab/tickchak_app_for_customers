@@ -8,7 +8,7 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 
-router.put("/", verifyJWT, verifyRoles(1001), async (req, res) => {
+router.put("/", async (req, res) => {
   try {
     const id = req.body.eventId;
     const seatIds = req.body.seatIds;

@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/MainHeader.css";
 
-function MainHeader({ headerPage }) {
+function MainHeader({ headerPage, currentStep }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -17,6 +17,9 @@ function MainHeader({ headerPage }) {
   const producerLoginClicked = () => {
     navigate("/tickchak/producerlogin");
   };
+
+  console.log("headerPage:", headerPage);
+  console.log("currentStep:", currentStep);
 
   return (
     <header className="main-header">
@@ -66,15 +69,15 @@ function MainHeader({ headerPage }) {
 
       {headerPage === "order" && (
         <nav className="nav-header1">
-          <button className={`nav-button ${headerPage === 'order' ? 'active' : ''}`}>
+          <button className={`nav-button ${currentStep === 'order' ? 'active' : ''}`}>
             Order
           </button>
           <p className="p-header">➟</p>
-          <button className={`nav-button ${headerPage === 'personalInformation' ? 'active' : ''}`}>
+          <button className={`nav-button ${currentStep === 'personalInformation' ? 'active' : ''}`}>
             Personal Information
           </button>
           <p className="p-header">➟</p>
-          <button className={`nav-button ${headerPage === 'payment' ? 'active' : ''}`}>
+          <button className={`nav-button ${currentStep === 'payment' ? 'active' : ''}`}>
             Payment
           </button>
           <p className="p-header">➟</p>

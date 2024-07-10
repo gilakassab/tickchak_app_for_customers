@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa'; // ייבוא האייקון
+import { FaPlus } from 'react-icons/fa';
 import '../css/ProducerHome.css';
 
 function ProducerHome() {
   const navigate = useNavigate();
-  const { id } = useParams(); // משיכת ה-ID מה-URL
+  const { id } = useParams(); 
   const [producerName, setProducerName] = useState('');
 
   useEffect(() => {
-    // כאשר הרכיב מורכב, קרא לפונקציה לקבלת שם המפיק
     fetchProducerName();
   }, []);
 
@@ -18,7 +17,7 @@ function ProducerHome() {
       const response = await fetch(`http://localhost:3300/users/${id}`);
       if (response.ok) {
         const data = await response.json();
-        setProducerName(data.producerName); // שימוש במאפיין producerName במקום name
+        setProducerName(data.producerName);
         console.log("producerName", data);
       } else {
         console.error('Failed to fetch producer name');
@@ -29,7 +28,7 @@ function ProducerHome() {
   };
 
   const handleAddEventClick = () => {
-    navigate(`/tickchak/producer/${id}/newevent`); // ניווט לניתוב המתאים להוספת אירוע חדש
+    navigate(`/tickchak/producer/${id}/newevent`); 
   };
 
   const handleLogout = async () => {
