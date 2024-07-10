@@ -22,7 +22,7 @@ async function getAllAuditoriumParts(_auditoriumId) {
   }
 }
 
-async function postAuditoriumParts(auditoriumId, partName, coords) {
+async function postAuditoriumParts(auditoriumId, partName) {
   try {
     const sql1 = `INSERT INTO auditoriumsParts (auditoriumId, partName, coords) VALUES (?, ?, ?)`;
     const partInsertId = await pool.query(sql1, [auditoriumId, partName, ""]);

@@ -6,12 +6,11 @@ const verifyJWT = require("../middleware/verifyJWT");
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.get("/", verifyJWT, verifyRoles(1001), async (req, res) => {
+router.get("/",  async (req, res) => {
     const { exists } = req.query;
     const auditoriumExists = exists === 'true';
     try {
       const auditoriums = await controller.getAllAuditoriums(auditoriumExists);
-      console.log(auditoriums)
       res.status(200).send(auditoriums);
     } catch (error) {
       res.status(500).send({ message: error.message });

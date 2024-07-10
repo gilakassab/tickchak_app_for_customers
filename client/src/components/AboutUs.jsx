@@ -1,4 +1,6 @@
 import React from 'react'
+import '../css/AboutUs.css'; // הוסף את קובץ ה-CSS החדש
+
 
 function AboutUs() {
   return (

@@ -4,12 +4,14 @@ const pool = require("../DB");
 async function getEventById(id) {
   try {
     const sql = `
-      SELECT events.*, auditoriums.auditoriumName
+      SELECT events.*, auditoriums.auditoriumName ,ticketPrices.ticketPrice
       FROM events 
+      NATURAL JOIN ticketPrices
       JOIN auditoriums ON events.auditoriumId = auditoriums.auditoriumId 
       WHERE events.eventId = ?;
     `;
     const [result] = await pool.query(sql, [id]);
+    console.log(result[0])
     return result[0]; // Assuming result is an array and we need the first element
   } catch (err) {
     console.error(err);
@@ -111,17 +113,17 @@ async function postEvent(eventDetails) {
     } = eventDetails;
 
     const formattedEventDate = formatDateForMySQL(eventDate);
+    console.log(auditoriumName)
 
     const auditoriumQuery =
-      "SELECT * FROM auditoriums WHERE auditoriumName = ?";
-    const [auditoriumResult] = await pool.query(auditoriumQuery, [
+      "SELECT * FROM auditoriums WHERE auditoriumName = ? and auditoriumExists=false";
+    const auditoriumResult = await pool.query(auditoriumQuery, [
       auditoriumName,
     ]);
-
-    if (auditoriumResult.length === 0) {
+    console.log(auditoriumResult[0])
+    if (!auditoriumResult ) {
       return { error: "Auditorium not found" };
     }
-
     const auditoriumId = auditoriumResult[0].auditoriumId;
 
     const sql = `
@@ -143,7 +145,7 @@ async function postEvent(eventDetails) {
       eventIsAllowed,
     ]);
 
-    return result[0];
+    return result[0].insertId;
   } catch (err) {
     console.error(err);
     throw err;

@@ -12,23 +12,10 @@ body {
   display: block;
 }
 
-.detailsEvents {
-  background-color: #7fcbd3; /* Light blue */
-  color: black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2%;
+.section {
+  padding-top: 80px; /* גובה ה-header */
 }
 
-.event-h1{
-  font-size: 24px;
-  color: white;
-}
-
-.detailsEvents h1 {
-  margin: 0;
-}
 
 .event-container {
   display: flex;
@@ -37,14 +24,8 @@ body {
   padding: 0;
   width: 100%;
   position: relative;
-}
+  background-color: #ccd8d8;
 
-.timer {
-  color: white;
-  border: 4px dotted white;
-  padding: 2px;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-  font-size: 70px;
 }
 
 .buttonTicketHere:disabled {
@@ -75,4 +56,90 @@ body {
   border-width: 5px;
   border-style: solid;
   border-color: black transparent transparent transparent;
+}
+
+.detailsEvents {
+  background-color: #7fcbd3; /* צבע רקע כהה */
+  color: white; /* צבע טקסט זהוב */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.event-container p {
+  font-size: 24px; /* גודל הטקסט */
+  text-align: center; /* ממרכז את הטקסט */
+  padding: 80px; /* מוסיף מרווח פנימי */
+  line-height: 1.6; /* גובה שורות */
+  color: black; /* צבע טקסט */
+  margin: 20px 0; /* מרווח חיצוני */
+  width: 80%; /* רוחב הפסקה */
+  margin-left: auto; /* ממרכז את הפסקה */
+  margin-right: auto; /* ממרכז את הפסקה */
+}
+
+.event-h1 {
+  font-size: 21px;
+  color: white; /* צבע טקסט זהוב */
+  font-weight: normal;
+  margin: 0;
+}
+
+.timer {
+  display: flex;
+  gap: 10px;
+  color: white; /* צבע טקסט זהוב */
+  font-size: 16px;
+  border: none;
+  text-shadow: none;
+}
+
+.timer div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #7fcbd3; /* רקע זהוב */
+  color: white; /* צבע טקסט כהה */
+  padding: 5px;
+  min-width: 40px;
+  border: 1px solid white;
+
+}
+
+.timer span:first-child {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.timer span:last-child {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.buttonTicketHere-event {
+  position: fixed;
+  bottom: 150px; /* כאן אתה יכול לשנות את הערך כפי שמתאים לך לפי העיצוב שלך */
+  right: 25%; /* ממורכז במרכז האופקי בתחילה */
+  transform: translateX(50%);
+  z-index: 1000; /* ודא שהכפתור מוצג מעל תוכן אחר */
+
+  /* עיצוב נוסף */
+  background-color: #7fcbd3;
+  color: white;
+  border: none;
+  padding: 15px 50px;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 40px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* צל מכל הכיוונים */
+  font-weight: bold; 
+
+}
+
+@media (max-width: 768px) {
+  .buttonTicketHere-event {
+    display: none; /* הסתרה במסכים קטנים יותר */
+  }
 }

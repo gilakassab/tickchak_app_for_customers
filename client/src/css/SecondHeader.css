@@ -1,0 +1,140 @@
+.second-header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    background-color: transparent;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav-links-container {
+    display: flex;
+    flex-grow: 1; /* Allow it to grow and fill the nav-header */
+    justify-content: center; /* Center items within the flex container */
+    padding: 7px;
+    padding-left: 250px;
+}
+
+.nav-link {
+    text-align: center;
+    margin: 0 auto; /* Center the buttons */
+}
+
+.nav-link button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px; /* Increase padding for larger button area */
+    font-size: 16px;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.nav-link button:hover {
+    color: #161616;
+}
+
+.nav-link button.active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: black;
+    text-decoration-color: black;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: auto;
+}
+
+.search-bar input {
+    border: 2px solid transparent;
+    padding: 10px 10px 10px 30px;
+    font-size: 16px;
+    width: 200px;
+    transition: width 0.3s, border-color 0.3s;
+    border-radius: 20px;
+}
+
+.search-bar input:focus {
+    width: 300px;
+    outline: none;
+    border-color: #7fcbd3;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    font-size: 18px;
+    color: #aaa;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+
+@media (max-width: 600px) {
+    .second-header {
+        padding: 10px;
+    }
+
+    .nav-header {
+        flex-direction: column;
+    }
+
+    .menu-toggle {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #f0f0f0;
+        border: none;
+        text-align: left;
+        text-decoration: underline;
+        font-weight: bold; 
+    }
+
+    .nav-links-container {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    .nav-links-container.open {
+        display: flex;
+    }
+
+    .nav-link {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    .nav-link button {
+        width: 100%;
+        text-align: left;
+    }
+
+    .search-bar {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .search-bar input {
+        width: calc(100% - 40px);
+    }
+
+    .search-bar input:focus {
+        width: calc(100% - 40px);
+    }
+}
+  

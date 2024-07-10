@@ -1,0 +1,97 @@
+.event-list {
+  padding-top: 30px;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* Space between the event tiles */
+}
+
+.eventDetails {
+  display: none;
+  position: absolute;
+  transition: opacity 0.3s ease;
+  top: 0;
+}
+
+.event-tile {
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7); /* הגדלת הצל */
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  /* border: inset 2px black; מסגרת דקה יותר */
+  padding: 16px;
+  width: calc(25% - 20px);
+  box-sizing: border-box;
+  background-color: white;
+  text-decoration: none;
+  color: inherit;
+}
+
+.event-tile img {
+  transition: transform 0.3s ease;
+  object-fit: cover;
+  width: 100%;
+  height: 200px;
+  transform-origin: center right;
+}
+
+.event-tile:hover img {
+  transform: scaleX(0.65);
+}
+
+.event-tile:hover .eventDetails {
+  display: block;
+  opacity: 1;
+}
+
+.event-info {
+  box-sizing: border-box;
+  margin: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.see-more-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #7fcbd3;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease; /* אנימציית הגדלה */
+}
+
+.see-more-button:hover {
+  transform: scale(1.1); /* הגדלה בעת מעבר עכבר */
+}
+
+.pEventName {
+  font-weight: bold;
+  font-size: 20px;
+  padding-top: 15px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pEventDate {
+  font-weight: bold;
+  font-size: 30px;
+  color: black;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pEventDetails {
+  font-weight: bold;
+  font-size: 15px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+@media (max-width: 600px) {
+  .event-tile {
+    width: calc(50% - 20px); /* תצוגת שני אירועים בשורה במקום ארבע */
+  }
+}

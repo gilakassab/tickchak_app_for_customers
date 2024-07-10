@@ -20,6 +20,7 @@ function NewEvent() {
   const [otherLocation, setOtherLocation] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [price, setPrice] = useState('');
   const [auditoriums, setAuditoriums] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -29,7 +30,8 @@ function NewEvent() {
     'Category',
     'Date and Time',
     'Location',
-    'Description'
+    'Description',
+    'Price'
   ];
 
   useEffect(() => {
@@ -99,6 +101,12 @@ function NewEvent() {
           return false;
         }
         break;
+      case 5:
+        if (!price) {
+          setErrorMessage('Please enter the price.');
+          return false;
+        }
+        break;
       default:
         break;
     }
@@ -125,6 +133,7 @@ function NewEvent() {
       formData.append('image', image);
     }
     formData.append('eventCategory', category);
+    formData.append('ticketPrice', price);
     formData.append('eventIsAllowed', '0');
 
     try {
@@ -138,10 +147,9 @@ function NewEvent() {
         throw new Error('Failed to submit event');
       }
 
-      console.log('Event submitted successfully');
       setSuccessMessage('The event has been successfully registered. It will be forwarded to the site manager for final approval. Thank you for choosing Tickchak.');
     } catch (error) {
-      console.error('Error submitting event:', error);
+     alert('Error submitting event:', error);
     }
   };
 
@@ -290,8 +298,10 @@ function NewEvent() {
                 }}
               >
                 <option value="">Select Location</option>
-                {auditoriums.map((auditorium, index) => (
-                  <option key={index} value={auditorium.auditoriumName}>{auditorium.auditoriumName}</option>
+                {auditoriums.map((auditorium) => (
+                  <option key={auditorium.auditoriumId} value={auditorium.auditoriumId}>
+                    {auditorium.auditoriumName}
+                  </option>
                 ))}
                 <option value="OTHER">Other</option>
               </select>
@@ -334,6 +344,23 @@ function NewEvent() {
                   </div>
                 )}
               </div>
+              <button className="next-button" onClick={handleNextStage}>Next</button>
+              <div className={`error-message ${errorMessage ? 'show' : ''}`}>{errorMessage}</div>
+            </div>
+          )}
+          {currentStage === 5 && (
+            <div className="stage-content">
+              <label>Price:</label>
+              <input
+                type="text"
+                value={price}
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                  if (errorMessage && e.target.value) {
+                    setErrorMessage('');
+                  }
+                }}
+              />
               <button className="next-button" onClick={handleSubmit}>Submit</button>
               <div className={`error-message ${errorMessage ? 'show' : ''}`}>{errorMessage}</div>
             </div>

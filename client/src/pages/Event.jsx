@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EventContext } from '../components/App';
 import MainHeader from '../components/MainHeader';
@@ -48,15 +48,7 @@ function Event() {
         setIsEventPast(eventMoment.isBefore(now));
     };
 
-    const handleButtonClick = (event) => {
-        if (isEventPast) {
-            event.preventDefault();
-            const rect = event.target.getBoundingClientRect();
-            setTooltipPosition({ top: rect.top - 40, left: rect.left + rect.width / 2 });
-            setTooltipVisible(true);
-            setTimeout(() => setTooltipVisible(false), 10000);
-        }
-    };
+    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -73,19 +65,20 @@ function Event() {
             <MainHeader headerPage={'event'} />
             <div>
                 <div className="event-container">
-                    <img id='showcase' className='eventPic' src={`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`} alt={selectedEvent.eventName} />
+                    <img id='showcase' className='eventPic section' src={`http://localhost:3300/uploads/${selectedEvent.eventPicUrl}`} alt={selectedEvent.eventName} />
                     <div className='detailsEvents'>
                         <h1 className='event-h1'>{selectedEvent.eventName} | {formattedDate} | {selectedEvent.eventBeginAt} | {selectedEvent.auditoriumName} </h1>
                         <Timer eventDate={selectedEvent.eventDate} eventBeginAt={selectedEvent.eventBeginAt} />
                     </div>
+                    <p id='about' className="section">{selectedEvent.eventRemarks}</p>
                     <Link to={`/tickchak/event/${selectedEvent.eventId}/order`} key={selectedEvent.eventId}>
-                        <button className='buttonTicketHere' disabled={isEventPast} onClick={handleButtonClick}>
+                        <button className='buttonTicketHere-event' disabled={isEventPast}>
                             Tickets here!
                         </button>
                     </Link>
                 </div>
                 {tooltipVisible && <div className="tooltip" style={{ top: tooltipPosition.top, left: tooltipPosition.left }}>Sorry, ticket sales for this event are not available</div>}
-                <Contact phoneToContact={selectedEvent.phoneToContact} emailToContact={selectedEvent.emailToContact} />
+                <Contact phoneToContact={'*6565'} emailToContact={'info@tickchak.co.il'}/>
                 <Footer />
             </div>
         </>

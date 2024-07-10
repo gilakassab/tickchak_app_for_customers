@@ -1,0 +1,91 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Home */
+.home {
+  margin-top: 70px;
+  background-color: #7fcbd3;
+  position: relative;
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.moving-text {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 70px;
+  font-weight: bold;
+  color: white;
+  animation: moveSideToSide 90s linear infinite;
+  font-family: cursive;
+}
+
+@keyframes moveSideToSide {
+  0% { left: 0; }
+  50% { left: calc(100% - 100px); }
+  100% { left: 0; }
+}
+
+.circle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: moveCircle 20s linear infinite;
+}
+
+.circle-1 {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  left: 10%;
+  animation-duration: 25s;
+}
+
+.circle-2 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 50%;
+  animation-duration: 30s;
+}
+
+.circle-3 {
+  width: 80px;
+  height: 80px;
+  top: 80%;
+  left: 70%;
+  animation-duration: 20s;
+}
+
+@keyframes moveCircle {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(50px) translateX(100px); } /* שונה מ-100px ל-150px */
+  100% { transform: translateY(0) translateX(0); }
+}
+
+/* Site Logo */
+.site-logo {
+  font-size: 24px;
+  color: #333;
+  text-decoration: none;
+}
+
+.site-logo-image {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  padding: 20px 0;
+}
+
+@media (max-width: 600px) {
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}

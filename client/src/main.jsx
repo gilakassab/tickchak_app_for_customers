@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './components/App'
-import './App.css'
+import '../src/css/App.css'
 
 
 // const EventContext = createContext();

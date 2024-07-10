@@ -67,14 +67,18 @@ async function putEvent(id, eventDate, auditoriumId) {
 
 async function postEvent(eventDetails) {
   try {
+  
+    const resultId= await model.postEvent(eventDetails);
+
+    if(!resultId)
+      {
+        throw new Error("Failed to update event");
+      }
     const ticketPriceId = await pricesmodel.postPrice(
-      eventDetails.eventId,
+      resultId,
       eventDetails.ticketPrice
     );
-    if (!ticketPriceId) {
-      throw new Error("Failed to update price");
-    }
-    return await model.postEvent(eventDetails);
+    return resultId;
   } catch (err) {
     throw err;
   }

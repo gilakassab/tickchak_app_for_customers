@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/MainHeader.css";
 
-function MainHeader({ headerPage }) {
+function MainHeader({ headerPage, currentStep }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -15,57 +15,69 @@ function MainHeader({ headerPage }) {
   };
 
   const producerLoginClicked = () => {
-    navigate("/tickchak/producerlogin"); // הפניה לקומפוננטת ההתחברות (LogIn)
+    navigate("/tickchak/producerlogin");
   };
 
+  console.log("headerPage:", headerPage);
+  console.log("currentStep:", currentStep);
 
   return (
     <header className="main-header">
-      <button className="site-logo" onClick={logoClicked}>
-        Tickchak
-      </button>
       {headerPage === "home" && (
         <nav className="nav-header1">
-          <a className="nav-link1" href="#home">
-            Home
-          </a>
-          <a className="nav-link1" href="#about">
-            About Us
-          </a>
-          <a className="nav-link1" href="#contact">
-            Contact Us
-          </a>
+          <button className="site-logo" onClick={logoClicked}>
+            Tickchak
+          </button>
+          <div className="nav-links">
+            <a className="nav-link1" href="#home">
+              Home
+            </a>
+            <a className="nav-link1" href="#about">
+              About Us
+            </a>
+            <a className="nav-link1" href="#contact">
+              Contact Us
+            </a>
+          </div>
           <button className="producer-button" onClick={producerLoginClicked}>
             ProducerLogin
           </button>
         </nav>
       )}
-    
+
       {headerPage === "event" && (
         <nav className="nav-header1">
-          <a className="nav-link1" href="#showcase">
-            Showcase
-          </a>
-          <a className="nav-link1" href="#contact">
-            Contact Us
-          </a>
+          <button className="site-logo" onClick={logoClicked}>
+            Tickchak
+          </button>
+          <div className="nav-links">
+            <a className="nav-link1" href="#showcase">
+              Showcase
+            </a>
+            <a className="nav-link1" href="#about">
+            About the event
+            </a>
+            <a className="nav-link1" href="#contact">
+              Contact Us
+            </a>
+          </div>
           <button className="buttonTicketHere" onClick={tickectHereClicked}>
             Tickets here!
           </button>
         </nav>
       )}
-     
+
       {headerPage === "order" && (
         <nav className="nav-header1">
-          <button className={`nav-button ${headerPage === 'order' ? 'active' : ''}`}>
+          <button className={`nav-button ${currentStep === 'order' ? 'active' : ''}`}>
             Order
           </button>
           <p className="p-header">➟</p>
-          <button className={`nav-button ${headerPage === 'personalInformation' ? 'active' : ''}`}>
+          <button className={`nav-button ${currentStep === 'personalInformation' ? 'active' : ''}`}>
             Personal Information
           </button>
           <p className="p-header">➟</p>
-          <button className={`nav-button ${headerPage === 'payment' ? 'active' : ''}`}>
+          <button className={`nav-button ${currentStep === 'payment' ? 'active' : ''}`}>
             Payment
           </button>
           <p className="p-header">➟</p>
