@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 
 let alertShown = false;
 
+
 function Home() {
   
 
