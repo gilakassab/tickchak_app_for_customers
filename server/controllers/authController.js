@@ -11,7 +11,8 @@ const handleLogin = async (userEmail, password) => {
   }
 
   const foundUser = await model.postUserLogin(userEmail,password);
-  if (!foundUser) {
+  
+  if (!foundUser[0]) {
     return null; // Unauthorized
   }
 

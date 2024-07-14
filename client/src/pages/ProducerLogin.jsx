@@ -58,7 +58,8 @@ function ProducerLogin() {
         credentials: "include"
       });
       if (!response.ok) {
-        throw new Error('Failed to log in');
+        alert('sign up first');
+        navigate("/tickchak/signup")
       }
       const data = await response.json();
       setUserData(data.user)
