@@ -6,6 +6,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
+    margin-top: 50px;
   }
   
   .personal-information h2 {
@@ -43,11 +44,14 @@
   }
   
   .order-summary {
-    width: 35%;
+    width: 20%;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    margin-right: 100px;
   }
   
   .order-summary h3 {

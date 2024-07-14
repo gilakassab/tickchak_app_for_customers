@@ -118,17 +118,16 @@ async function postEvent(eventDetails) {
     const formattedEventDate = formatDateForMySQL(eventDate);
     console.log("1", auditoriumName);
 
-    // const auditoriumQuery =
-    //   "SELECT * FROM auditoriums WHERE auditoriumName = ? and auditoriumExists=false";
-    // const auditoriumResult = await pool.query(auditoriumQuery, [
-    //   auditoriumName,
-    // ]);
-    // console.log(auditoriumResult[0]);
-
-    // if (!auditoriumResult) {
-    //   return { error: "Auditorium not found" };
-    // }
-    // const auditoriumId = auditoriumResult[0].auditoriumId;
+    const auditoriumQuery =
+      "SELECT * FROM auditoriums WHERE auditoriumName = ? and auditoriumExists=false";
+    const auditoriumResult = await pool.query(auditoriumQuery, [
+      auditoriumName,
+    ]);
+    console.log(auditoriumResult[0].auditoriumId)
+    if (!auditoriumResult ) {
+      return { error: "Auditorium not found" };
+    }
+    const auditoriumId = auditoriumResult[0].auditoriumId;
 
     const sql = `
       INSERT INTO events (eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, 

@@ -143,3 +143,23 @@
   border-color: lightblue;
   color: #161616;
 }
+
+.order-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.order-nav .site-logo {
+  position: absolute;
+  left: 20px; /* הצבת הלוגו בצד שמאל */
+}
+
+.order-nav .nav-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}

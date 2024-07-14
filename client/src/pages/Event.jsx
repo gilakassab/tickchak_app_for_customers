@@ -9,7 +9,7 @@ import moment from 'moment';
 import Timer from '../components/Timer';
 
 function Event() {
-    const { selectedEvent, setSelectedEvent } = useContext(EventContext);
+    const { selectedEvent, setSelectedEvent,setActiveComponent } = useContext(EventContext);
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [isEventPast, setIsEventPast] = useState(false);
@@ -48,7 +48,9 @@ function Event() {
         setIsEventPast(eventMoment.isBefore(now));
     };
 
-    
+    const handleTicketHere = () => {
+        setActiveComponent('order')
+      };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -72,7 +74,7 @@ function Event() {
                     </div>
                     <p id='about' className="section">{selectedEvent.eventRemarks}</p>
                     <Link to={`/tickchak/event/${selectedEvent.eventId}/order`} key={selectedEvent.eventId}>
-                        <button className='buttonTicketHere-event' disabled={isEventPast}>
+                        <button className='buttonTicketHere-event' onClick={handleTicketHere} disabled={isEventPast}>
                             Tickets here!
                         </button>
                     </Link>
