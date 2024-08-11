@@ -10,6 +10,7 @@ Advanced Algorithms: Efficient algorithms to manage large-scale event data and r
 Performance Optimization: Extensive database query optimization and performance tuning to handle large volumes of data.
 Visually Appealing Interface: Carefully designed user interfaces with a focus on usability and accessibility.
 Multi-Tier Architecture: Implements a scalable architecture to support high traffic and complex operations.
+
 Technologies Used
 Frontend: React.js, HTML, CSS, JavaScript
 Backend: Node.js, Express.js
