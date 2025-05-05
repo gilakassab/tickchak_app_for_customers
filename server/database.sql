@@ -6382,8 +6382,8 @@ INSERT INTO seatsTaken (eventId, seatId, seatIsTaken ) VALUES
 INSERT INTO events (
   eventName, eventDate, eventOpenGates, eventBeginAt, eventEndAt, eventProducer, eventRemarks, auditoriumId, eventPicUrl, eventCategory, eventIsAllowed
 ) VALUES
-('Concert A', '2024-07-21', '18:00:00', '19:00:00', '22:00:00', 5, 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'performance',TRUE),
-('Play B', '2024-07-29', '19:00:00', '20:00:00', '22:30:00', 4, 'Remarks B', 1, 'https://www.picshare.co.il/s_pictures/img63008.jpg', 'conference',TRUE),
+('Concert A', '2026-07-21', '18:00:00', '19:00:00', '22:00:00', 5, 'Remarks A', 1, 'https://www.picshare.co.il/s_pictures/img65981.jpg', 'performance',TRUE),
+('Play B', '2026-07-29', '19:00:00', '20:00:00', '22:30:00', 4, 'Remarks B', 1, 'https://www.picshare.co.il/s_pictures/img63008.jpg', 'conference',TRUE),
 ('Conference C', '2024-07-21', '08:00:00', '09:00:00', '21:00:00', 4, 'Remarks C', 1, 'https://www.picshare.co.il/s_pictures/img66886.jpg', 'Conference',FALSE),
 ('Conference', '2024-06-18', '08:00:00', '09:00:00', '17:00:00', '3', 'Remarks C', 3, 'https://www.picshare.co.il/m_pictures/img43817.jpg', 'Conference',FALSE),
 ('Conference G', '2024-08-11', '08:00:00', '09:00:00', '17:00:00', 3, 'kjb', 3, 'https://www.picshare.co.il/m_pictures/img157425.jpg', 'Conference',FALSE);
